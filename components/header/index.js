@@ -13,8 +13,6 @@ const Header = (props) => {
     const router = useRouter()
 
     const currentRoute = router.pathname
- console.log("currentRoute ", currentRoute);
-
 
     const SubmitHandler = (e) => {
         e.preventDefault()
@@ -29,7 +27,7 @@ const Header = (props) => {
             <div className="header-upper">
                 <div className="auto-container clearfix">
                     <div className="pull-left logo-box">
-                        <div className="logo"><Link onClick={ClickHandler} href="/home"><Image src={Logo} alt="" title="" /></Link></div>
+                        <div className="logo"><Link onClick={ClickHandler} href="/home4"><Image src={Logo} alt="" title="" /></Link></div>
                     </div>
                     <div className="nav-outer clearfix">
                         <MobileMenu/>
@@ -170,7 +168,7 @@ const Header = (props) => {
                                     <li className={currentRoute == '/bank-details' ? "current dropdown" : "bank-details"}><Link onClick={ClickHandler} href="/bank-details">Bank Details</Link></li>
                                     <li className={currentRoute == '/contact' ? "current dropdown" : "contact"}><Link onClick={ClickHandler} href="/contact">Contact us</Link></li>
 
-                                    <li className="dropdown"><Link onClick={ClickHandler} href="/">Payment Receipt</Link>
+                                    <li className="dropdown"><Link onClick={ClickHandler} href="/payment-receipt/profile">Payment Receipt</Link>
                                         <ul>
                                             <li><Link onClick={ClickHandler} href="/payment-receipt/profile">Profile</Link></li>
                                             <li><Link onClick={ClickHandler} href="/payment-receipt/history">Order & History</Link></li>
