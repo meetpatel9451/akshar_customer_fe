@@ -1,0 +1,92 @@
+[
+  {
+    "id": 1,
+    "proImg": "/images/visiting_card.png",
+    "title": "New Product",
+    "slug": "new-product",
+    "price": "340.00",
+    "delPrice": "380.00",
+    "brand":"Gucci",
+    "size":"Xl"
+  },
+  {
+    "id": 2,
+    "proImg": "/images/visiting_card.png",
+    "title": "Visiting Card",
+    "slug": "visiting-card",
+    "price": "65.00",
+    "delPrice": "85.00",
+    "brand":"Gucci",
+    "size":"XXl"
+  },
+  {
+    "id": 3,
+    "proImg": "/images/art_card.png",
+    "title": "SQ. Inch Job",
+    "slug": "Book-Item-3",
+    "price": "285.00",
+    "delPrice": "300.00",
+    "brand":"Gucci",
+    "size":"L"
+  },
+  {
+    "id": 4,
+    "proImg": "/images/letterhead.png",
+    "title": "Letter Head/ Envelope",
+    "slug": "Book-Item-4",
+    "price": "176.00",
+    "delPrice": "178.00",
+    "brand":"Gucci",
+    "size":"M"
+  },
+  {
+    "id": 5,
+    "proImg": "/images/brochures.png",
+    "title": "Brocher",
+    "slug": "Book-Item-5",
+    "price": "125.00",
+    "delPrice": "130.00",
+    "brand":"Gucci",
+    "size":"XXl"
+  },
+  {
+    "id": 6,
+    "proImg": "/images/brochures.png",
+    "title": "Leafleft",
+    "slug": "Book-Item-6",
+    "price": "548.00",
+    "delPrice": "600.00",
+    "brand":"Gucci",
+    "size":"Xl"
+  },
+  {
+    "id": 7,
+    "proImg": "/images/sticker.png",
+    "title": "Sticker",
+    "slug": "Book-Item-7",
+    "price": "548.00",
+    "delPrice": "600.00",
+    "brand":"Gucci",
+    "size":"Xl"
+  },
+  {
+    "id": 8,
+    "proImg": "/images/product/8.jpg",
+    "title": "Others",
+    "slug": "Book-Item-8",
+    "price": "548.00",
+    "delPrice": "600.00",
+    "brand":"Gucci",
+    "size":"Xl"
+  },
+  {
+    "id": 9,
+    "proImg": "/images/product/9.jpg",
+    "title": "Paper 500+500 Qty. Job",
+    "slug": "Book-Item-9",
+    "price": "548.00",
+    "delPrice": "600.00",
+    "brand":"Gucci",
+    "size":"Xl"
+  }
+]
