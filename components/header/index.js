@@ -169,7 +169,17 @@ const Header = (props) => {
                                     </li> */}
                                     <li className={currentRoute == '/bank-details' ? "current dropdown" : "bank-details"}><Link onClick={ClickHandler} href="/bank-details">Bank Details</Link></li>
                                     <li className={currentRoute == '/contact' ? "current dropdown" : "contact"}><Link onClick={ClickHandler} href="/contact">Contact us</Link></li>
-                                    <li className={currentRoute == '/payment_receipt' ? "current dropdown" : "payment_receipt"}><Link onClick={ClickHandler} href="/payment_receipt">Payment Receipt</Link></li>
+
+                                    <li className="dropdown"><Link onClick={ClickHandler} href="/">Payment Receipt</Link>
+                                        <ul>
+                                            <li><Link onClick={ClickHandler} href="/payment-receipt/profile">Profile</Link></li>
+                                            <li><Link onClick={ClickHandler} href="/payment-receipt/history">Order & History</Link></li>
+                                            <li><Link onClick={ClickHandler} href="/payment-receipt/cash-memo">Cash memo</Link></li>
+                                            <li><Link onClick={ClickHandler} href="/payment-receipt/ladger-statement">Ladger Statement</Link></li>
+                                            <li><Link onClick={ClickHandler} href="/payment-receipt/change-password">Change Password</Link></li>
+                                            <li><Link onClick={ClickHandler} href="/payment-receipt/payment">Payment</Link></li>
+                                        </ul>
+                                    </li>
                                 </ul>
                             </div>
                         </nav>
