@@ -26,7 +26,7 @@ const Footer = (props) => {
                                         <div className="logo">
                                             <Link onClick={ClickHandler} href="/"><Image src={Logo} alt="" /></Link>
                                         </div>
-                                        <div className="text">Our approach to SEO is uniquely built around what we know works…and what we know doesn’t work. With over 200 verified factors in play.</div>
+                                        <div className="text">Whether you need a business card, a Envelope, or a Sticker, we have the skills and tools to ake it happen. Contact us now and get a free quote.</div>
                                         <ul className="social-box">
                                             <li><Link onClick={ClickHandler} href="/" className="fa fa-facebook-f"></Link></li>
                                             <li><Link onClick={ClickHandler} href="/" className="fa fa-linkedin"></Link></li>

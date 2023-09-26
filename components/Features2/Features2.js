@@ -38,7 +38,7 @@ const Features2 = (props) => {
 
     return (
         <section className="services-section margin-top">
-            <div className="auto-container">
+            <div className="auto-container" style={{maxWidth: '1400px'}}>
             <div className="color-layer"></div>
                 <div className="row clearfix">
                 {featres.map((featres, fitem) => (

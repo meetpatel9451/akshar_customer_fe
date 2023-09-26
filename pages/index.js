@@ -13,24 +13,28 @@ import Pricing from '../components/Pricing/Pricing';
 import PartnerSection from '../components/PartnerSection';
 import BlogSection from '../components/BlogSection/BlogSection';
 import Footer from '../components/footer/Footer';
+import Hero4 from '../components/hero4/hero4';
+import Features2 from '../components/Features2/Features2';
+import About2 from '../components/about2/about2';
+import ServiceSectionS4 from '../components/ServiceSectionS4/ServiceSectionS4';
 
 const HomePage = () => {
     return (
         <Fragment>
             <Navbar />
-            <Hero />
-            <Features />
-            <About />
-            <ServiceSection />
-            <FunFact styleClass={'style-two margin-top'}/>
-            <CtaSection styleClass={'style-two'}/>
-            <TeamSection />
-            <Testimonial />
-            <Pricing />
-            <PartnerSection />
-            <BlogSection />
-            <Footer fClass={'style-three'}/>
-            <Scrollbar /> 
+            <Hero4 />
+            <Features2 />
+            <About2 />
+            <ServiceSectionS4 />
+            {/* <PartnerSection styleClass={'style-three'}/> */}
+            {/* <CtaSection /> */}
+            {/* <FunFact /> */}
+            {/* <Testimonial /> */}
+            {/* <TeamSectionS2 /> */}
+            {/* <Pricing /> */}
+            {/* <BlogSection />  */}
+            <Footer />
+            <Scrollbar />
         </Fragment>
     )
 };

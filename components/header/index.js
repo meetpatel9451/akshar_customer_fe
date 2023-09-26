@@ -3,9 +3,10 @@ import Link from 'next/link'
 import MobileMenu from '../MobileMenu/MobileMenu'
 import { connect } from "react-redux";
 import { removeFromCart } from "../../store/actions/action";
-import Logo from '/public/images/logo.png'
+import Logo from '../../public/images/logo.png'
 import Image from 'next/image';
 import { useRouter } from 'next/router';
+import { Box } from '@mui/material';
 
 
 const Header = (props) => {
@@ -27,7 +28,10 @@ const Header = (props) => {
             <div className="header-upper">
                 <div className="auto-container clearfix">
                     <div className="pull-left logo-box">
-                        <div className="logo"><Link onClick={ClickHandler} href="/home4"><Image src={Logo} alt="" title="" /></Link></div>
+                        <div ><Link onClick={ClickHandler} href="/home4">
+                            <Image src={Logo} style={{ height: '80px', width: '150px' }} alt="" title="" />
+                            {/* <Box component="img" width={130} src={'../../public/images/logo.png'} /> */}
+                            </Link></div>
                     </div>
                     <div className="nav-outer clearfix">
                         <MobileMenu/>
@@ -42,7 +46,7 @@ const Header = (props) => {
 
                             <div className="navbar-collapse collapse clearfix" id="navbarSupportedContent">
                                 <ul className="navigation clearfix">
-                                    <li className={currentRoute == '/home4' ? "current dropdown" : "dropdown"}><Link onClick={ClickHandler} href="/home4">Home</Link>
+                                    <li className={currentRoute == '/' ? "current dropdown" : "dropdown"}><Link onClick={ClickHandler} href="/">Home</Link>
                                         {/* <ul>
                                             <li><Link onClick={ClickHandler} href="/home">Homepage One</Link></li>
                                             <li><Link onClick={ClickHandler} href="/home2">Homepage Two</Link></li>
