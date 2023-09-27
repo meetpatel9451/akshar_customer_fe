@@ -37,7 +37,7 @@ const Hero4 = () => {
 
                                     <div className="content-column col-lg-6 col-md-12 col-sm-12" style={{display: "flex", alignItems: "center"}}>
                                         <div className="inner-column">
-                                            <div className="title">Unlock your imgination</div>
+                                            <div className="title">Unlock your imgination with Akshar Graphics</div>
                                             <h1>Stunning graphics and <br /> Priting solution await!</h1>
                                             <div className="btns-box">
                                                 <Link href="/about" className="theme-btn btn-style-three"><span className="txt">Lets Start</span></Link>
@@ -90,7 +90,7 @@ const Hero4 = () => {
 
                                     <div className="content-column col-lg-6 col-md-12 col-sm-12" style={{display: "flex", alignItems: "center"}}>
                                         <div className="inner-column">
-                                            <div className="title">Unlock your imgination</div>
+                                            <div className="title">Unlock your imgination with Akshar Graphics</div>
                                             <h1>Stunning graphics and <br /> Priting solution await!</h1>
                                             <div className="btns-box">
                                                 <Link href="/about" className="theme-btn btn-style-three"><span className="txt">Lets Start</span></Link>
@@ -143,7 +143,7 @@ const Hero4 = () => {
 
                                     <div className="content-column col-lg-6 col-md-12 col-sm-12" style={{display: "flex", alignItems: "center"}}>
                                         <div className="inner-column">
-                                            <div className="title">Unlock your imgination</div>
+                                            <div className="title">Unlock your imgination with Akshar Graphics</div>
                                             <h1>Stunning graphics and <br /> Priting solution await!</h1>
                                             <div className="btns-box">
                                                 <Link href="/about" className="theme-btn btn-style-three"><span className="txt">Lets Start</span></Link>

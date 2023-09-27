@@ -10,21 +10,10 @@ import api from "../../api";
 import Footer from '../../components/footer/Footer';
 import ProductTabs from './alltab';
 import { IconButton } from '@mui/material';
-{/* 
-                      
 
-
-                        
-
-                        <td>350 GSM SINGLE SIDE UV CARD</td>
-                        <td>20</td>
-
-                        <td>350 GSM FRONT BACK UV CARD</td>
-                        <td>610</td>
-                        <td>Add</td>
-                    </tr> */}
-
-const productArray = [
+const visitingCardArray = {
+  name: "Visiting card",
+  data: [
     {
     name: "NT SINGLE SIDE",
     baseprice: "240",
@@ -81,7 +70,7 @@ const productArray = [
     quantity: "1000",
     image: ""
     },
-]
+]}
 
 const ProductSinglePage = (props) => {
     const router = useRouter()
@@ -97,9 +86,15 @@ const ProductSinglePage = (props) => {
     const { addToCart } = props;
     const [product, setProduct] = useState({});
     const [selectedArray, setSelectedArray] = useState([]);
+    const [selectedProduct, setSelectedProduct] = useState([]);
 
     useEffect(() => {
         setProduct(Allproduct.filter(Allproduct => Allproduct.slug === router.query.slug))
+ console.log("router.query.slug ", router.query.slug);
+      switch(router.query.slug) {
+        case "visiting-card":
+        return setSelectedProduct(visitingCardArray);
+      }
     }, []);
 
     const item = product[0];
@@ -107,31 +102,31 @@ const ProductSinglePage = (props) => {
     return (
         <Fragment>
             <Navbar hclass={'wpo-header-style-5'} topbarClass={'tb-block'} />
-            <PageTitle pageTitle={'Select Product'}  />
+            <PageTitle pageTitle={selectedProduct?.name}  />
             <div className="sidebar-page-container">
                 <div className="auto-container">
                     <div className="row clearfix">
                         <div className="content-side col-lg-12 col-md-12 col-sm-12">
                             <div className="shop-single">
                                 <div className="product-details">
-                                    {item ? <Product
-                                        item={item}
-                                        addToCart={addToCart}
-                                    /> : null}
-                                    
-                                        <div>
-                                        <div className="cart-outer">
-                                        <div className="auto-container">
-                                        <div className="row clearfix">
-            <div className="col-lg-4 col-md-4 col-sm-12" >
-              <table  className="cart-table">
-                <thead className="cart-header">
-                  <tr>
-                    <th className="prod-column">PRODUCT</th>
-                    <th className='justify-center'>Price <sub>(1000</sub>&nbsp;<sub>pc.)</sub></th>
-                    <th className="price">Action</th>
-                  </tr>
-                </thead>
+                    {/* {item ? <Product
+                      item={item}
+                      addToCart={addToCart}
+                    /> : null} */}
+
+                    <div>
+                      <div className="cart-outer">
+                        <div className="auto-container">
+                          <div className="row clearfix">
+                            <div className="col-lg-4 col-md-4 col-sm-12" >
+                              <table className="cart-table">
+                                <thead className="cart-header">
+                                  <tr>
+                                    <th className="prod-column">PRODUCT</th>
+                                    <th className='justify-center'>Price <sub>(1000</sub>&nbsp;<sub>pc.)</sub></th>
+                                    <th className="price">Action</th>
+                                  </tr>
+                                </thead>
 
                 <tbody>
                   {/* {carts &&
@@ -171,12 +166,12 @@ const ProductSinglePage = (props) => {
                         <td className="remove"><button className="remove-btn" onClick={() => props.removeFromCart(catItem.id)}><span className="flaticon-cancel-1"></span></button></td>
                       </tr>
                     ))} */}
-                    {productArray?.map((item, index) => (
+                    {selectedProduct?.data?.map((item, index) => (
 
                     <tr>
                         <td>{item?.name}</td>
                         <td className='justify-center'>{item?.baseprice}</td>
-                        <td ><IconButton style={{display: 'flex', justifySelf: 'center'}} onClick={() => setSelectedArray([...selectedArray, productArray[index]])}><i className="fa fa-cart-plus" ></i></IconButton></td>
+                        <td ><IconButton style={{display: 'flex', justifySelf: 'center'}} onClick={() => setSelectedArray([...selectedArray, selectedProduct?.data[index]])}><i className="fa fa-cart-plus" ></i></IconButton></td>
                     </tr>
                     ))}
                 </tbody>

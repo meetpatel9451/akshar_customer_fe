@@ -8,7 +8,7 @@ import BuildStep from '../../components/BuildStep/BuildStep';
 import Scrollbar from '../../components/scrollbar/scrollbar'
 import Footer from '../../components/footer/Footer';
 import WhyChoose2 from '../../components/WhyChoose2/WhyChoose2';
-import Subscribe from '../../components/Subscribe/Subscribe';
+// import Subscribe from '../../components/Subscribe/Subscribe';
 
 const AboutPage = (props) => {
 

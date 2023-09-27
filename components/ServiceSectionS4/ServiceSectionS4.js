@@ -25,7 +25,7 @@ const ServiceSectionS4 = (props) => {
                                         <span className={`icon ${service.Icon}`}></span>
                                         <div className="icon-five" style={{ backgroundImage: `url(${'/images/icons/icon-6.png'})` }}></div>
                                     </div>
-                                    <h5><Link onClick={ClickHandler} href="/service-single/[slug]" as={`/service-single/${service.slug}`}>{service.sTitle}</Link></h5>
+                                    <h5><Link onClick={ClickHandler} href="/product-single/[slug]" as={`/service-single/${service.slug}`}>{service.sTitle}</Link></h5>
                                     <div className="text">{service.des}</div>
                                 </div>
                             </div>

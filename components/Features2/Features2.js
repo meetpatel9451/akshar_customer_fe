@@ -16,33 +16,38 @@ const Features2 = (props) => {
             fIcon: <LetterHead />,
             title: 'Letter Head',
             des: 'We have seen great successes with everyone companies.',
+            path: 'letter-head'
         },
         {
             fIcon: <BusinessCard />,
             title: 'Business Card',
             des: 'We have seen great successes with everyone companies.',
+            path: 'visiting-card'
         },
         {
             fIcon: <Envelope />,
             title: 'Envelope',
             des: 'We have seen great successes with everyone companies.',
+            path: 'envelope'
         },
         {
             fIcon: <Sticker />,
             title: 'Stickers',
             des: 'We have seen great successes with everyone companies.',
+            path: 'stickers'
         },
 
     ]
 
 
     return (
-        <section className="services-section margin-top">
+        <section className="services-section margin-top" style={{ marginTop: '-450px'}}>
             <div className="auto-container" style={{maxWidth: '1400px'}}>
             <div className="color-layer"></div>
                 <div className="row clearfix">
                 {featres.map((featres, fitem) => (
                         <div className="service-block col-lg-3 col-md-6 col-sm-12" key={fitem}>
+                            <Link href={`/product-single/${featres.path}`}>
                             <div className="inner-box">
                                 <div className="color-layer"></div>
                                 <div className="pattern-layer-one" style={{ backgroundImage: `url(${sIcon})` }}></div>
@@ -51,10 +56,11 @@ const Features2 = (props) => {
                                     {featres.fIcon}
                                     {/* <span className={`${featres.fIcon}`}></span> */}
                                 </div>
-                                <h5><Link href="/services">{featres.title}</Link></h5>
+                                <h5><Link href={`/product-single/${featres.path}`}>{featres.title}</Link></h5>
                                 <div className="text">{featres.dec}</div>
-                                <Link href="/services" className="arrow-icon flaticon-arrow-pointing-to-right"></Link>
+                                <Link href={`/product-single/${featres.path}`} className="arrow-icon flaticon-arrow-pointing-to-right"></Link>
                             </div>
+                                </Link>
                         </div>
                     ))}
                 </div>

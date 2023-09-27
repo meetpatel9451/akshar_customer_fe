@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 
 
 const ShopProduct = ({ products, addToCartProduct, addToWishListProduct }) => {
+ console.log("products ", products);
 
     const router = useRouter();
 
@@ -44,7 +45,7 @@ const ShopProduct = ({ products, addToCartProduct, addToWishListProduct }) => {
                                             <div className="inner-box">
                                                 <div className="image">
                                                     <img src={product.proImg} alt="" />
-                                                    <div className="overlay-box" onClick={() => router.push('/product-single/Book-Item-1')}>
+                                                    <div className="overlay-box" onClick={() => router.push(`/product-single/${product.slug}`)}>
                                                         <ul className="cart-option">
                                                             {/* <li>
                                                                 <button

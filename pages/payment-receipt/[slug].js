@@ -8,7 +8,6 @@ import Scrollbar from '../../components/scrollbar/scrollbar'
 import PaymentSidebar from '../../api/PaymentSidebar';
 import sSimg from '/public/images/resource/service-2.jpg';
 import sSimg2 from '/public/images/resource/service-3.jpg';
-import PartnerSection from '../../components/PartnerSection';
 import Footer from '../../components/footer/Footer';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
@@ -56,7 +55,7 @@ const PaymentReceipt = (props) => {
                 <div className="payment-container">
                     <div className="row clearfix">
                         <div className="sidebar-side left-sidebar col-lg-3 col-md-12 col-sm-12">
-                            <aside className="sidebar sticky-top">
+                            <aside className="sidebar sticky-top" style={{marginTop: "12px"}}>
                                 <div className="sidebar-widget">
                                     <ul className="service-list">
                                         {PaymentSidebar.slice(0, 6).map((item, i) => (

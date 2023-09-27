@@ -11,7 +11,7 @@ const PageTitle = (props) => {
             <div className="auto-container">
                 <h2>{props.pageTitle}</h2>
                 {props.pagesub &&<ul className="page-breadcrumb">
-                    <li><Link href="/home">Home</Link></li>
+                    {/* <li><Link href="/home">Home</Link></li> */}
                      <li><span>{props.pagesub}</span></li>
                 </ul>}
             </div>
