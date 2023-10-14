@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
+import { useEffect } from 'react';
 import SimpleReactValidator from 'simple-react-validator';
+import API from '../../store/api';
 
 const laminationOptions = [
     { value: 'bopp_single_side', label: 'Bopp Single Side' },
@@ -11,15 +13,16 @@ const laminationOptions = [
 const ProfileForm = () => {
 
     const [forms, setForms] = useState({
-        name: 'John',
-        email: 'john@gmail.com',
-        address: '123, ambavadi road',
-        city: 'Ahmedabad',
-        state: 'Gujarat',
-        pin_code: '334455',
-        phone: '1234567890',
-        gst_no: '9078563412',
+        name: '',
+        email: '',
+        home_address: '',
+        city: '',
+        state: '',
+        pin_code: '',
+        phone: '',
+        gst_no: '',
     });
+    const [loading, setLoading] = useState(false);
     const [validator] = useState(new SimpleReactValidator({
         className: 'errorMessage'
     }));
@@ -32,20 +35,50 @@ const ProfileForm = () => {
         }
     };
 
-    const submitHandler = e => {
+    useEffect(async() => {
+        const user_id = localStorage.getItem("user_id");
+        console.log("user_id ", typeof user_id, Number(user_id));
+        const url = `api/v1/client/${Number(user_id)}`;
+    const response = await API.get(url);
+    if(response?.data?.data){
+        setForms(response?.data?.data)
+    }
+ console.log("response ", response);
+    },[])
+
+    const submitHandler = async(e) => {
         e.preventDefault();
+        const user_id = localStorage.getItem("user_id");
         if (validator.allValid()) {
+            setLoading(true);
+            console.log("forms", forms);
             validator.hideMessages();
-            setForms({
-                name: '',
-                email: '',
-                address: '',
-                city: '',
-                state: '',
-                pin_code: '',
-                phone: '',
-                gst_no: '',
-            })
+            const url = `api/v1/client/${Number(user_id)}`;
+            const _request = {
+                name: forms.name,
+                email: forms.email,
+                home_address: forms.home_address,
+                city: forms.city,
+                state: forms.state,
+                pin_code: forms.pin_code,
+                phone: forms.phone,
+                gst_no: forms.gst_no,
+            }
+            const response = await API.patch(url, _request);
+            console.log("response ", response);
+            setLoading(false);
+            if (response) {
+                setForms({
+                    name: '',
+                    email: '',
+                    home_address: '',
+                    city: '',
+                    state: '',
+                    pin_code: '',
+                    phone: '',
+                    gst_no: '',
+                })
+            }
         } else {
             validator.showMessages();
         }
@@ -86,13 +119,13 @@ const ProfileForm = () => {
                     <span className="icon flaticon-big-envelope"></span>
                     <div className="form-field">
                         <input
-                            value={forms.address}
+                            value={forms.home_address}
                             type="text"
-                            name="address"
+                            name="home_address"
                             onBlur={(e) => changeHandler(e)}
                             onChange={(e) => changeHandler(e)}
                             placeholder="Your address" />
-                        {validator.message('address', forms.address, 'required')}
+                        {validator.message('home_address', forms.home_address, 'required')}
                     </div>
                 </div>
 
@@ -167,7 +200,7 @@ const ProfileForm = () => {
                 </div>
 
                 <div className="col-lg-12 col-md-12 col-sm-12 text-center form-group">
-                    <button className="theme-btn btn-style-three" type="submit" name="submit-form"><span className="txt">Update Profile</span></button>
+                    <button disabled={loading} className="theme-btn btn-style-three" type="submit" name="submit-form"><span className="txt">Update Profile</span></button>
                 </div>
 
             </div>

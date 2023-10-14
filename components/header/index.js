@@ -1,13 +1,10 @@
 import React, { useState } from 'react'
 import Link from 'next/link'
-import MobileMenu from '../MobileMenu/MobileMenu'
-import { connect } from "react-redux";
-import { removeFromCart } from "../../store/actions/action";
+import MobileMenu from '../MobileMenu/MobileMenu';
 import Logo from '../../public/images/logo.png'
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { Box } from '@mui/material';
-
 
 const Header = (props) => {
     const [searchActive, setSearchState] = useState(false);
@@ -29,7 +26,7 @@ const Header = (props) => {
                 <div className="auto-container clearfix">
                     <div className="pull-left logo-box">
                         <div ><Link onClick={ClickHandler} href="/home4">
-                            <Image src={Logo} style={{ height: '80px', width: '150px' }} alt="" title="" />
+                            <Image src={Logo} style={{ height: '80px', width: '200px' }} alt="" title="" />
                             {/* <Box component="img" width={130} src={'../../public/images/logo.png'} /> */}
                             </Link></div>
                     </div>
@@ -176,7 +173,7 @@ const Header = (props) => {
                                         <ul>
                                             <li><Link onClick={ClickHandler} href="/payment-receipt/profile">Profile</Link></li>
                                             <li><Link onClick={ClickHandler} href="/payment-receipt/history">Order & History</Link></li>
-                                            <li><Link onClick={ClickHandler} href="/payment-receipt/cash-memo">Cash memo</Link></li>
+                                            {/* <li><Link onClick={ClickHandler} href="/payment-receipt/cash-memo">Cash memo</Link></li> */}
                                             <li><Link onClick={ClickHandler} href="/payment-receipt/ladger-statement">Ladger Statement</Link></li>
                                             <li><Link onClick={ClickHandler} href="/payment-receipt/change-password">Change Password</Link></li>
                                             <li><Link onClick={ClickHandler} href="/payment-receipt/payment">Payment</Link></li>
@@ -210,11 +207,4 @@ const Header = (props) => {
     )
 }
 
-const mapStateToProps = (state) => {
-    return {
-        carts: state.cartList.cart,
-    };
-};
-
-
-export default connect(mapStateToProps, { removeFromCart })(Header);
+export default Header

@@ -5,8 +5,8 @@ const BuildStep2 = (props) => {
         <section className="steps-section" style={{ backgroundImage: `url(${'/images/background/pattern-14.png'})` }}>
             <div className="auto-container">
                 <div className="sec-title centered">
-                    <div className="title">How to get product</div>
-                    <h2>Follow this step to place your order.</h2>
+                    <div className="title">How to order</div>
+                    <h2>Follow the few step.</h2>
                 </div>
 
                 <div className="row clearfix">

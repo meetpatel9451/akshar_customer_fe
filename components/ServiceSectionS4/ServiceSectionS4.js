@@ -15,6 +15,7 @@ const ServiceSectionS4 = (props) => {
                     <div className="clearfix">
                         {Services.slice(0, 6).map((service, i) => (
                             <div className="service-block-two col-lg-4 col-md-6 col-sm-12" key={i}>
+                                <Link onClick={ClickHandler} href={`/${service.slug}`} as={`/${service.slug}`}>
                                 <div className="inner-box">
                                     <div className="color-layer"></div>
                                     <div className="icon-one" style={{ backgroundImage: `url(${'/images/icons/icon-1.png'})` }}></div>
@@ -25,9 +26,10 @@ const ServiceSectionS4 = (props) => {
                                         <span className={`icon ${service.Icon}`}></span>
                                         <div className="icon-five" style={{ backgroundImage: `url(${'/images/icons/icon-6.png'})` }}></div>
                                     </div>
-                                    <h5><Link onClick={ClickHandler} href="/product-single/[slug]" as={`/service-single/${service.slug}`}>{service.sTitle}</Link></h5>
+                                    <h5>{service.sTitle}</h5>
                                     <div className="text">{service.des}</div>
                                 </div>
+                                </Link>
                             </div>
                         ))}
                     </div>

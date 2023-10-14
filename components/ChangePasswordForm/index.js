@@ -1,5 +1,7 @@
+import { FormHelperText } from '@mui/material';
 import React, { useState } from 'react'
 import SimpleReactValidator from 'simple-react-validator';
+import API from '../../store/api';
 
 const laminationOptions = [
     { value: 'bopp_single_side', label: 'Bopp Single Side' },
@@ -18,25 +20,62 @@ const ChangePasswordForm = () => {
     const [validator] = useState(new SimpleReactValidator({
         className: 'errorMessage'
     }));
-    const changeHandler = e => {
+    const [notMatch, setNotMatch] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const changeHandler = (e) => {
         setForms({ ...forms, [e.target.name]: e.target.value })
-        if (validator.allValid()) {
-            validator.hideMessages();
-        } else {
-            validator.showMessages();
-        }
+        // if (validator.allValid()) {
+            //         validator.hideMessages();           
+            // } else {
+        //     validator.showMessages();
+        // }
     };
 
-    const submitHandler = e => {
+    const blurHandler = () => {
+        
+    }
+    console.log("validator ", validator);
+
+    const submitHandler = async(e) => {
+ console.log("eeeee ", e, validator);
         e.preventDefault();
+        const user_id = localStorage.getItem("user_id");
         if (validator.allValid()) {
             validator.hideMessages();
-            setForms({
-                old_password: '',
-        new_password: '',
-        confirm_password: ''
-            })
+            if(forms?.new_password === forms?.confirm_password){
+                setNotMatch(false)
+                setLoading(true);
+                console.log("forms", forms);
+                // localhost:3000/auth/client/reset_password
+                const url = `/auth/client/reset_password`;
+                const _request = {
+                    old_password: forms?.old_password,
+                    new_password: forms?.new_password,
+                    client_id: Number(user_id)
+                    // confirm_password: forms?.confirm_password
+                }
+                const response = await API.post(url, _request);
+                console.log("response ", response);
+                setLoading(false);
+                if (response) {
+                    setForms({
+                        name: '',
+                        email: '',
+                        home_address: '',
+                        city: '',
+                        state: '',
+                        pin_code: '',
+                        phone: '',
+                        gst_no: '',
+                    })
+                }
+            }else{
+                setNotMatch(true)
+            }
+            
         } else {
+
+            console.log("showMessages ", validator);
             validator.showMessages();
         }
     };
@@ -51,10 +90,10 @@ const ChangePasswordForm = () => {
                             value={forms.old_password}
                             type="text"
                             name="old_password"
-                            onBlur={(e) => changeHandler(e)}
+                            // onBlur={(e) => changeHandler(e)}
                             onChange={(e) => changeHandler(e)}
                             placeholder="Old Password" />
-                        {validator.message('old_password', forms.old_password, 'required|alpha_space')}
+                        {validator.message('old_password', forms.old_password, 'required')}
                     </div>
                 </div>
 
@@ -65,10 +104,10 @@ const ChangePasswordForm = () => {
                             value={forms.new_password}
                             type="text"
                             name="new_password"
-                            onBlur={(e) => changeHandler(e)}
+                            // onBlur={(e) => changeHandler(e)}
                             onChange={(e) => changeHandler(e)}
                             placeholder="New Password" />
-                        {validator.message('new_password', forms.new_password, 'required|email')}
+                        {validator.message('new_password', forms.new_password, 'required')}
                     </div>
                 </div>
 
@@ -79,10 +118,12 @@ const ChangePasswordForm = () => {
                             value={forms.confirm_password}
                             type="text"
                             name="confirm_password"
-                            onBlur={(e) => changeHandler(e)}
+                            // onBlur={(e) => changeHandler(e)}
                             onChange={(e) => changeHandler(e)}
                             placeholder="Confirm Password" />
                         {validator.message('confirm_password', forms.confirm_password, 'required')}
+                        {notMatch && forms.confirm_password && <FormHelperText error>New password and Confirm password not match 
+                        </FormHelperText>}
                     </div>
                 </div>
 

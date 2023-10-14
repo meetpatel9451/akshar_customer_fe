@@ -2,36 +2,109 @@ import React, { Fragment } from 'react';
 import Navbar from '../../components/Navbar/Navbar';
 import Link from 'next/link'
 import PageTitle from '../../components/pagetitle/PageTitle';
-import BankDetailPage from '../../components/BankDetailPage/BankDetailPage'
 import Scrollbar from '../../components/scrollbar/scrollbar'
 
 import PaymentSidebar from '../../api/PaymentSidebar';
-import sSimg from '/public/images/resource/service-2.jpg';
-import sSimg2 from '/public/images/resource/service-3.jpg';
 import Footer from '../../components/footer/Footer';
-import Image from 'next/image';
 import { useRouter } from 'next/router';
-import ProfilePage from '../../components/profilePage/ProfilePage';
+// import ProfilePage from '../../components/profilePage/ProfilePage';
 import HistoryPage from '../../components/HistoryPage/HistoryPage';
 import CashMemoPage from '../../components/CashMemoPage/CashMemoPage';
 import LedgerStatementPage from '../../components/LedgerStatementPage/LedgerStatementPage';
 import ChangePasswordPage from '../../components/ChangePasswordPage/ChangePasswordPage';
 import PaymentPage from '../../components/PaymentPage/PaymentPage';
+import AddNewPayment from '../../components/AddNewPayment/AddNewPayment';
+
+import highQualityPrinting from '/public/images/icons/high-quality-printing.png' 
+import simg2 from '/public/images/resource/service-5.jpg'
+import simg3 from '/public/images/resource/service-6.jpg'
+
+import sIcon1 from '/public/images/icons/service-1.png' 
+import sIcon2 from '/public/images/icons/service-2.png' 
+import sIcon3 from '/public/images/icons/service-3.png' 
+
+
+const sidebarItem = [
+    {
+        Id: '1',
+        sTitle: 'Profile', 
+        slug: 'profile',
+        sImg:highQualityPrinting,
+        Icon:'flaticon-pie-chart',
+        sIcon:sIcon1,
+        des:'Add/Update the profile',
+    },
+    {
+        Id: '2',
+        sTitle: 'Order And History', 
+        slug: 'history',
+        sImg:simg2,
+        sIcon:sIcon2,
+        Icon:'flaticon-line-chart',
+        des:'To show the past order and history',
+    },
+    // {
+    //     Id: '3',
+    //     sIcon:sIcon3,
+    //     sTitle: 'Cash Memo', 
+    //     slug: 'cash-memo',
+    //     sImg:simg3,
+    //     Icon:'flaticon-bar-chart',
+    //     des:'To manage the cash memo',
+    // },
+    {
+        Id: '4',
+        sIcon:sIcon3,
+        sTitle: 'Ladger Statement', 
+        slug: 'ladger-statement',
+        sImg:simg3,
+        Icon:'flaticon-bar-chart',
+        des:'To manage the ladger statement',
+    },
+    {
+        Id: '5',
+        sIcon:sIcon3,
+        sTitle: 'Change Password', 
+        slug: 'change-password',
+        sImg:simg3,
+        Icon:'flaticon-bar-chart',
+        des:'To reset the password',
+    },
+    {
+        Id: '6',
+        sIcon:sIcon3,
+        sTitle: 'Payment', 
+        slug: 'payment',
+        sImg:simg3,
+        Icon:'flaticon-bar-chart',
+        des:'To upload the payment receipt',
+    },
+    {
+        Id: '7',
+        sIcon:sIcon3,
+        sTitle: 'Add New Payment', 
+        slug: 'add-payment',
+        sImg:simg3,
+        Icon:'flaticon-bar-chart',
+        des:'To upload the payment receipt',
+    },
+]
 
 const PaymentReceipt = (props) => {
 
     const router = useRouter()
 
-    const sidebarDetails = PaymentSidebar.find(item => item.slug === router.query.slug)
+    const sidebarDetails = sidebarItem.find(item => item.slug === router.query.slug)
     
     const ClickHandler = () => {
         window.scrollTo(10, 0);
     }
 
     const getComponent = () => {
+        console.log("sidebarDetails?.slug",sidebarDetails?.slug);
         switch(sidebarDetails?.slug) {
             case 'profile':
-              return <ProfilePage />;
+            //   return <ProfilePage />;
             case 'history':
               return <HistoryPage />;
             case 'cash-memo':
@@ -42,8 +115,10 @@ const PaymentReceipt = (props) => {
               return <ChangePasswordPage />;
             case 'payment':
               return <PaymentPage />;
+            case 'add-payment':
+              return <AddNewPayment />;
             default:
-              return <ProfilePage />;
+            //   return <ProfilePage />;
           }
     }
 

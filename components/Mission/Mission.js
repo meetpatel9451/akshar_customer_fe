@@ -1,5 +1,5 @@
 import React from 'react'
-import mImg1 from '/public/images/637X571.png'
+// import mImg1 from '/public/images/637X571.png'
 import mImg2 from '/public/images/icons/mission-1.png'
 import mImg3 from '/public/images/icons/mission-2.png'
 import mImg4 from '/public/images/icons/mission-3.png'
@@ -14,7 +14,7 @@ const Mission = (props) => {
                     <div className="image-column col-lg-6 col-md-12 col-sm-12">
                         <div className="inner-column">
                             <div className="image wow fadeInLeft" data-wow-delay="0ms" data-wow-duration="1500ms">
-                                <Image src={mImg1} alt="" />
+                                {/* <Image src={mImg1} alt="" /> */}
                             </div>
                         </div>
                     </div>

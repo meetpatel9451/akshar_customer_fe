@@ -19,9 +19,9 @@ const Footer = (props) => {
             <div className="auto-container">
                 <div className="widgets-section">
                     <div className="row clearfix">
-                        <div className="big-column col-lg-6 col-md-12 col-sm-12">
+                        <div className="big-column col-lg-12 col-md-12 col-sm-12">
                             <div className="row clearfix">
-                                <div className="footer-column col-lg-7 col-md-6 col-sm-12">
+                                <div className="footer-column col-lg-4 col-md-6 col-sm-12">
                                     <div className="footer-widget logo-widget">
                                         <div className="logo">
                                             <Link onClick={ClickHandler} href="/"><Image src={Logo} alt="" /></Link>
@@ -35,7 +35,7 @@ const Footer = (props) => {
                                         </ul>
                                     </div>
                                 </div>
-                                <div className="footer-column col-lg-5 col-md-6 col-sm-12">
+                                <div className="footer-column col-lg-3 col-md-6 col-sm-12">
                                     <div className="footer-widget links-widget">
                                         <h4>Services</h4>
                                         <ul className="list-link">
@@ -43,23 +43,6 @@ const Footer = (props) => {
                                                 <li key={i}><Link onClick={ClickHandler} href={`/${service.slug}`} >{service.sTitle}</Link></li>
                                             ))}
                                         </ul>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                        <div className="big-column col-lg-6 col-md-12 col-sm-12">
-                            <div className="row clearfix">
-                                <div className="footer-column col-lg-6 col-md-6 col-sm-12">
-                                    <div className="footer-widget gallery-widget">
-                                        <h4>instagram</h4>
-                                        <div className="widget-content">
-                                            <div className="images-outer clearfix">
-                                                {Projects.slice(0, 6).map((project, prj) => (
-                                                    <figure className="image-box" key={prj}><Link onClick={ClickHandler} href={'/project-single/[slug]'} as={`/project-single/${project.slug}`}><Image src={project.pImg} alt="" /></Link></figure>
-                                                ))}
-                                            </div>
-                                        </div>
                                     </div>
                                 </div>
                                 <div className="footer-column col-lg-5 col-md-6 col-sm-12">

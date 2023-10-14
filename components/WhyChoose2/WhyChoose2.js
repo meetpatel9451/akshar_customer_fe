@@ -1,5 +1,5 @@
 import React from 'react';
-import cImg from '/public/images/656X527.png'
+// import cImg from '/public/images/656X527.png'
 import Image from 'next/image';
 
 
@@ -55,7 +55,7 @@ const WhyChoose2 = (props) => {
                     <div className="image-column col-lg-6 col-md-12 col-sm-12">
                         <div className="inner-column">
                             <div className="image titlt" data-tilt data-tilt-max="3">
-                                <Image src={cImg} alt="" />
+                                {/* <Image src={cImg} alt="" /> */}
                             </div>
                         </div>
                     </div>

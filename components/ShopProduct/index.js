@@ -1,6 +1,9 @@
 import React from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import API from "../../store/api";
+import { useEffect } from "react";
+import { useState } from "react";
 
 
 const ShopProduct = ({ products, addToCartProduct, addToWishListProduct }) => {
@@ -11,6 +14,30 @@ const ShopProduct = ({ products, addToCartProduct, addToWishListProduct }) => {
     const ClickHandler = () => {
         window.scrollTo(10, 0);
     };
+
+    const [productsList, setProductList] = useState([]);
+
+    useEffect(() => {
+        async function fetchData() {
+            const user_id = localStorage.getItem("user_id");
+            const url = `api/v1/category`;
+      
+            try {
+              const response = await API.get(url);
+              console.log("response", response?.data?.data?.items);
+              setProductList(response?.data?.data?.items)
+              // Handle the response data here
+            } catch (error) {
+              console.error("Error fetching data:", error);
+              // Handle the error here
+            }
+          }
+      
+          fetchData();
+      
+    },[])
+
+
 
     return (
         <div className="sidebar-page-container">
@@ -39,13 +66,13 @@ const ShopProduct = ({ products, addToCartProduct, addToWishListProduct }) => {
 
                             <div className="row clearfix">
 
-                                {products.length > 0 &&
-                                    products.slice(0, 9).map((product, pitem) => (
+                                {productsList?.length > 0 &&
+                                    productsList?.slice(0, 9).map((product, pitem) => (
                                         <div className="shop-item col-lg-4 col-md-6 col-sm-6 col-xs-12" key={pitem}>
                                             <div className="inner-box">
                                                 <div className="image">
-                                                    <img src={product.proImg} alt="" />
-                                                    <div className="overlay-box" onClick={() => router.push(`/product-single/${product.slug}`)}>
+                                                    <img src={product?.proImg} alt="" />
+                                                    <div className="overlay-box" onClick={() => router.push(`/product-single/${product?.slug}`)}>
                                                         <ul className="cart-option">
                                                             {/* <li>
                                                                 <button
@@ -76,7 +103,7 @@ const ShopProduct = ({ products, addToCartProduct, addToWishListProduct }) => {
                                                 <div className="lower-content">
                                                     <div className="clearfix" >
                                                         <div className="pull-left">
-                                                            <h3><Link onClick={ClickHandler} href={'/product-single/[slug]'} as={`/product-single/${product.slug}`}>{product.title}</Link></h3>
+                                                            <h3><Link onClick={ClickHandler} href={'/product-single/[slug]'} as={`/product-single/${product?.id}`}>{product.name}</Link></h3>
                                                         </div>
                                                         {/* <div className="pull-right">
                                                             <div className="rating">

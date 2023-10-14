@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import React from 'react';
 
 const carts = [];
@@ -8,10 +9,11 @@ const PaymentPage = () => {
         <div>
             <section className="history-section">
                 <div className="auto-container">
-                    <div className="sec-title centered" style={{marginBottom: "4rem"}}>
+                    <div className="sec-title centered" style={{marginBottom: "1rem"}}>
                         <h2>Payment</h2>
                         <div className="text">Our approach to SEO is uniquely built around what we know works…and what we know <br /> doesn’t work. With over 200 verified factors in play.</div>
                     </div>
+                    <Link href="/payment-receipt/add-payment" ><div className="p-5 text-right" style={{display: 'flex', justifyContent: 'flex-end'}}><button className="theme-btn btn-style-two"><span className="txt">Add Payment</span></button></div></Link>
                     <div className="cart-outer">
                         <div className="table-outer">
                             <table className="cart-table">

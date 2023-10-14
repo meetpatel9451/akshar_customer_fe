@@ -16625,3 +16625,7 @@ img {
 .history-section {
 	position: relative;
 }
+
+button:disabled {
+	filter: grayscale(1); 
+}

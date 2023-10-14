@@ -25,7 +25,7 @@ const ShopPage = ({ addToCart, addToWishList }) => {
     return (
         <Fragment>
             <Navbar />
-            <PageTitle pageTitle={'Shop'} pagesub={'Shop'} />
+            <PageTitle pageTitle={'Product'} pagesub={'Select your product'} />
             <section className="shop-page section-padding">
                 <div className="container">
                     <div className="row">

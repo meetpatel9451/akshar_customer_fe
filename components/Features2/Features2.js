@@ -16,7 +16,7 @@ const Features2 = (props) => {
             fIcon: <LetterHead />,
             title: 'Letter Head',
             des: 'We have seen great successes with everyone companies.',
-            path: 'letter-head'
+            path: 'envelope'
         },
         {
             fIcon: <BusinessCard />,
@@ -34,7 +34,7 @@ const Features2 = (props) => {
             fIcon: <Sticker />,
             title: 'Stickers',
             des: 'We have seen great successes with everyone companies.',
-            path: 'stickers'
+            path: 'sticker'
         },
 
     ]
