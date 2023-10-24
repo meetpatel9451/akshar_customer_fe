@@ -72,7 +72,7 @@ const ShopProduct = ({ products, addToCartProduct, addToWishListProduct }) => {
                                             <div className="inner-box">
                                                 <div className="image">
                                                     <img src={product?.proImg} alt="" />
-                                                    <div className="overlay-box" onClick={() => router.push(`/product-single/${product?.slug}`)}>
+                                                    <div className="overlay-box" onClick={() => router.push(`/product-single/${product?.id}`)}>
                                                         <ul className="cart-option">
                                                             {/* <li>
                                                                 <button

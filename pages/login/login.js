@@ -29,8 +29,7 @@ const LoginPage = () => {
         }
     };
 
-    const SubmitHandler = async (e) => {
-        console.log("SubmitHandler ", forms);
+    const SubmitHandler = async(e) => {
         e.preventDefault();
         if (validator.allValid()) {
             validator.hideMessages();
@@ -40,62 +39,62 @@ const LoginPage = () => {
                 email: '',
                 password: '',
             })
-            localStorage.setItem("token", JSON.stringify(response?.data?.result?.token));
+            localStorage.setItem("token", response?.data?.result?.token);
             localStorage.setItem("user_id", JSON.stringify(response?.data?.result?.id));
-            router.push({ pathname: window.location.pathname });
+            router.push({ pathname: window.location.pathname});
         } else {
             validator.showMessages();
         }
     }
 
     return (
+        
+                            <div >
 
-        <div >
+                                <div className="form-title">
+                                    <h2>Login Here</h2>
+                                </div>
 
-            <div className="form-title">
-                <h2>Login Here</h2>
-            </div>
-
-            <div className="styled-form login-form">
-                {/* <div className="form-group">
+                                <div className="styled-form login-form">
+                                    {/* <div className="form-group">
                                         <span className="adon-icon"><span className="fa fa-user"></span></span>
                                         <input type="text" name="username"  placeholder="Your Name *" />
                                     </div> */}
-                <div className="form-group">
-                    <span className="adon-icon"><span className="fa fa-envelope-o"></span></span>
-                    <input type="email" name="email" placeholder="Enter Mail id *" value={forms.email}
-                        // onBlur={(e) => changeHandler(e)}
-                        onChange={(e) => changeHandler(e)} />
-                    {validator.message('email', forms.email, 'required')}
+                                    <div className="form-group">
+                                        <span className="adon-icon"><span className="fa fa-envelope-o"></span></span>
+                                        <input type="email" name="email"  placeholder="Enter Mail id *" value={forms.email} 
+                                        // onBlur={(e) => changeHandler(e)}
+                                        onChange={(e) => changeHandler(e)} />
+                                        {validator.message('email', forms.email, 'required')}
+                                        
+                                    </div>
+                                    <div className="form-group">
+                                        <span className="adon-icon"><span className="fa fa-unlock-alt"></span></span>
+                                        <input type="password" name="password" placeholder="Enter Password" 
+                                        // onBlur={(e) => changeHandler(e)}
+                                        onChange={(e) => changeHandler(e)} />
+                                        {validator.message('password', forms.password, 'required')}
+                                    </div>
 
-                </div>
-                <div className="form-group">
-                    <span className="adon-icon"><span className="fa fa-unlock-alt"></span></span>
-                    <input type="password" name="password" placeholder="Enter Password"
-                        // onBlur={(e) => changeHandler(e)}
-                        onChange={(e) => changeHandler(e)} />
-                    {validator.message('password', forms.password, 'required')}
-                </div>
+                                    <div className="clearfix">
+                                        <div className="pull-left">
+                                            <input type="checkbox" id="remember-me" /><label className="remember-me" for="remember-me">&nbsp; Remember Me</label>
+                                        </div>
+                                    </div>
 
-                <div className="clearfix">
-                    <div className="pull-left">
-                        <input type="checkbox" id="remember-me" /><label className="remember-me" for="remember-me">&nbsp; Remember Me</label>
-                    </div>
-                </div>
-
-                <div className="clearfix" style={{ marginTop: "12px" }}>
-                    <div className="form-group pull-left">
-                        <button type="button" onClick={SubmitHandler} className="theme-btn btn-style-two"><span className="txt">login</span></button>
-                    </div>
-                    {/* <div className="form-group social-links-two pull-right">
+                                    <div className="clearfix" style={{marginTop: "12px"}}>
+                                        <div className="form-group pull-left">
+                                            <button type="button" onClick={SubmitHandler} className="theme-btn btn-style-two"><span className="txt">login</span></button>
+                                        </div>
+                                        {/* <div className="form-group social-links-two pull-right">
                                             Or login with <Link href="/" className="img-circle facebook"><span className="fa fa-facebook-f"></span></Link> <Link href="/" className="img-circle twitter"><span className="fa fa-twitter"></span></Link> <Link href="/" className="img-circle google-plus"><span className="fa fa-google-plus"></span></Link>
                                         </div> */}
-                </div>
+                                    </div>
 
 
-            </div>
+                                </div>
 
-        </div>
+                            </div>
     )
 };
 export default LoginPage;

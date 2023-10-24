@@ -33,8 +33,7 @@ const ShopPage = ({ addToCart, addToWishList }) => {
                             <ShopProduct
                                 addToCartProduct={addToCartProduct}
                                 addToWishListProduct={addToWishListProduct}
-                                products={products}
-                            />
+                                products={products}/>
                         </div>
                     </div>
                 </div>

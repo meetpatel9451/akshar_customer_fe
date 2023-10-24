@@ -7,7 +7,7 @@ import Scrollbar from '../../components/scrollbar/scrollbar'
 import PaymentSidebar from '../../api/PaymentSidebar';
 import Footer from '../../components/footer/Footer';
 import { useRouter } from 'next/router';
-// import ProfilePage from '../../components/profilePage/ProfilePage';
+import ProfilePage from '../../components/ProfilePage/ProfilePage';
 import HistoryPage from '../../components/HistoryPage/HistoryPage';
 import CashMemoPage from '../../components/CashMemoPage/CashMemoPage';
 import LedgerStatementPage from '../../components/LedgerStatementPage/LedgerStatementPage';
@@ -101,25 +101,22 @@ const PaymentReceipt = (props) => {
     }
 
     const getComponent = () => {
-        console.log("sidebarDetails?.slug",sidebarDetails?.slug);
-        switch(sidebarDetails?.slug) {
-            case 'profile':
-            //   return <ProfilePage />;
-            case 'history':
-              return <HistoryPage />;
-            case 'cash-memo':
-              return <CashMemoPage />;
-            case 'ladger-statement':
-              return <LedgerStatementPage />;
-            case 'change-password':
-              return <ChangePasswordPage />;
-            case 'payment':
-              return <PaymentPage />;
-            case 'add-payment':
-              return <AddNewPayment />;
-            default:
-            //   return <ProfilePage />;
-          }
+        console.log("calllCoponent");
+        if (sidebarDetails?.slug === "profile") {
+            return(<ProfilePage />)
+        } else if (sidebarDetails?.slug === "history") {
+            return(<HistoryPage />)
+        } else if (sidebarDetails?.slug === "ladger-statement") {
+            return(<LedgerStatementPage />)
+        } else if (sidebarDetails?.slug === "change-password") {
+            return(<ChangePasswordPage />)
+        } else if (sidebarDetails?.slug === "payment") {
+            return(<PaymentPage />)
+        } else if (sidebarDetails?.slug === "add-payment") {
+            return(<AddNewPayment />)
+        } else {
+            return(<ProfilePage/>)
+        }
     }
 
     return (

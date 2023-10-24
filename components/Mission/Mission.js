@@ -2,7 +2,6 @@ import React from 'react'
 // import mImg1 from '/public/images/637X571.png'
 import mImg2 from '/public/images/icons/mission-1.png'
 import mImg3 from '/public/images/icons/mission-2.png'
-import mImg4 from '/public/images/icons/mission-3.png'
 import Image from 'next/image'
 
 const Mission = (props) => {

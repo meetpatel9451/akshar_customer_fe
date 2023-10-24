@@ -1,8 +1,38 @@
-import React from 'react';
-
-const carts = [];
+import React, { useEffect, useState } from 'react';
+import API from '../../store/api';
+import { Button, Chip } from '@mui/material';
+import moment from 'moment';
 
 const HistoryPage = () => {
+    console.log("calll");
+    const [historyList, setHistoryList] = useState([]);
+
+    useEffect(() => {
+        async function fetch() {
+            const user_id = localStorage.getItem("user_id");
+            const url = `api/v1/order_history/client/${Number(user_id)}`;
+            const response = await API.get(url);
+            console.log("reponse", response.data.data);
+            setHistoryList(response?.data?.data || []);
+        }
+        fetch()
+    },[]);
+
+    const getChip = (status) => {
+        if (status.toLowerCase() == "approved") {
+            return(
+                <Chip label={status} color='success'/>
+            )
+        } else if (status.toLowerCase() == "disapproved") {
+            return(
+                <Chip label={status} color='error'/>
+            )
+        } else {
+            return(
+                <Chip label={"Pending"} color='primary'/>
+            )
+        }
+    }
 
     return (
         <div>
@@ -13,57 +43,41 @@ const HistoryPage = () => {
                         <div className="text">Our approach to SEO is uniquely built around what we know works…and what we know <br /> doesn’t work. With over 200 verified factors in play.</div>
                     </div>
                     <div className="cart-outer">
-                        <div className="table-outer">
+                        <div className="table-outer" style={{border: "1px solid #d7d7d7",  borderRadius: "6px", boxShadow: "0px 5px 15px rgba(0, 0, 0, 0.10)", transition: "box-shadow 0.3s ease-in-out"}}>
                             <table className="cart-table">
                                 <thead className="cart-header">
                                     <tr>
                                         <th className="prod-column">OrderId</th>
                                         <th>DateTime</th>
-                                        <th>&nbsp;</th>
-                                        <th>Total</th>
-                                        <th className="price">Advance</th>
-                                        <th>Remaining</th>
-                                        <th>&nbsp;</th>
-                                        <th>View</th>
+                                        <th>Product</th>
+                                        <th>Image</th>
+                                        <th>Remarks</th>
+                                        <th>Qty</th>
+                                        <th>Rate</th>
+                                        <th>Height</th>
+                                        <th>Weight</th>
+                                        <th className="price">Total</th>
+                                        <th>Status</th>
                                     </tr>
                                 </thead>
 
                                 <tbody>
-                                    {carts &&
-                                        carts.length > 0 &&
-                                        carts.map((catItem, crt) => (
-                                            <tr key={crt}>
-                                                <td colspan="2" className="prod-column">
-                                                    <div className="column-box">
-                                                        <figure className="prod-thumb"><img src={catItem.proImg} alt="" /></figure>
-                                                        <h3 className="prod-title">{catItem.title}</h3>
-                                                    </div>
-                                                </td>
-                                                <td className="qty">
-                                                    <Grid className="quantity cart-plus-minus">
-                                                        <Button
-                                                            className="dec qtybutton"
-                                                            onClick={() =>
-                                                                props.decrementQuantity(catItem.id)
-                                                            }
-                                                        >
-                                                            -
-                                                        </Button>
-                                                        <input value={catItem.qty} type="text" />
-                                                        <Button
-                                                            className="inc qtybutton"
-                                                            onClick={() =>
-                                                                props.incrementQuantity(catItem.id)
-                                                            }
-                                                        >
-                                                            +
-                                                        </Button>
-                                                    </Grid>
-                                                </td>
-                                                <td className="unit-price"><div className="available-info"><span className="icon fa fa-check"></span> Item(s) <br />Avilable Now</div></td>
-                                                <td className="price">${catItem.price}</td>
-                                                <td className="sub-total">${catItem.qty * catItem.price}</td>
-                                                <td className="remove"><button className="remove-btn" onClick={() => props.removeFromCart(catItem.id)}><span className="flaticon-cancel-1"></span></button></td>
+                                    {historyList &&
+                                        historyList.length > 0 &&
+                                        historyList.map((history, index) => (
+                                            <tr key={index}>
+                                                <td style={{textAlign: "center", paddingLeft: 0}}>{history?.id || ""}</td>
+                                                <td style={{textAlign: "center", paddingLeft: 0}}>{history?.createdAt ? moment(history?.createdAt).format('YYYY-MM-DD') : ""}</td>
+                                                <td style={{textAlign: "center", paddingLeft: 0}}>{history?.OrderProduct[0]?.product?.name || ""}</td>
+                                                <td style={{textAlign: "center", paddingLeft: 0}}>{history?.OrderProduct[0]?.order_image ? <Button onClick={() => window.location.href = history?.OrderProduct[0]?.order_image}>View</Button> : "-"}</td>
+                                                <td style={{textAlign: "center", paddingLeft: 0}}>{history?.remarks || ""}</td>
+                                                <td style={{textAlign: "center", paddingLeft: 0}}>{history?.OrderProduct[0]?.quantity || ""}</td>
+                                                <td style={{textAlign: "center", paddingLeft: 0}}>{history?.OrderProduct[0]?.rate || ""}</td>
+                                                <td style={{textAlign: "center", paddingLeft: 0}}>{history?.OrderProduct[0]?.height || ""}</td>
+                                                <td style={{textAlign: "center", paddingLeft: 0}}>{history?.OrderProduct[0]?.width || ""}</td>
+                                                <td style={{textAlign: "center", paddingLeft: 0}}>{history?.OrderProduct[0]?.amount || ""}</td>
+                                                <td style={{textAlign: "center", paddingLeft: 0}}>{getChip(history?.status || "")}</td>
+                                                {/* <td className="sub-total">${history.}</td> */}
                                             </tr>
                                         ))}
                                 </tbody>

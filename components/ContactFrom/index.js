@@ -7,14 +7,14 @@ import { Alert, Box, Snackbar } from '@mui/material';
 const ContactForm = () => {
 
     const [forms, setForms] = useState({
-            name: "Nrupal Patel",
-            phone: "1234567890",
-            email: "nrupal@yopmail.com",
-            subject: "Testing",
-            message: "Just for testing"
+        name: "",
+        phone: "",
+        email: "",
+        subject: "",
+        message: ""
     });
     const [loading, setLoading] = useState(false)
-    const [open, setOpen] = useState(false)
+    const [notificationMsg, setNotificationMsg] = useState({})
     const [validator] = useState(new SimpleReactValidator({
         className: 'errorMessage'
     }));
@@ -28,25 +28,24 @@ const ContactForm = () => {
     };
 
     const onClose = () => {
-        setOpen(false)
+        setNotificationMsg({})
     }
-
-     const submitHandler  = async (e) => {
- console.log("eeee ", forms);
- setLoading(true)
-        const _request = {...forms, client_id: 3,}
+    const submitHandler = async (e) => {
+        const _request = { ...forms }
         e.preventDefault();
         if (validator.allValid()) {
+            setLoading(true)
             validator.hideMessages();
             const url = 'api/v1/contact-us';
-            const response = await API.post(url, _request);
- console.log("response ", response);
-            if(response){
+            const response = await API.post(url, _request).then((res) => {
                 setLoading(false);
-                setOpen(true)
-            }
+                setNotificationMsg({status: 200, msg: "Contact Information Submitted Sucessfully!"})
+            }).catch((err) => {
+                console.log("err", err);
+                setLoading(false);
+                setNotificationMsg({status: err?.response?.data?.statusCode || 500, msg: err?.response?.data?.message || err?.message})
+            });
             setForms({
-                
                 name: '',
                 email: '',
                 subject: '',
@@ -60,96 +59,96 @@ const ContactForm = () => {
 
     return (
         <>
-        <>
-        <form onSubmit={(e) => submitHandler(e)}>
-            <div className="row clearfix">
-                <div className="col-lg-6 col-md-6 col-sm-12 form-group">
-                    <span className="icon flaticon-user-2"></span>
-                    <div className="form-field">
-                        <input
-                            value={forms.name}
-                            type="text"
-                            name="name"
-                            onBlur={(e) => changeHandler(e)}
-                            onChange={(e) => changeHandler(e)}
-                            placeholder="Your Name" />
-                        {validator.message('name', forms.name, 'required|alpha_space')}
+            <>
+                <form onSubmit={(e) => submitHandler(e)}>
+                    <div className="row clearfix">
+                        <div className="col-lg-6 col-md-6 col-sm-12 form-group">
+                            <span className="icon flaticon-user-2"></span>
+                            <div className="form-field">
+                                <input
+                                    value={forms.name}
+                                    type="text"
+                                    name="name"
+                                    onBlur={(e) => changeHandler(e)}
+                                    onChange={(e) => changeHandler(e)}
+                                    placeholder="Your Name" />
+                                {validator.message('name', forms.name, 'required|alpha_space')}
+                            </div>
+                        </div>
+
+                        <div className="col-lg-6 col-md-6 col-sm-12 form-group">
+                            <span className="icon flaticon-phone-call"></span>
+                            <div className="form-field">
+                                <input
+                                    value={forms.phone}
+                                    type="text"
+                                    name="phone"
+                                    onBlur={(e) => changeHandler(e)}
+                                    onChange={(e) => changeHandler(e)}
+                                    placeholder="Your phone" />
+                                {validator.message('phone', forms.phone, 'required|phone')}
+                            </div>
+                        </div>
+
+                        <div className="col-lg-6 col-md-6 col-sm-12 form-group">
+                            <span className="icon flaticon-big-envelope"></span>
+                            <div className="form-field">
+                                <input
+                                    value={forms.email}
+                                    type="email"
+                                    name="email"
+                                    onBlur={(e) => changeHandler(e)}
+                                    onChange={(e) => changeHandler(e)}
+                                    placeholder="Your Email" />
+                                {validator.message('email', forms.email, 'required|email')}
+                            </div>
+                        </div>
+
+                        <div className="col-lg-6 col-md-6 col-sm-12 form-group">
+                            <span className="icon flaticon-notepad"></span>
+                            <div className="form-field">
+                                <input
+                                    value={forms.subject}
+                                    type="text"
+                                    name="subject"
+                                    onBlur={(e) => changeHandler(e)}
+                                    onChange={(e) => changeHandler(e)}
+                                    placeholder="Subject" />
+                                {validator.message('subject', forms.subject, 'required')}
+                            </div>
+                        </div>
+
+                        <div className="col-lg-12 col-md-12 col-sm-12 form-group">
+                            <span className="icon flaticon-message"></span>
+                            <textarea
+                                onBlur={(e) => changeHandler(e)}
+                                onChange={(e) => changeHandler(e)}
+                                value={forms.message}
+                                type="text"
+                                name="message"
+                                placeholder="Message">
+                            </textarea>
+                            {validator.message('message', forms.message, 'required')}
+                        </div>
+
+                        <div className="col-lg-12 col-md-12 col-sm-12 text-center form-group">
+                            <button className="theme-btn btn-style-three" type="submit" name="submit-form" disabled={loading} ><span className="txt">Submit Now</span></button>
+                        </div>
+
                     </div>
-                </div>
-
-                <div className="col-lg-6 col-md-6 col-sm-12 form-group">
-                    <span className="icon flaticon-phone-call"></span>
-                    <div className="form-field">
-                        <input
-                            value={forms.phone}
-                            type="text"
-                            name="phone"
-                            onBlur={(e) => changeHandler(e)}
-                            onChange={(e) => changeHandler(e)}
-                            placeholder="Your phone" />
-                        {validator.message('phone', forms.phone, 'required|phone')}
-                    </div>
-                </div>
-
-                <div className="col-lg-6 col-md-6 col-sm-12 form-group">
-                    <span className="icon flaticon-big-envelope"></span>
-                    <div className="form-field">
-                        <input
-                            value={forms.email}
-                            type="email"
-                            name="email"
-                            onBlur={(e) => changeHandler(e)}
-                            onChange={(e) => changeHandler(e)}
-                            placeholder="Your Email" />
-                        {validator.message('email', forms.email, 'required|email')}
-                    </div>
-                </div>
-
-                <div className="col-lg-6 col-md-6 col-sm-12 form-group">
-                    <span className="icon flaticon-notepad"></span>
-                    <div className="form-field">
-                        <input
-                            value={forms.subject}
-                            type="text"
-                            name="subject"
-                            onBlur={(e) => changeHandler(e)}
-                            onChange={(e) => changeHandler(e)}
-                            placeholder="Subject" />
-                        {validator.message('subject', forms.subject, 'required')}
-                    </div>
-                </div>
-
-                <div className="col-lg-12 col-md-12 col-sm-12 form-group">
-                    <span className="icon flaticon-message"></span>
-                    <textarea
-                        onBlur={(e) => changeHandler(e)}
-                        onChange={(e) => changeHandler(e)}
-                        value={forms.message}
-                        type="text"
-                        name="message"
-                        placeholder="Message">
-                    </textarea>
-                    {validator.message('message', forms.message, 'required')}
-                </div>
-
-                <div className="col-lg-12 col-md-12 col-sm-12 text-center form-group">
-                    <button className="theme-btn btn-style-three"  type="submit" name="submit-form" disabled={loading} ><span className="txt">Submit Now</span></button>
-                </div>
-
-            </div>
-        </form>
+                </form>
+            </>
+            <Box>
+                <Snackbar open={Object.keys(notificationMsg).length > 0 ? true : false} autoHideDuration={6000} sx={{ marginTop: 10 }} onClose={onClose} anchorOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                }} >
+                    <Alert severity={notificationMsg?.status == 200 ? "success": "error"} sx={{ width: '100%' }}>
+                        {notificationMsg?.msg || ""}
+                    </Alert>
+                </Snackbar>
+            </Box>
         </>
-        <Box>
-        <Snackbar open={open} autoHideDuration={6000} sx={{marginTop: 10}} onClose={onClose} anchorOrigin={{
-          vertical: 'top', 
-          horizontal: 'right', 
-        }} >
-        <Alert  severity="success" sx={{ width: '100%' }}>
-          Contact Information Submitted Sucessfully!
-        </Alert>
-      </Snackbar>
-      </Box>
-      </>
     )
 }
 

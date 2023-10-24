@@ -1,9 +1,43 @@
 import Link from 'next/link';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import API from '../../store/api';
+import moment from 'moment';
+import { Button } from '@mui/material';
 
 const carts = [];
 
 const PaymentPage = () => {
+
+    const [paymentList, setPaymentList] = useState([]);
+
+    console.log("paymentList", paymentList);
+
+    useEffect(() => {
+        async function fetch() {
+            const user_id = localStorage.getItem("user_id");
+            const url = `api/v1/ac_entry/client/${Number(user_id)}`;
+            const response = await API.get(url);
+            console.log("reponse", response.data.data);
+            setPaymentList(response?.data?.data || []);
+        }
+        fetch()
+    },[]);
+
+    const getChip = (status) => {
+        if (status.toLowerCase() == "approved") {
+            return(
+                <Chip label={status} color='success'/>
+            )
+        } else if (status.toLowerCase() == "disapproved") {
+            return(
+                <Chip label={status} color='error'/>
+            )
+        } else {
+            return(
+                <Chip label={"Pending"} color='primary'/>
+            )
+        }
+    }
 
     return (
         <div>
@@ -15,57 +49,33 @@ const PaymentPage = () => {
                     </div>
                     <Link href="/payment-receipt/add-payment" ><div className="p-5 text-right" style={{display: 'flex', justifyContent: 'flex-end'}}><button className="theme-btn btn-style-two"><span className="txt">Add Payment</span></button></div></Link>
                     <div className="cart-outer">
-                        <div className="table-outer">
+                        <div className="table-outer" style={{border: "1px solid #d7d7d7",  borderRadius: "6px", boxShadow: "0px 5px 15px rgba(0, 0, 0, 0.10)", transition: "box-shadow 0.3s ease-in-out"}}>
                             <table className="cart-table">
                                 <thead className="cart-header">
                                     <tr>
                                         <th className="prod-column">Sr. No.</th>
-                                        <th>System ID</th>
+                                        <th>Payment Type</th>
                                         <th>Date</th>
                                         <th className="price">Amount</th>
                                         <th>Remarks</th>
-                                        <th>&nbsp;</th>
                                         <th>View</th>
                                         <th>Status</th>
                                     </tr>
                                 </thead>
 
                                 <tbody>
-                                    {carts &&
-                                        carts.length > 0 &&
-                                        carts.map((catItem, crt) => (
-                                            <tr key={crt}>
-                                                <td colspan="2" className="prod-column">
-                                                    <div className="column-box">
-                                                        <figure className="prod-thumb"><img src={catItem.proImg} alt="" /></figure>
-                                                        <h3 className="prod-title">{catItem.title}</h3>
-                                                    </div>
-                                                </td>
-                                                <td className="qty">
-                                                    <Grid className="quantity cart-plus-minus">
-                                                        <Button
-                                                            className="dec qtybutton"
-                                                            onClick={() =>
-                                                                props.decrementQuantity(catItem.id)
-                                                            }
-                                                        >
-                                                            -
-                                                        </Button>
-                                                        <input value={catItem.qty} type="text" />
-                                                        <Button
-                                                            className="inc qtybutton"
-                                                            onClick={() =>
-                                                                props.incrementQuantity(catItem.id)
-                                                            }
-                                                        >
-                                                            +
-                                                        </Button>
-                                                    </Grid>
-                                                </td>
-                                                <td className="unit-price"><div className="available-info"><span className="icon fa fa-check"></span> Item(s) <br />Avilable Now</div></td>
-                                                <td className="price">${catItem.price}</td>
-                                                <td className="sub-total">${catItem.qty * catItem.price}</td>
-                                                <td className="remove"><button className="remove-btn" onClick={() => props.removeFromCart(catItem.id)}><span className="flaticon-cancel-1"></span></button></td>
+                                    {paymentList &&
+                                        paymentList?.items?.length > 0 &&
+                                        paymentList?.items?.map((payment, index) => (
+                                            <tr key={index}>
+                                                <td style={{textAlign: "center", paddingLeft: 0}}>{payment?.id || ""}</td>
+                                                <td style={{textAlign: "center", paddingLeft: 0}}>{payment?.payment_type || ""}</td>
+                                                <td style={{textAlign: "center", paddingLeft: 0}}>{payment?.date ? moment(payment?.date).format('YYYY-MM-DD') : ""}</td>
+                                                <td style={{textAlign: "center", paddingLeft: 0}}>{payment?.amount > 0 ? payment?.amount : ""}</td>
+                                                <td style={{textAlign: "center", paddingLeft: 0}}>{payment?.remarks ? payment?.remarks : ""}</td>
+                                                <td style={{textAlign: "center", paddingLeft: 0}}>{payment?.receipt_img ? <Button onClick={() => window.location.href = payment?.receipt_img}>View</Button> : "-"}</td>
+                                                <td style={{textAlign: "center", paddingLeft: 0}}>{payment?.status ? getChip(payment?.status || "") : "-"}</td>
+                                                {/* <td className="sub-total">${history.}</td> */}
                                             </tr>
                                         ))}
                                 </tbody>

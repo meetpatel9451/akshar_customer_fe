@@ -25,7 +25,8 @@ const RegisterPage = () => {
         className: 'errorMessage'
     }));
 
-    const changeRegisterHandler = e => {
+    const changeREgisterHandler = e => {
+        console.log("changeHandler ", e.target.value );
         setRegisterForms({ ...registerForms, [e.target.name]: e.target.value })
         if (registerValidator.allValid()) {
             registerValidator.hideMessages();
@@ -36,6 +37,9 @@ const RegisterPage = () => {
 
     const SubmitRegisterHandler = async(e) => {
         e.preventDefault();
+        console.log("registerForms ", registerForms);
+        
+        
         if (registerValidator.allValid()) {
             if(registerForms?.password != registerForms?.confirm_password){
                 console.log(" Password not match")
@@ -90,37 +94,37 @@ const RegisterPage = () => {
                                     <div className="form-group">
                                         <span className="adon-icon"><span className="fa fa-user"></span></span>
                                         <input type="text" name="name" placeholder="Your Name *" value={registerForms.name} 
-                                        onBlur={(e) => changeRegisterHandler(e)}
-                                        onChange={(e) => changeRegisterHandler(e)} />
+                                        onBlur={(e) => changeREgisterHandler(e)}
+                                        onChange={(e) => changeREgisterHandler(e)} />
                                         {registerValidator.message('name', registerForms.name, 'required')}
                                     </div>
                                     <div className="form-group">
                                         <span className="adon-icon"><span className="fa fa-envelope-o"></span></span>
                                         <input type="email" name="email" placeholder="Emai Address*" 
                                         value={registerForms.email} 
-                                        onBlur={(e) => changeRegisterHandler(e)}
-                                        onChange={(e) => changeRegisterHandler(e)} />
+                                        onBlur={(e) => changeREgisterHandler(e)}
+                                        onChange={(e) => changeREgisterHandler(e)} />
                                         {registerValidator.message('email', registerForms.email, 'required')}
                                     </div>
                                     <div className="form-group">
                                         <span className="adon-icon"><span className="fa fa-envelope-o"></span></span>
                                         <input type="text" name="username" placeholder="Username*" value={registerForms.username} 
-                                        onBlur={(e) => changeRegisterHandler(e)}
-                                        onChange={(e) => changeRegisterHandler(e)} />
+                                        onBlur={(e) => changeREgisterHandler(e)}
+                                        onChange={(e) => changeREgisterHandler(e)} />
                                         {registerValidator.message('username', registerForms.username, 'required')}
                                     </div>
                                     <div className="form-group">
                                         <span className="adon-icon"><span className="fa fa-unlock-alt"></span></span>
                                         <input type="password" name="password" placeholder="Enter Password" value={registerForms.password} 
-                                        onBlur={(e) => changeRegisterHandler(e)}
-                                        onChange={(e) => changeRegisterHandler(e)} />
+                                        onBlur={(e) => changeREgisterHandler(e)}
+                                        onChange={(e) => changeREgisterHandler(e)} />
                                         {registerValidator.message('password', registerForms.password, 'required')}
                                     </div>
                                     <div className="form-group">
                                         <span className="adon-icon"><span className="fa fa-unlock-alt"></span></span>
                                         <input type="password" name="confirm_password" placeholder="Enter Confirm Password" value={registerForms.confirm_password} 
-                                        onBlur={(e) => changeRegisterHandler(e)}
-                                        onChange={(e) => changeRegisterHandler(e)} />
+                                        onBlur={(e) => changeREgisterHandler(e)}
+                                        onChange={(e) => changeREgisterHandler(e)} />
                                         {registerValidator.message('confirm_password', registerForms.confirm_password, 'required')}
                                     </div>
                                     <div className="form-group">
@@ -130,42 +134,42 @@ const RegisterPage = () => {
                                             name="address"
                                             placeholder="Address" 
                                             value={registerForms.address} 
-                                            onBlur={(e) => changeRegisterHandler(e)}
-                                            onChange={(e) => changeRegisterHandler(e)} />
+                                            onBlur={(e) => changeREgisterHandler(e)}
+                                            onChange={(e) => changeREgisterHandler(e)} />
                                             {registerValidator.message('address', registerForms.address, 'required')}
                                     </div>
                                     <div className="form-group">
                                         <span className="adon-icon"><span className="fa fa-envelope-o"></span></span>
                                         <input type="text" name="city" placeholder="City*" value={registerForms.city} 
-                                        onBlur={(e) => changeRegisterHandler(e)}
-                                        onChange={(e) => changeRegisterHandler(e)} />
+                                        onBlur={(e) => changeREgisterHandler(e)}
+                                        onChange={(e) => changeREgisterHandler(e)} />
                                         {registerValidator.message('city', registerForms.city, 'required')}
                                     </div>
                                     <div className="form-group">
                                         <span className="adon-icon"><span className="fa fa-envelope-o"></span></span>
                                         <input type="text" name="pincode" placeholder="Pincode*" value={registerForms.pincode} 
-                                        onBlur={(e) => changeRegisterHandler(e)}
-                                        onChange={(e) => changeRegisterHandler(e)} />
+                                        onBlur={(e) => changeREgisterHandler(e)}
+                                        onChange={(e) => changeREgisterHandler(e)} />
                                         {registerValidator.message('pincode', registerForms.pincode, 'required')}
                                     </div>
                                     <div className="form-group">
                                         <span className="adon-icon"><span className="fa fa-envelope-o"></span></span>
                                         <input type="text" name="contact_number" placeholder="Contact Number*" value={registerForms.contact_number} 
-                                        onBlur={(e) => changeRegisterHandler(e)}
-                                        onChange={(e) => changeRegisterHandler(e)} />
+                                        onBlur={(e) => changeREgisterHandler(e)}
+                                        onChange={(e) => changeREgisterHandler(e)} />
                                         {registerValidator.message('contact_number', registerForms.contact_number, 'required')}
                                     </div>
                                     <div className="form-group">
                                         <span className="adon-icon"><span className="fa fa-envelope-o"></span></span>
-                                        <input type="text" name="tin_number" placeholder="Tin number(if you have)" onChange={(e) => changeRegisterHandler(e)} />
+                                        <input type="text" name="tin_number" placeholder="Tin number(if you have)" onChange={(e) => changeREgisterHandler(e)} />
                                     </div>
                                     <div className="form-group">
                                         <span className="adon-icon"><span className="fa fa-envelope-o"></span></span>
-                                        <input type="text" name="gst_number" placeholder="Gst number(if you have)" onChange={(e) => changeRegisterHandler(e)} />
+                                        <input type="text" name="gst_number" placeholder="Gst number(if you have)" onChange={(e) => changeREgisterHandler(e)} />
                                     </div>
                                     <div className="form-group">
                                         <span className="adon-icon"><span className="fa fa-envelope-o"></span></span>
-                                        <select name="state" id="state" onChange={(e) => changeRegisterHandler(e)} >
+                                        <select name="state" id="state" onChange={(e) => changeREgisterHandler(e)} >
                                             <option value="in_gujarat">In Gujarat</option>
                                             <option value="out_gujarat">Out Gujarat</option>
                                         </select>

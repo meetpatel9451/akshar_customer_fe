@@ -1,8 +1,39 @@
-import React from 'react';
-
-const carts = [];
+import React, { useEffect, useState } from 'react';
+import API from '../../store/api';
+import moment from 'moment';
 
 const LedgerStatementPage = () => {
+
+    const [statementList, setStatementList] = useState([]);
+
+    console.log("statementList", statementList);
+
+    useEffect(() => {
+        async function fetch() {
+            const user_id = localStorage.getItem("user_id");
+            const url = `api/v1/ledger/client/${Number(user_id)}`;
+            const response = await API.get(url);
+            console.log("reponse", response.data.data);
+            setStatementList(response?.data?.data || []);
+        }
+        fetch()
+    },[]);
+
+    const getChip = (status) => {
+        if (status.toLowerCase() == "approved") {
+            return(
+                <Chip label={status} color='success'/>
+            )
+        } else if (status.toLowerCase() == "disapproved") {
+            return(
+                <Chip label={status} color='error'/>
+            )
+        } else {
+            return(
+                <Chip label={"Pending"} color='primary'/>
+            )
+        }
+    }
 
     return (
         <div>
@@ -13,7 +44,7 @@ const LedgerStatementPage = () => {
                         <div className="text">Our approach to SEO is uniquely built around what we know works…and what we know <br /> doesn’t work. With over 200 verified factors in play.</div>
                     </div>
                     <div className="cart-outer">
-                        <div className="table-outer">
+                        <div className="table-outer" style={{border: "1px solid #d7d7d7", borderRadius: "6px", boxShadow: "0px 5px 15px rgba(0, 0, 0, 0.10)", transition: "box-shadow 0.3s ease-in-out"}}>
                             <table className="cart-table">
                                 <thead className="cart-header">
                                     <tr>
@@ -25,45 +56,25 @@ const LedgerStatementPage = () => {
                                         <th className="price">Credit</th>
                                         <th className="price">Balance</th>
                                         <th>View Receipt</th>
+                                        <th>Status</th>
                                     </tr>
                                 </thead>
 
                                 <tbody>
-                                    {carts &&
-                                        carts.length > 0 &&
-                                        carts.map((catItem, crt) => (
-                                            <tr key={crt}>
-                                                <td colspan="2" className="prod-column">
-                                                    <div className="column-box">
-                                                        <figure className="prod-thumb"><img src={catItem.proImg} alt="" /></figure>
-                                                        <h3 className="prod-title">{catItem.title}</h3>
-                                                    </div>
-                                                </td>
-                                                <td className="qty">
-                                                    <Grid className="quantity cart-plus-minus">
-                                                        <Button
-                                                            className="dec qtybutton"
-                                                            onClick={() =>
-                                                                props.decrementQuantity(catItem.id)
-                                                            }
-                                                        >
-                                                            -
-                                                        </Button>
-                                                        <input value={catItem.qty} type="text" />
-                                                        <Button
-                                                            className="inc qtybutton"
-                                                            onClick={() =>
-                                                                props.incrementQuantity(catItem.id)
-                                                            }
-                                                        >
-                                                            +
-                                                        </Button>
-                                                    </Grid>
-                                                </td>
-                                                <td className="unit-price"><div className="available-info"><span className="icon fa fa-check"></span> Item(s) <br />Avilable Now</div></td>
-                                                <td className="price">${catItem.price}</td>
-                                                <td className="sub-total">${catItem.qty * catItem.price}</td>
-                                                <td className="remove"><button className="remove-btn" onClick={() => props.removeFromCart(catItem.id)}><span className="flaticon-cancel-1"></span></button></td>
+                                    {statementList &&
+                                        statementList?.items?.length > 0 &&
+                                        statementList?.items?.map((ledger, index) => (
+                                            <tr key={index}>
+                                                <td style={{textAlign: "center", paddingLeft: 0}}>{ledger?.id || ""}</td>
+                                                <td style={{textAlign: "center", paddingLeft: 0}}>{ledger?.createdAt ? moment(ledger?.createdAt).format('YYYY-MM-DD') : ""}</td>
+                                                <td style={{textAlign: "center", paddingLeft: 0}}>{ledger?.acEntry?.length > 0 && ledger?.acEntry[0]?.debitor_creditor_type ? ledger?.acEntry[0]?.debitor_creditor_type : ""}</td>
+                                                <td style={{textAlign: "center", paddingLeft: 0}}>{ledger?.acEntry?.length > 0 && ledger?.acEntry[0]?.journal_item_name ? ledger?.acEntry[0]?.journal_item_name : ""}</td>
+                                                <td style={{textAlign: "center", paddingLeft: 0}}>{ledger?.debit || ""}</td>
+                                                <td style={{textAlign: "center", paddingLeft: 0}}>{ledger?.credit || ""}</td>
+                                                <td style={{textAlign: "center", paddingLeft: 0}}>{+ledger?.balance || ""}</td>
+                                                <td style={{textAlign: "center", paddingLeft: 0}}>{ledger?.acEntry?.length > 0 && ledger?.acEntry[0]?.receipt_img ? <Button onClick={() => window.location.href = ledger?.acEntry[0]?.receipt_img}>View</Button> : "-"}</td>
+                                                <td style={{textAlign: "center", paddingLeft: 0}}>{ledger?.acEntry?.length > 0 && ledger?.acEntry[0]?.status ? getChip(ledger?.acEntry[0]?.status || "") : "-"}</td>
+                                                {/* <td className="sub-total">${history.}</td> */}
                                             </tr>
                                         ))}
                                 </tbody>

@@ -12168,6 +12168,7 @@ img {
 .comment-form .form-group input[type="password"],
 .comment-form .form-group input[type="tel"],
 .comment-form .form-group input[type="email"],
+.comment-form .form-group input[type="date"],
 .comment-form .form-group select {
 	position: relative;
 	display: block;
@@ -12190,6 +12191,7 @@ img {
 .comment-form .form-group input[type="password"]:focus,
 .comment-form .form-group input[type="tel"]:focus,
 .comment-form .form-group input[type="email"]:focus,
+.comment-form .form-group input[type="date"]:focus,
 .comment-form .form-group select:focus,
 .comment-form .form-group textarea:focus {
 	border-color: #771db9;
@@ -12425,9 +12427,31 @@ img {
 	margin-bottom: 0px;
 }
 
+.form-group input[type="date"] {
+	position: relative;
+	display: block;
+	width: 100%;
+	line-height: 28px;
+	padding: 10px 20px;
+	color: #222222;
+	height: 55px;
+	font-size: 14px;
+	background: #ffffff;
+	font-weight: 400;
+	border-radius: 3px;
+	border: 1px solid transparent;
+	-webkit-transition: all 300ms ease;
+	-ms-transition: all 300ms ease;
+	-o-transition: all 300ms ease;
+	-moz-transition: all 300ms ease;
+	transition: all 300ms ease;
+	box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.10);
+}
+
 .contact-form .form-group input[type="text"],
 .contact-form .form-group input[type="tel"],
 .contact-form .form-group input[type="email"],
+.comment-form .form-group input[type="date"],
 .contact-form .form-group select {
 	position: relative;
 	display: block;
@@ -12452,6 +12476,7 @@ img {
 .contact-form .form-group input[type="text"]:focus,
 .contact-form .form-group input[type="tel"]:focus,
 .contact-form .form-group input[type="email"]:focus,
+.comment-form .form-group input[type="date"]:focus,
 .contact-form .form-group textarea:focus {
 	border-color: #ea3268;
 }
@@ -14576,12 +14601,14 @@ img {
 .rtl .styled-form select,
 .rtl .styled-form textarea,
 .rtl .comment-form .form-group input[type="text"],
+.rtl .comment-form .form-group input[type="date"],
 .rtl .comment-form .form-group input[type="password"],
 .rtl .comment-form .form-group input[type="tel"],
 .rtl .comment-form .form-group input[type="email"],
 .rtl .comment-form .form-group select,
 .rtl .comment-form .form-group textarea,
 .rtl .contact-form .form-group input[type="text"],
+.rtl .contact-form .form-group input[type="date"],
 .rtl .contact-form .form-group input[type="tel"],
 .rtl .contact-form .form-group input[type="email"],
 .rtl .contact-form .form-group select,
@@ -14885,6 +14912,7 @@ img {
 .dark-body .comment-form .form-group select,
 .dark-body .comment-form .form-group textarea,
 .dark-body .contact-form .form-group input[type="text"],
+.dark-body .contact-form .form-group input[type="date"],
 .dark-body .contact-form .form-group input[type="tel"],
 .dark-body .contact-form .form-group input[type="email"],
 .dark-body .contact-form .form-group textarea {
@@ -14894,6 +14922,7 @@ img {
 }
 
 .dark-body .faq-form .form-group input[type="text"],
+.dark-body .faq-form .form-group input[type="date"],
 .dark-body .faq-form .form-group input[type="email"],
 .dark-body .faq-form .form-group select,
 .dark-body .faq-form .form-group textarea {

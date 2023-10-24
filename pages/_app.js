@@ -8,6 +8,8 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { PersistGate } from "redux-persist/integration/react";
+import { store, persistor } from "../store/index";
 import { Provider } from "react-redux";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -22,7 +24,8 @@ import { useRouter } from "next/router";
 import AuthPage from "./login";
 import { useState } from "react";
 import { useEffect } from "react";
-import store from "../store/store";
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton } from "@mui/material";
+import BankDetails from "../components/BankDetailPage/BankDetailPage";
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
@@ -46,8 +49,10 @@ function MyApp({ Component, pageProps }) {
  console.log("isPermitted ", isAuthenticate);
   return ( <>
     <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
         {isAuthenticate ? <AuthPage /> : <Component {...pageProps} /> }
         <ToastContainer />
+      </PersistGate>
     </Provider>
     {/* <Dialog
     open={open}

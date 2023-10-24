@@ -5,7 +5,6 @@ import Image from 'next/image';
 
 const WhyChoose2 = (props) => {
     return (
-
         <section className="skill-section">
             <div className="auto-container">
                 <div className="row clearfix">

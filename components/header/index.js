@@ -1,10 +1,13 @@
 import React, { useState } from 'react'
 import Link from 'next/link'
-import MobileMenu from '../MobileMenu/MobileMenu';
+import MobileMenu from '../MobileMenu/MobileMenu'
+import { connect } from "react-redux";
+import { removeFromCart } from "../../store/actions/action";
 import Logo from '../../public/images/logo.png'
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { Box } from '@mui/material';
+
 
 const Header = (props) => {
     const [searchActive, setSearchState] = useState(false);
@@ -207,4 +210,11 @@ const Header = (props) => {
     )
 }
 
-export default Header
+const mapStateToProps = (state) => {
+    return {
+        carts: state.cartList.cart,
+    };
+};
+
+
+export default connect(mapStateToProps, { removeFromCart })(Header);
