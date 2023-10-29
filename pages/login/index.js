@@ -22,15 +22,11 @@ const AuthPage = (props) => {
                     <form method="post" >
                         <div className="row clearfix">
                             <div className="form-column column col-lg-6 col-md-6 col-sm-12 col-xs-12">
-
                                 <LoginPage />
-
                             </div>
 
                             <div className="form-column column col-lg-6 col-md-6 col-sm-12 col-xs-12">
-
                                 <RegisterPage />
-
                             </div>
 
                         </div>
