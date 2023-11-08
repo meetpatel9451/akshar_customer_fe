@@ -575,14 +575,16 @@ const ProductSinglePage = (props) => {
                                 <td>{item?.name}</td>
                                 <td className='justify-center'>{item?.price}</td>
                                 <td ><div>
-                                  <input type="number" name="code" value={item?.quantity} onBlur={(e) => {
-                                    if ((e.target.value % 1000) === 0) {
-                                      console.log("Valid")
-                                    } else {
-                                      console.log("invalid ");
-                                      setOpen(true);
-                                    }
-                                  }} onChange={(e) => {
+                                  <input type="number" name="code" value={item?.quantity} 
+                                  // onBlur={(e) => {
+                                  //   if ((e.target.value % 1000) === 0) {
+                                  //     console.log("Valid")
+                                  //   } else {
+                                  //     console.log("invalid ");
+                                  //     setOpen(true);
+                                  //   }
+                                  // }}
+                                  onChange={(e) => {
                                     var tempArray = [...selectedArray];
                                     tempArray[arrayIndex].quantity = (e.target.value);
                                     tempArray[arrayIndex].total_price = (tempArray[arrayIndex].price) * (e.target.value);

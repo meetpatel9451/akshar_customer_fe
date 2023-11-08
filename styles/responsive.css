@@ -251,7 +251,7 @@
 	
 	.main-header .header-upper .logo-box{
 		margin: 0px;
-		width:100%;	
+		width: auto;	
 		padding-bottom:0px;
 		/* text-align:center; */
 		position: absolute;

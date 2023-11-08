@@ -7,7 +7,6 @@ import { useState } from "react";
 
 
 const ShopProduct = ({ products, addToCartProduct, addToWishListProduct }) => {
- console.log("products ", products);
 
     const router = useRouter();
 
@@ -21,10 +20,10 @@ const ShopProduct = ({ products, addToCartProduct, addToWishListProduct }) => {
         async function fetchData() {
             const user_id = localStorage.getItem("user_id");
             const url = `api/v1/category`;
-      
+            
             try {
-              const response = await API.get(url);
-              console.log("response", response?.data?.data?.items);
+                const response = await API.get(url);
+                              console.log("response", response?.data?.data?.items);
               setProductList(response?.data?.data?.items)
               // Handle the response data here
             } catch (error) {
