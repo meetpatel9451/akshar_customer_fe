@@ -190,7 +190,7 @@ const Header = (props) => {
                             <div className="btn-box">
                                 <Link onClick={ClickHandler} href="/quotation" className="theme-btn btn-style-one"><span className="txt">Get A Quote</span></Link>
                             </div>
-                            <div onClick={() => setSearchState(!searchActive)} className="search-box-btn search-box-outer"><span className="icon fa fa-search"></span></div>
+                            {/* <div onClick={() => setSearchState(!searchActive)} className="search-box-btn search-box-outer"><span className="icon fa fa-search"></span></div> */}
                         </div>
                     </div>
 

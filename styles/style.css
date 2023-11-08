@@ -1761,6 +1761,7 @@ img {
 .main-header .btn-box {
 	position: relative;
 	float: left;
+	margin-right: 25px;
 }
 
 /* Header Lower */
