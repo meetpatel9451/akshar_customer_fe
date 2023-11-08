@@ -38,6 +38,7 @@ const QuotationForm = () => {
         setNotificationMsg({})
     }
 
+    
     useEffect(() => {
         async function fetch() {
             const paperTypeRes = await API.get(`api/v1/paper-type`);
