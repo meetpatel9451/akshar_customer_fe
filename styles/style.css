@@ -16473,6 +16473,26 @@ img {
 	padding: 38px 42px;
 }
 
+
+@media only screen and (max-width: 900px) {
+	.bank-detail-section .inner-container {
+		display: flex;
+		margin-top: 8rem;
+		padding: 38px 42px;
+		flex-direction: column;
+	}
+
+	.bank-detail-section .inner-container .bank-detail-block {
+		margin-top: 12px;
+	}
+}
+
+@media only screen and (max-width: 600px) {
+	.bank-detail-block .inner-box{
+		border-bottom: 1px solid #f6f2f28c;
+		flex-wrap: wrap;
+	}
+}
 .bank-detail-block .inner-box {
 	display: flex;
 	flex-direction: row;

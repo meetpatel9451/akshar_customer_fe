@@ -40,7 +40,7 @@ const Hero4 = () => {
                                             <div className="title">Unlock your imgination with Akshar Graphics</div>
                                             <h1>Stunning graphics and <br /> Priting solution await!</h1>
                                             <div className="btns-box">
-                                                <Link href="/about" className="theme-btn btn-style-three"><span className="txt">Lets Start</span></Link>
+                                                <Link href="/shop" className="theme-btn btn-style-three"><span className="txt">Let's Start</span></Link>
                                                 <Link href="/contact" className="theme-btn btn-style-four"><span className="txt">Contact Now</span></Link>
                                             </div>
                                         </div>
@@ -93,7 +93,7 @@ const Hero4 = () => {
                                             <div className="title">Unlock your imgination with Akshar Graphics</div>
                                             <h1>Stunning graphics and <br /> Priting solution await!</h1>
                                             <div className="btns-box">
-                                                <Link href="/about" className="theme-btn btn-style-three"><span className="txt">Lets Start</span></Link>
+                                                <Link href="/shop" className="theme-btn btn-style-three"><span className="txt">Let's Start</span></Link>
                                                 <Link href="/contact" className="theme-btn btn-style-four"><span className="txt">Contact Now</span></Link>
                                             </div>
                                         </div>
