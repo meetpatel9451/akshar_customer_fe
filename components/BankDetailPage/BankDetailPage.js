@@ -1,8 +1,8 @@
 import React from 'react'
-import Link from 'next/link'
-import Services from '../../api/Services';
 
 const BankDetails = (props) => {
+
+
 
     const ClickHandler = () => {
         window.scrollTo(10, 0);
@@ -82,7 +82,7 @@ const BankDetails = (props) => {
 
                     <div className="bank-detail-block col-lg-6 col-md-6 col-sm-12">
                         <div className="qr-container">
-                            <h4 style={{ fontWeight: 700 }}>AKSHAR GRAPHICS AND PRINTER</h4> <br />
+                            <h4 style={{ fontWeight: 700, textAlign: "center" }}>AKSHAR GRAPHICS AND PRINTER</h4> <br />
                             <h5 style={{ fontWeight: 500 }}>Scan Qr Code</h5>
                             <div className='qr-border'></div>
                             <img src='/images/icons/sample.png' alt='qrcode'></img>

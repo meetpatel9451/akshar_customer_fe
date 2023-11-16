@@ -10,7 +10,7 @@ const ServiceSectionS4 = (props) => {
 
     return (
         <section className="services-section-two">
-            <div className="auto-container">
+            <div className="auto-container" style={{ maxWidth: "1300px"}}>
                 <div className="inner-container">
                     <div className="clearfix">
                         {Services.slice(0, 6).map((service, i) => (
