@@ -39,7 +39,7 @@ const ShopProduct = ({ products, addToCartProduct, addToWishListProduct }) => {
 
 
     return (
-        <div className="sidebar-page-container">
+        <div className="sidebar-page-container" style={{padding: 10}}>
             <div className="auto-container">
                 <div className="row clearfix">
 

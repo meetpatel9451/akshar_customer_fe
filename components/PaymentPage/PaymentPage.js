@@ -28,7 +28,7 @@ const PaymentPage = () => {
             return(
                 <Chip label={status} color='success'/>
             )
-        } else if (status.toLowerCase() == "disapproved") {
+        } else if (status.toLowerCase() == "disapproved"  || status.toLowerCase() == "decline") {
             return(
                 <Chip label={status} color='error'/>
             )

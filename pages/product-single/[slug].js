@@ -493,8 +493,8 @@ const ProductSinglePage = (props) => {
                           <tbody>
                             {productList?.map((item, index) => (
                               <tr>
-                                <td>{item?.name}</td>
-                                <td className='justify-center'>{item?.price_A}</td>
+                                <td > <Box style={{display: 'flex', justifyContent: 'center'}}>{item?.name}</Box></td>
+                                <td> <Box style={{display: 'flex', justifyContent: 'center'}}>{item?.price_A}</Box></td>
                                 <td><IconButton style={{ display: 'flex', justifySelf: 'center' }} onClick={() => handleAddToCart(item)}><i className="fa fa-cart-plus" ></i></IconButton></td>
                               </tr>
                             ))}
@@ -521,7 +521,7 @@ const ProductSinglePage = (props) => {
                             {selectedArray.map((item, arrayIndex) => (
 
                               <tr>
-                                <td> {item?.name}</td>
+                                <td>  {item?.name}</td>
                                 <td><b>{item?.price}</b></td>
                                 <td><div>
                                   <input type="number" name="code" value={item?.quantity} onChange={(e) => handleOnQuantity(e, arrayIndex)} placeholder="Enter Quantity" />
@@ -572,9 +572,10 @@ const ProductSinglePage = (props) => {
                             {selectedArray.map((item, arrayIndex) => (
 
                               <tr>
-                                <td>{item?.name}</td>
-                                <td className='justify-center'>{item?.price}</td>
-                                <td ><div>
+                                <td> <Box style={{display: 'flex', justifyContent: 'center'}}>{item?.name}</Box></td>
+                                <td ><Box style={{display: 'flex', justifyContent: 'center'}}> {item?.price}</Box></td>
+                                <td >
+                                  <div>
                                   <input type="number" name="code" value={item?.quantity} 
                                   // onBlur={(e) => {
                                   //   if ((e.target.value % 1000) === 0) {
@@ -591,7 +592,7 @@ const ProductSinglePage = (props) => {
                                     setSelectedArray(tempArray)
                                   }} placeholder="Enter Quantity" />
                                 </div></td>
-                                <td className='justify-center'>{item?.total_price}</td>
+                                <td> <Box style={{display: 'flex', justifyContent: 'center'}}>{item?.total_price}</Box></td>
                                 <td ><input type="file" id="imageUpload" name="imageUpload" accept="application/cdr" onChange={(e) => {
                                   let tempArray = [...selectedArray];
                                   tempArray[arrayIndex].image = e.target.files[0];
