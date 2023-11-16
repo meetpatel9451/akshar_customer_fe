@@ -82,6 +82,7 @@ const MobileMenu = () => {
             <div className="mobile-nav-toggler" onClick={() => setMenuState(!menuActive)}><span className="icon flaticon-menu"></span></div>
             <div className="mobile-menu">
                 <div className="menu-backdrop" onClick={() => setMenuState(!menuActive)}></div>
+                
                 <div className="close-btn" onClick={() => setMenuState(!menuActive)}><span className="icon flaticon-multiply"></span></div>
                 <nav className="menu-box">
                     <div className="menu-outer">

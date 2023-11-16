@@ -6,8 +6,8 @@ import { removeFromCart } from "../../store/actions/action";
 import Logo from '../../public/images/logo.png'
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { Box } from '@mui/material';
-
+import { useEffect } from 'react';
+import API from '../../store/api';
 
 const Header = (props) => {
     const [searchActive, setSearchState] = useState(false);
@@ -23,10 +23,36 @@ const Header = (props) => {
         window.scrollTo(10, 0);
     }
 
+    const [balance, setBalance] = useState([]);
+ console.log("balance ", balance);
+
+ const user_id = localStorage.getItem("user_id");
+ const token = localStorage.getItem("token");
+ 
+    useEffect(() => {
+        async function fetchData() {
+            const url = `api/v1/client/${user_id}`;
+            
+            try {
+                console.log("url===> ", url);
+                const response = await API.get(url);
+                console.log("response", response);
+                setBalance(response?.data?.data?.Ledger[0].balance)
+              // Handle the response data here
+            } catch (error) {
+              console.error("Error fetching data:", error);
+              // Handle the error here
+            }
+          }
+      
+          fetchData();
+      
+    },[])
+
     return (
         <header className="main-header header-style-one">
             <div className="header-upper">
-                <div className="auto-container clearfix">
+                <div className="auto-container clearfix" style={{maxWidth: '85%'}}>
                     <div className="pull-left logo-box">
                         <div ><Link onClick={ClickHandler} href="/home4">
                             <Image src={Logo} style={{ height: '80px', width: '200px' }} alt="" title="" />
@@ -190,10 +216,16 @@ const Header = (props) => {
                             <div className="btn-box">
                                 <Link onClick={ClickHandler} href="/quotation" className="theme-btn btn-style-one"><span className="txt">Get A Quote</span></Link>
                             </div>
-                            {/* <div onClick={() => setSearchState(!searchActive)} className="search-box-btn search-box-outer"><span className="icon fa fa-search"></span></div> */}
+                            {/* <div className="btn-box">
+                                <Link onClick={ClickHandler} href="/quotation" className="theme-btn btn-style-one"><span className="txt">hjk</span></Link>
+                            </div> */}
+                            {(balance && user_id) && <div className="btn-box" style={{paddingLeft: '5px', padding: '10px', borderRadius: '5px', background: balance.includes("-") ? 'red' : 'green', boxShadow:'0px 0px 25px rgba(0, 0, 0, 0.15)' }}><h5 style={{ color: '#fff'}}><b>{balance} ₹</b></h5></div>}
+                            {(user_id && token) && <div onClick={() => {
+                                router.push(`/`);
+                                localStorage.removeItem("user_id");
+                                localStorage.removeItem("token")}} style={{marginLeft: '10px'}} className="search-box-btn"><span className="icon fa fa-sign-in"></span></div>}
                         </div>
                     </div>
-
                 </div>
             </div>
             <div className={`search-popup ${searchActive ? "search-active" : ""}`}>
