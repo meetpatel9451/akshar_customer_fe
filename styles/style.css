@@ -10481,7 +10481,7 @@ img {
 
 .sidebar-page-container {
 	position: relative;
-	padding: 90px 0px 80px;
+	padding: 90px 0px 80px 80px;
 }
 
 .sidebar-page-container .content-side,
