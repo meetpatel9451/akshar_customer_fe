@@ -52,7 +52,7 @@ const Header = (props) => {
     return (
         <header className="main-header header-style-one">
             <div className="header-upper">
-                <div className="auto-container clearfix" style={{maxWidth: '85%'}}>
+                <div className="auto-container clearfix" style={{maxWidth: '90%'}}>
                     <div className="pull-left logo-box">
                         <div ><Link onClick={ClickHandler} href="/home4">
                             <Image src={Logo} style={{ height: '80px', width: '200px' }} alt="" title="" />

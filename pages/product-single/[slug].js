@@ -9,7 +9,7 @@ import Product from './product'
 import api from "../../api";
 import Footer from '../../components/footer/Footer';
 import ProductTabs from './alltab';
-import { Alert, Box, IconButton, Snackbar, Typography } from '@mui/material';
+import { Alert, Box, IconButton, Snackbar, TextField, Typography } from '@mui/material';
 import API from '../../store/api';
 
 const visitingCardArray = {
@@ -409,6 +409,8 @@ const ProductSinglePage = (props) => {
     setNotificationMsg({})
   }
 
+
+  console.log("selected", selectedArray);
   const handleAddToCart = (item) => {
     const selectedItem = selectedArray.filter((val) => val?.product_id == item?.id);
 
@@ -416,9 +418,9 @@ const ProductSinglePage = (props) => {
       setSelectedArray([...selectedArray, {
         product_id: item?.id,
         name: item?.name,
-        price: item?.price_A,
+        price: getPrice(item),
         image: "",
-        total_price: item?.price_A,
+        total_price: getPrice(item),
         quantity: 1,
         width: "",
         height: ""
@@ -461,6 +463,32 @@ const ProductSinglePage = (props) => {
     }
   }
 
+  const getPrice = (product) => {
+    if (product && product?.ClientProduct?.length) {
+      return product?.ClientProduct[0]?.price
+    } else {
+      return product?.price_A
+    }
+  }
+
+  const handleChangeQuantity = (arrayIndex) => (e) => {
+    var tempArray = [...selectedArray];
+    const quantityValue = e.target.value;
+
+    if (quantityValue) {
+      // Check if the entered value is negative, if yes, set it to zero
+      tempArray[arrayIndex].quantity = quantityValue < 1 ? 1 : quantityValue;
+    } else {
+      // Check if the entered value is negative, if yes, set it to zero
+      tempArray[arrayIndex].quantity = "";
+    }
+
+    // Update total_price accordingly
+    tempArray[arrayIndex].total_price = Number(tempArray[arrayIndex].price) * tempArray[arrayIndex].quantity;
+
+    setSelectedArray(tempArray);
+  }
+
   return (
     <Fragment>
       <Navbar hclass={'wpo-header-style-5'} topbarClass={'tb-block'} />
@@ -480,31 +508,33 @@ const ProductSinglePage = (props) => {
                   <div className="cart-outer">
                     {/* <div className="auto-container"> */}
                     <div className="row clearfix">
-                      <div className="col-lg-4 col-md-4 col-sm-12" style={{ marginRight: "4rem" }}>
-                        <table className="cart-table">
-                          <thead className="cart-header">
-                            <tr>
-                              <th className="prod-column">PRODUCT</th>
-                              <th className='justify-center'>Price <sub>(1000</sub>&nbsp;<sub>pc.)</sub></th>
-                              <th className="price">Action</th>
-                            </tr>
-                          </thead>
-
-                          <tbody>
-                            {productList?.map((item, index) => (
+                      <div className="col-lg-4 col-md-4 col-sm-12 product-table" style={{ marginRight: "4rem" }}>
+                        <div className="table-outer" style={{ border: "1px solid #d7d7d7", borderRadius: "6px", boxShadow: "0px 5px 15px rgba(0, 0, 0, 0.10)", transition: "box-shadow 0.3s ease-in-out" }}>
+                          <table className="cart-table" style={{width: "100%"}}>
+                            <thead className="cart-header" style={{borderBottom: "1px solid rgb(215, 215, 215)"}}>
                               <tr>
-                                <td > <Box style={{display: 'flex', justifyContent: 'center'}}>{item?.name}</Box></td>
-                                <td> <Box style={{display: 'flex', justifyContent: 'center'}}>{item?.price_A}</Box></td>
-                                <td><IconButton style={{ display: 'flex', justifySelf: 'center' }} onClick={() => handleAddToCart(item)}><i className="fa fa-cart-plus" ></i></IconButton></td>
+                                <th className="prod-column">PRODUCT</th>
+                                <th className='justify-center'>Price <sub>(1000</sub>&nbsp;<sub>pc.)</sub></th>
+                                <th className="price">Action</th>
                               </tr>
-                            ))}
-                          </tbody>
-                        </table>
+                            </thead>
+
+                            <tbody>
+                              {productList?.map((item, index) => (
+                                <tr>
+                                  <td > <Box style={{ display: 'flex', justifyContent: 'center' }}>{item?.name}</Box></td>
+                                  <td> <Box style={{ display: 'flex', justifyContent: 'center' }}>{getPrice(item)}</Box></td>
+                                  <td> <Box style={{ display: 'flex', justifyContent: 'center' }}><IconButton style={{ display: 'flex', justifySelf: 'center' }} onClick={() => handleAddToCart(item)}><i className="fa fa-cart-plus" ></i></IconButton></Box></td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        </div>
                       </div>
 
                       {(router.query.slug == "sticker" || router.query.slug == "sq-inch-job") ? <div className="col-lg-7 col-md-7 col-sm-12">
-                        <table className="cart-table">
-                          <thead className="cart-header">
+                        <table className="cart-table" style={{width: "100%"}}>
+                          <thead className="cart-header" style={{borderBottom: "1px solid rgb(215, 215, 215)"}}>
                             <tr>
                               <th >PRODUCT</th>
                               <th >Price</th>
@@ -529,7 +559,7 @@ const ProductSinglePage = (props) => {
                                 <td ><input type="number" name="code" value={item?.height} onChange={(e) => {
                                   var tempArray = [...selectedArray];
                                   tempArray[arrayIndex].height = (e.target.value);
-                                  tempArray[arrayIndex].price_A = (tempArray[arrayIndex].price_A) * (e.target.value) * (tempArray[arrayIndex].width) * (tempArray[arrayIndex].quantity) / 1000;
+                                  tempArray[arrayIndex].price_A = (getPrice(tempArray[arrayIndex]).price_A) * (e.target.value) * (tempArray[arrayIndex].width) * (tempArray[arrayIndex].quantity) / 1000;
                                   setSelectedArray(tempArray)
                                 }} placeholder="Enter Quantity" /></td>
                                 <td >
@@ -555,8 +585,9 @@ const ProductSinglePage = (props) => {
                           </tbody>
                         </table>
                       </div> : <div className="col-lg-7 col-md-7 col-sm-12">
-                        <table className="cart-table">
-                          <thead className="cart-header">
+                      <div className="table-outer" style={{border: "1px solid #d7d7d7",  borderRadius: "6px", boxShadow: "0px 5px 15px rgba(0, 0, 0, 0.10)", transition: "box-shadow 0.3s ease-in-out"}}>
+                        <table className="cart-table" style={{width: "100%"}}>
+                          <thead className="cart-header" style={{borderBottom: "1px solid rgb(215, 215, 215)"}}>
                             <tr>
                               <th >PRODUCT</th>
                               <th >Price</th>
@@ -568,50 +599,51 @@ const ProductSinglePage = (props) => {
                           </thead>
 
                           <tbody>
-
                             {selectedArray.map((item, arrayIndex) => (
 
                               <tr>
-                                <td> <Box style={{display: 'flex', justifyContent: 'center'}}>{item?.name}</Box></td>
-                                <td ><Box style={{display: 'flex', justifyContent: 'center'}}> {item?.price}</Box></td>
+                                <td> <Box style={{ display: 'flex', justifyContent: 'center' }}>{item?.name}</Box></td>
+                                <td ><Box style={{ display: 'flex', justifyContent: 'center' }}> {item?.price}</Box></td>
                                 <td >
-                                  <div>
-                                  <input type="number" name="code" value={item?.quantity} 
-                                  // onBlur={(e) => {
-                                  //   if ((e.target.value % 1000) === 0) {
-                                  //     console.log("Valid")
-                                  //   } else {
-                                  //     console.log("invalid ");
-                                  //     setOpen(true);
-                                  //   }
-                                  // }}
-                                  onChange={(e) => {
-                                    var tempArray = [...selectedArray];
-                                    tempArray[arrayIndex].quantity = (e.target.value);
-                                    tempArray[arrayIndex].total_price = (tempArray[arrayIndex].price) * (e.target.value);
-                                    setSelectedArray(tempArray)
-                                  }} placeholder="Enter Quantity" />
-                                </div></td>
-                                <td> <Box style={{display: 'flex', justifyContent: 'center'}}>{item?.total_price}</Box></td>
-                                <td ><input type="file" id="imageUpload" name="imageUpload" accept="application/cdr" onChange={(e) => {
+                                  <div style={{textAlign: "center"}}>
+                                    <TextField size='small' type="number" name="quantity" value={item?.quantity}
+                                      // onBlur={(e) => {
+                                      //   if ((e.target.value % 1000) === 0) {
+                                      //     console.log("Valid")
+                                      //   } else {
+                                      //     console.log("invalid ");
+                                      //     setOpen(true);
+                                      //   }
+                                      // }}
+                                      style={{maxWidth: "90px"}}
+                                      onChange={handleChangeQuantity(arrayIndex)} placeholder="Enter Quantity" />
+                                  </div></td>
+                                <td> <Box style={{ display: 'flex', justifyContent: 'center' }}>{item?.total_price}</Box></td>
+                                <td ><input type="file" style={{maxWidth: "180px"}} id="imageUpload" name="imageUpload" accept="application/cdr" onChange={(e) => {
                                   let tempArray = [...selectedArray];
                                   tempArray[arrayIndex].image = e.target.files[0];
                                   setSelectedArray(tempArray);
                                 }} /></td>
-                                <td >
-                                  {/* <button onClick={() => {
-                            const filter = selectedArray?.filter((item, index) => index != arrayIndex)
-                            setSelectedArray(filter)
-                        }}> Remove</button> */}
+                                <td>
+                                  <div style={{textAlign: "center"}}>
                                   <IconButton onClick={() => {
                                     const filter = selectedArray?.filter((obj, index) => obj?.id != item?.id)
                                     setSelectedArray(filter)
                                   }}><i className="fa fa-close" ></i></IconButton>
+                                  </div>
                                 </td>
                               </tr>
                             ))}
                           </tbody>
                         </table>
+                            {
+                              selectedArray?.length <= 0 && (
+                                <div style={{width: "100%", textAlign:"center", padding: "12px"}}>
+                                <p style={{margin: 0, fontWeight: 500}}>Product not selected yet.</p>
+                                </div>
+                              )
+                            }
+                        </div>
                         {selectedArray?.length > 0 && (<p>Please increase the quantity in increments of 1000 pieces for optimal order processing.</p>)}
                       </div>}
                     </div>

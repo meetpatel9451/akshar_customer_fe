@@ -1,8 +1,10 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import List from "@mui/material/List";
 import ListItem from "@mui/material/List";
 import Collapse from "@mui/material/Collapse";
 import Link from "next/link";
+import { useRouter } from 'next/router';
+import API from '../../store/api';
 
 const menus = [
     {
@@ -26,7 +28,7 @@ const menus = [
         id: 7,
         title: 'Bank Details',
         link: '/bank-details',
-        
+
     },
 
     {
@@ -73,17 +75,58 @@ const MobileMenu = () => {
     const [openId, setOpenId] = useState(0);
     const [menuActive, setMenuState] = useState(false);
 
+    const [balance, setBalance] = useState(0);
+
+    const user_id = localStorage.getItem("user_id");
+    const token = localStorage.getItem("token");
+    const router = useRouter()
+
     const ClickHandler = () => {
         window.scrollTo(10, 0);
     }
+
+    const handleLogout = (e) => {
+        router.push(`/`);
+        localStorage.removeItem("user_id");
+        localStorage.removeItem("token")
+    }
+
+    useEffect(() => {
+        if (menuActive) {
+            async function fetchData() {
+                const url = `api/v1/client/${user_id}`;
+
+                try {
+                    const response = await API.get(url);
+                    setBalance(response?.data?.data?.Ledger[0].balance)
+                    // Handle the response data here
+                } catch (error) {
+                    console.error("Error fetching data:", error);
+                    // Handle the error here
+                }
+            }
+
+            fetchData();
+        }
+
+    }, [menuActive])
+
+    console.log("balance", balance, user_id);
 
     return (
         <div className={`mobile-menu-wrap ${menuActive ? "mobile-menu-visible" : ""}`}>
             <div className="mobile-nav-toggler" onClick={() => setMenuState(!menuActive)}><span className="icon flaticon-menu"></span></div>
             <div className="mobile-menu">
                 <div className="menu-backdrop" onClick={() => setMenuState(!menuActive)}></div>
-                
-                <div className="close-btn" onClick={() => setMenuState(!menuActive)}><span className="icon flaticon-multiply"></span></div>
+                {(balance && user_id) && (
+                <div className="balance-btn" style={{background: balance.includes("-") ? 'red' : 'green'}}>
+                    <h5 style={{ color: '#fff' }}><b>{balance} ₹</b>
+                    </h5>
+                </div>)
+                }
+                <div className="close-btn" onClick={() => setMenuState(!menuActive)}>
+                    <span className="icon flaticon-multiply"></span>
+                    </div>
                 <nav className="menu-box">
                     <div className="menu-outer">
                         <ul className="navigation">
@@ -120,6 +163,13 @@ const MobileMenu = () => {
                             })}
                         </ul>
                     </div>
+                    {
+                        user_id && token && (
+                            <div style={{ margin: "20px" }}>
+                                <button type="submit" className="theme-btn btn-style-two" onClick={handleLogout}><span className="txt">Logout</span></button>
+                            </div>
+                        )
+                    }
                 </nav>
             </div>
         </div>

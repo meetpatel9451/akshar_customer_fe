@@ -8,6 +8,24 @@
 	
 }
 
+@media only screen and (max-width: 772px){
+
+	.sidebar-page-container{
+		padding:18px;	
+	}
+	.product-table{
+		margin-bottom: 30px;
+	}
+	
+}
+
+@media only screen and (max-width: 772px){
+
+	.main-header.header-style-one .search-box-btn{
+		display:none;	
+	}
+}
+
 @media only screen and (max-width: 1140px){
 	
 	.main-header{

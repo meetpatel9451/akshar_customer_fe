@@ -34,7 +34,6 @@ function MyApp({ Component, pageProps }) {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    console.log("token ", token);
     if((router.pathname == "/shop" || router.pathname == "/quotation") && !token){
       setIsAuthenticate(true)
     }else{
@@ -46,7 +45,6 @@ function MyApp({ Component, pageProps }) {
     setOpen(!open)
   }
 
- console.log("isPermitted ", isAuthenticate);
   return ( <>
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
