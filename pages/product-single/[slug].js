@@ -529,6 +529,13 @@ const ProductSinglePage = (props) => {
                               ))}
                             </tbody>
                           </table>
+                          {
+                              productList?.length <= 0 && (
+                                <div style={{width: "100%", textAlign:"center", padding: "12px"}}>
+                                <p style={{margin: 0, fontWeight: 500}}>Product not available.</p>
+                                </div>
+                              )
+                            }
                         </div>
                       </div>
 
