@@ -23,7 +23,7 @@ const Header = (props) => {
         window.scrollTo(10, 0);
     }
 
-    const [balance, setBalance] = useState([]);
+    const [balance, setBalance] = useState(null);
  console.log("balance ", balance);
 
  const user_id = localStorage.getItem("user_id");
