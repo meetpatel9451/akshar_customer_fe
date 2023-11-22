@@ -220,10 +220,12 @@ const Header = (props) => {
                                 <Link onClick={ClickHandler} href="/quotation" className="theme-btn btn-style-one"><span className="txt">hjk</span></Link>
                             </div> */}
                             {(balance && user_id) && <div className="btn-box" style={{paddingLeft: '5px', padding: '10px', borderRadius: '5px', background: balance.includes("-") ? 'red' : 'green', boxShadow:'0px 0px 25px rgba(0, 0, 0, 0.15)' }}><h5 style={{ color: '#fff'}}><b>{balance} ₹</b></h5></div>}
-                            {(user_id && token) && <div onClick={() => {
+                            {(user_id && token) ? <div onClick={() => {
                                 router.push(`/`);
                                 localStorage.removeItem("user_id");
-                                localStorage.removeItem("token")}} style={{marginLeft: '10px'}} className="search-box-btn"><span className="icon fa fa-sign-in"></span></div>}
+                                localStorage.removeItem("token")}} style={{marginLeft: '10px'}} className="search-box-btn"><span className="icon fa fa-sign-in"></span></div> :
+                                <div onClick={() => {
+                                    router.push(`/login`)}} style={{marginLeft: '10px'}} className="search-box-btn"><span className="icon fa fa-sign-out"></span></div>}
                         </div>
                     </div>
                 </div>

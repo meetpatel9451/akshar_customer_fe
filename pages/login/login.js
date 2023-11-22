@@ -50,9 +50,13 @@ const LoginPage = () => {
                     email: '',
                     password: '',
                 })
+                if(window.location.pathname == "/login"){
+                    router.push({ pathname: '/' });
+                }else{
+                    router.push({ pathname: window.location.pathname });
+                }
                 localStorage.setItem("token", response?.data?.result?.token);
                 localStorage.setItem("user_id", JSON.stringify(response?.data?.result?.id));
-                router.push({ pathname: window.location.pathname });
             }).catch((err) => {
                 setLoading(false);
                 setNotificationMsg({ status: err?.response?.data?.statusCode || 500, msg: err?.response?.data?.message || err?.message })
