@@ -352,6 +352,7 @@ const paperjobArray = {
 const ProductSinglePage = (props) => {
   const router = useRouter()
   const [notificationMsg, setNotificationMsg] = useState({})
+  const [clientData, setClientData] = useState(null);
 
   // const productsArray = api();
   // const Allproduct = productsArray;
@@ -369,6 +370,19 @@ const ProductSinglePage = (props) => {
     if (router?.query?.slug) {
       async function fetchData() {
         const user_id = localStorage.getItem("user_id");
+
+        if (user_id) {
+          const url = `/api/v1/client/${user_id}`;
+
+          try {
+            const response = await API.get(url);
+            setClientData(response?.data?.data || null)
+            // Handle the response data here
+          } catch (error) {
+            console.error("Error fetching data:", error);
+            // Handle the error here
+          }
+        }
         const url = `api/v1/product/category/${+router?.query?.slug}/client/${user_id}`;
 
         try {
@@ -420,6 +434,7 @@ const ProductSinglePage = (props) => {
         name: item?.name,
         price: getPrice(item),
         image: "",
+        height_width: item?.height_width,
         total_price: getPrice(item),
         quantity: 1,
         width: "",
@@ -441,8 +456,8 @@ const ProductSinglePage = (props) => {
       formData.append(`products[${index}][file]`, product.image);
       formData.append(`products[${index}][total_price]`, product.total_price);
       formData.append(`products[${index}][quantity]`, product.quantity);
-      formData.append(`products[${index}][width]`, product.width);
-      formData.append(`products[${index}][height]`, product.height);
+      formData.append(`products[${index}][width]`, product?.width || "");
+      formData.append(`products[${index}][height]`, product?.height || "");
     });
 
     try {
@@ -464,10 +479,30 @@ const ProductSinglePage = (props) => {
   }
 
   const getPrice = (product) => {
+    console.log("product", product, clientData?.client_category);
     if (product && product?.ClientProduct?.length) {
       return product?.ClientProduct[0]?.price
     } else {
-      return product?.price_A
+      if (clientData?.client_category == "categoty_a") {
+        return product?.price_A
+      }
+      else if (clientData?.client_category == "categoty_b") {
+        return product?.price_B
+      }
+      else if (clientData?.client_category == "categoty_c") {
+        return product?.price_C
+      }
+      else if (clientData?.client_category == "categoty_d") {
+        return product?.price_D
+      }
+      else if (clientData?.client_category == "categoty_e") {
+        return product?.price_E
+      }
+      else if (clientData?.client_category == "categoty_g") {
+        return product?.price_G
+      } else {
+        return product?.price_A
+      }
     }
   }
 
@@ -485,6 +520,21 @@ const ProductSinglePage = (props) => {
 
     // Update total_price accordingly
     tempArray[arrayIndex].total_price = Number(tempArray[arrayIndex].price) * tempArray[arrayIndex].quantity;
+
+    setSelectedArray(tempArray);
+  }
+
+  const handleChangeheightWidth = (arrayIndex) => (e) => {
+    var tempArray = [...selectedArray];
+    const heightWidth = e.target.value;
+
+    if (heightWidth) {
+      // Check if the entered value is negative, if yes, set it to zero
+      tempArray[arrayIndex][e.target.name] = heightWidth < 1 ? 1 : heightWidth;
+    } else {
+      // Check if the entered value is negative, if yes, set it to zero
+      tempArray[arrayIndex][e.target.name] = "";
+    }
 
     setSelectedArray(tempArray);
   }
@@ -510,8 +560,8 @@ const ProductSinglePage = (props) => {
                     <div className="row clearfix">
                       <div className="col-lg-4 col-md-4 col-sm-12 product-table" style={{ marginRight: "4rem" }}>
                         <div className="table-outer" style={{ border: "1px solid #d7d7d7", borderRadius: "6px", boxShadow: "0px 5px 15px rgba(0, 0, 0, 0.10)", transition: "box-shadow 0.3s ease-in-out" }}>
-                          <table className="cart-table" style={{width: "100%"}}>
-                            <thead className="cart-header" style={{borderBottom: "1px solid rgb(215, 215, 215)"}}>
+                          <table className="cart-table" style={{ width: "100%" }}>
+                            <thead className="cart-header" style={{ borderBottom: "1px solid rgb(215, 215, 215)" }}>
                               <tr>
                                 <th className="prod-column">PRODUCT</th>
                                 <th className='justify-center'>Price <sub>(1000</sub>&nbsp;<sub>pc.)</sub></th>
@@ -522,7 +572,7 @@ const ProductSinglePage = (props) => {
                             <tbody>
                               {productList?.map((item, index) => (
                                 <tr>
-                                  <td > <Box style={{ display: 'flex', justifyContent: 'center' }}>{item?.name}</Box></td>
+                                  <td > <Box style={{ display: 'flex', justifyContent: 'center', paddingLeft: "12px" }}>{item?.name}</Box></td>
                                   <td> <Box style={{ display: 'flex', justifyContent: 'center' }}>{getPrice(item)}</Box></td>
                                   <td> <Box style={{ display: 'flex', justifyContent: 'center' }}><IconButton style={{ display: 'flex', justifySelf: 'center' }} onClick={() => handleAddToCart(item)}><i className="fa fa-cart-plus" ></i></IconButton></Box></td>
                                 </tr>
@@ -530,18 +580,18 @@ const ProductSinglePage = (props) => {
                             </tbody>
                           </table>
                           {
-                              productList?.length <= 0 && (
-                                <div style={{width: "100%", textAlign:"center", padding: "12px"}}>
-                                <p style={{margin: 0, fontWeight: 500}}>Product not available.</p>
-                                </div>
-                              )
-                            }
+                            productList?.length <= 0 && (
+                              <div style={{ width: "100%", textAlign: "center", padding: "12px" }}>
+                                <p style={{ margin: 0, fontWeight: 500 }}>Product not available.</p>
+                              </div>
+                            )
+                          }
                         </div>
                       </div>
 
                       {(router.query.slug == "sticker" || router.query.slug == "sq-inch-job") ? <div className="col-lg-7 col-md-7 col-sm-12">
-                        <table className="cart-table" style={{width: "100%"}}>
-                          <thead className="cart-header" style={{borderBottom: "1px solid rgb(215, 215, 215)"}}>
+                        <table className="cart-table" style={{ width: "100%" }}>
+                          <thead className="cart-header" style={{ borderBottom: "1px solid rgb(215, 215, 215)" }}>
                             <tr>
                               <th >PRODUCT</th>
                               <th >Price</th>
@@ -592,64 +642,102 @@ const ProductSinglePage = (props) => {
                           </tbody>
                         </table>
                       </div> : <div className="col-lg-7 col-md-7 col-sm-12">
-                      <div className="table-outer" style={{border: "1px solid #d7d7d7",  borderRadius: "6px", boxShadow: "0px 5px 15px rgba(0, 0, 0, 0.10)", transition: "box-shadow 0.3s ease-in-out"}}>
-                        <table className="cart-table" style={{width: "100%"}}>
-                          <thead className="cart-header" style={{borderBottom: "1px solid rgb(215, 215, 215)"}}>
-                            <tr>
-                              <th >PRODUCT</th>
-                              <th >Price</th>
-                              <th >Quantity</th>
-                              <th >Total Price</th>
-                              <th >Image Upload</th>
-                              <th >Remove</th>
-                            </tr>
-                          </thead>
-
-                          <tbody>
-                            {selectedArray.map((item, arrayIndex) => (
-
+                        <div className="table-outer" style={{ border: "1px solid #d7d7d7", borderRadius: "6px", boxShadow: "0px 5px 15px rgba(0, 0, 0, 0.10)", transition: "box-shadow 0.3s ease-in-out" }}>
+                          <table className="cart-table" style={{ width: "100%" }}>
+                            <thead className="cart-header" style={{ borderBottom: "1px solid rgb(215, 215, 215)" }}>
                               <tr>
-                                <td> <Box style={{ display: 'flex', justifyContent: 'center' }}>{item?.name}</Box></td>
-                                <td ><Box style={{ display: 'flex', justifyContent: 'center' }}> {item?.price}</Box></td>
-                                <td >
-                                  <div style={{textAlign: "center"}}>
-                                    <TextField size='small' type="number" name="quantity" value={item?.quantity}
-                                      // onBlur={(e) => {
-                                      //   if ((e.target.value % 1000) === 0) {
-                                      //     console.log("Valid")
-                                      //   } else {
-                                      //     console.log("invalid ");
-                                      //     setOpen(true);
-                                      //   }
-                                      // }}
-                                      style={{maxWidth: "90px"}}
-                                      onChange={handleChangeQuantity(arrayIndex)} placeholder="Enter Quantity" />
-                                  </div></td>
-                                <td> <Box style={{ display: 'flex', justifyContent: 'center' }}>{item?.total_price}</Box></td>
-                                <td ><input type="file" style={{maxWidth: "180px"}} id="imageUpload" name="imageUpload" accept="application/cdr" onChange={(e) => {
-                                  let tempArray = [...selectedArray];
-                                  tempArray[arrayIndex].image = e.target.files[0];
-                                  setSelectedArray(tempArray);
-                                }} /></td>
-                                <td>
-                                  <div style={{textAlign: "center"}}>
-                                  <IconButton onClick={() => {
-                                    const filter = selectedArray?.filter((obj, index) => obj?.id != item?.id)
-                                    setSelectedArray(filter)
-                                  }}><i className="fa fa-close" ></i></IconButton>
-                                  </div>
-                                </td>
+                                <th >PRODUCT</th>
+                                <th >Price</th>
+                                <th >Quantity</th>
+                                <th >Height</th>
+                                <th >Width</th>
+                                <th >Total Price</th>
+                                <th >Image Upload</th>
+                                <th >Remove</th>
                               </tr>
-                            ))}
-                          </tbody>
-                        </table>
-                            {
-                              selectedArray?.length <= 0 && (
-                                <div style={{width: "100%", textAlign:"center", padding: "12px"}}>
-                                <p style={{margin: 0, fontWeight: 500}}>Product not selected yet.</p>
-                                </div>
-                              )
-                            }
+                            </thead>
+
+                            <tbody>
+                              {selectedArray.map((item, arrayIndex) => (
+
+                                <tr>
+                                  <td> <Box style={{ display: 'flex', justifyContent: 'center', paddingLeft: "12px" }}>{item?.name}</Box></td>
+                                  <td ><Box style={{ display: 'flex', justifyContent: 'center' }}> {item?.price}</Box></td>
+                                  <td >
+                                    <div style={{ textAlign: "center" }}>
+                                      <TextField size='small' type="number" name="quantity" value={item?.quantity}
+                                        // onBlur={(e) => {
+                                        //   if ((e.target.value % 1000) === 0) {
+                                        //     console.log("Valid")
+                                        //   } else {
+                                        //     console.log("invalid ");
+                                        //     setOpen(true);
+                                        //   }
+                                        // }}
+                                        style={{ maxWidth: "90px" }}
+                                        onChange={handleChangeQuantity(arrayIndex)} placeholder="Enter Quantity" />
+                                    </div>
+                                  </td>
+                                  {
+                                    item?.height_width == "yes" ? (
+                                      <>
+                                      <td >
+                                        <div style={{ textAlign: "center" }}>
+                                          <TextField
+                                            size='small'
+                                            type="number"
+                                            name="height"
+                                            value={item?.height}
+                                            style={{ maxWidth: "100px" }}
+                                            onChange={handleChangeheightWidth(arrayIndex)}
+                                            placeholder="Height" />
+                                        </div>
+                                      </td>
+                                      <td >
+                                        <div style={{ textAlign: "center" }}>
+                                          <TextField
+                                            size='small'
+                                            type="number"
+                                            name="width"
+                                            value={item?.width}
+                                            style={{ maxWidth: "100px" }}
+                                            onChange={handleChangeheightWidth(arrayIndex)}
+                                            placeholder="Width" />
+                                        </div>
+                                      </td>
+                                      </>
+                                    ) : (
+                                      <>
+                                        <td><Box style={{ display: 'flex', justifyContent: 'center' }}>-</Box></td> 
+                                        <td><Box style={{ display: 'flex', justifyContent: 'center' }}>-</Box></td> 
+                                      </>
+                                    )
+                                  }
+                                  <td> <Box style={{ display: 'flex', justifyContent: 'center' }}>{item?.total_price}</Box></td>
+                                  <td ><input type="file" style={{ maxWidth: "180px" }} id="imageUpload" name="imageUpload" accept="application/cdr" onChange={(e) => {
+                                    let tempArray = [...selectedArray];
+                                    tempArray[arrayIndex].image = e.target.files[0];
+                                    setSelectedArray(tempArray);
+                                  }} /></td>
+                                  <td>
+                                    <div style={{ textAlign: "center" }}>
+                                      <IconButton onClick={() => {
+                                        const filter = selectedArray?.filter((obj, index) => obj?.id != item?.id)
+                                        setSelectedArray(filter)
+                                      }}><i className="fa fa-close" ></i></IconButton>
+                                    </div>
+                                  </td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                          {
+                            selectedArray?.length <= 0 && (
+                              <div style={{ width: "100%", textAlign: "center", padding: "12px" }}>
+                                <p style={{ margin: 0, fontWeight: 500 }}>Product not selected yet.</p>
+                              </div>
+                            )
+                          }
                         </div>
                         {selectedArray?.length > 0 && (<p>Please increase the quantity in increments of 1000 pieces for optimal order processing.</p>)}
                       </div>}
