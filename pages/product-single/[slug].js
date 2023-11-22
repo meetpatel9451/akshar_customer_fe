@@ -519,7 +519,7 @@ const ProductSinglePage = (props) => {
     }
 
     // Update total_price accordingly
-    tempArray[arrayIndex].total_price = Number(tempArray[arrayIndex].price) * tempArray[arrayIndex].quantity;
+    tempArray[arrayIndex].total_price = Number(tempArray[arrayIndex].price) * tempArray[arrayIndex].quantity * Number(tempArray[arrayIndex].height) * Number(tempArray[arrayIndex].width);
 
     setSelectedArray(tempArray);
   }
@@ -535,6 +535,9 @@ const ProductSinglePage = (props) => {
       // Check if the entered value is negative, if yes, set it to zero
       tempArray[arrayIndex][e.target.name] = "";
     }
+
+    // Update total_price accordingly
+    tempArray[arrayIndex].total_price = Number(tempArray[arrayIndex].price) * tempArray[arrayIndex].quantity * Number(tempArray[arrayIndex].height) * Number(tempArray[arrayIndex].width)
 
     setSelectedArray(tempArray);
   }
