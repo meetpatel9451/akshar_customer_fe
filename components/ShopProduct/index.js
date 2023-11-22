@@ -67,7 +67,7 @@ const ShopProduct = ({ products, addToCartProduct, addToWishListProduct }) => {
 
                                 {productsList?.length > 0 &&
                                     productsList?.slice(0, 9).map((product, pitem) => (
-                                        <div className="shop-item col-lg-4 col-md-6 col-sm-6 col-xs-12" key={pitem}>
+                                        <div className="shop-item col-lg-2 col-md-3 col-sm-6 col-xs-12" key={pitem}>
                                             <div className="inner-box">
                                                 <div className="image">
                                                     <img src={product?.category_image} alt="" />
