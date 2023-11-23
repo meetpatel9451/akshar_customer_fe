@@ -523,7 +523,7 @@ const ProductSinglePage = (props) => {
     if(tempArray[arrayIndex].height && tempArray[arrayIndex].width){
       tempArray[arrayIndex].total_price = Number(tempArray[arrayIndex].price) * tempArray[arrayIndex].quantity * Number(tempArray[arrayIndex].height) * Number(tempArray[arrayIndex].width);
       }else {
-        tempArray[arrayIndex].total_price = Number(tempArray[arrayIndex].price) * tempArray[arrayIndex].quantity  
+        tempArray[arrayIndex].total_price = Number(tempArray[arrayIndex].price) * tempArray[arrayIndex].quantity
       }
     setSelectedArray(tempArray);
   }
