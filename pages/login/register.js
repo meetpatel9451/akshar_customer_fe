@@ -9,6 +9,7 @@ import axios from 'axios';
 import API from '../../store/api';
 import LoginPage from './login';
 import { Alert, Box, Snackbar } from '@mui/material';
+import { useEffect } from 'react';
 
 const RegisterPage = () => {
     const router = useRouter();
@@ -22,6 +23,10 @@ const RegisterPage = () => {
     });
     const [loading, setLoading] = useState(false);
     const [notificationMsg, setNotificationMsg] = useState({})
+    const [showPassword, setShowPassword] = useState(true);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(true);
+    const [states, setStates] = useState([])
+  const [cities, setCities] = useState([])
 
     const [registerValidator] = useState(new SimpleReactValidator({
         className: 'errorMessage'
@@ -29,6 +34,10 @@ const RegisterPage = () => {
 
     const changeREgisterHandler = e => {
         setRegisterForms({ ...registerForms, [e.target.name]: e.target.value })
+        if(e.target.name == "state"){
+ console.log("e.target.name ", e.target.name);
+            handledCitiesData(e.target.value)
+        }
         if (registerValidator.allValid()) {
             registerValidator.hideMessages();
         } else {
@@ -39,6 +48,49 @@ const RegisterPage = () => {
     const onClose = () => {
         setNotificationMsg({})
     }
+
+    useEffect(() =>{
+
+        var config = {
+          method: 'post',
+          url: 'https://countriesnow.space/api/v0.1/countries/states',
+          data: {
+            country: "India"
+          },
+        };
+        
+        axios(config).then(function (response) {
+        console.log("response ", response);
+          setStates(response.data.data.states)
+          console.log(JSON.stringify(response.data));
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+      },[])
+    
+    
+      const handledCitiesData = (state) => {
+     console.log("state ", state);
+     var config = {
+      method: 'post',
+      url: 'https://countriesnow.space/api/v0.1/countries/state/cities',
+      data: {
+        country: "India",
+        state: state
+      },
+    
+    };
+    
+    axios(config).then(function (response) {
+    console.log("response ", response.data.data);
+    setCities(response.data.data)
+      console.log(JSON.stringify(response.data));
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+      }
 
     const SubmitRegisterHandler = async (e) => {
         e.preventDefault();
@@ -112,6 +164,7 @@ const RegisterPage = () => {
                     {registerValidator.message('email', registerForms.email, 'required')}
                 </div>
                 <div className="form-group">
+                    
                     <span className="adon-icon"><span className="fa fa-envelope-o"></span></span>
                     <input type="text" name="username" placeholder="Username*" value={registerForms.username}
                         onBlur={(e) => changeREgisterHandler(e)}
@@ -119,21 +172,21 @@ const RegisterPage = () => {
                     {registerValidator.message('username', registerForms.username, 'required')}
                 </div>
                 <div className="form-group">
-                    <span className="adon-icon"><span className="fa fa-unlock-alt"></span></span>
-                    <input type="password" name="password" placeholder="Enter Password" value={registerForms.password}
+                    <span className="adon-icon" onClick={() => setShowPassword(!showPassword)}><span className={showPassword ? "fa fa-eye": "fa fa-eye-slash" }></span></span>
+                    <input type={showPassword ? "password" : "text"}  name="password" placeholder="Enter Password" value={registerForms.password}
                         onBlur={(e) => changeREgisterHandler(e)}
                         onChange={(e) => changeREgisterHandler(e)} />
                     {registerValidator.message('password', registerForms.password, 'required')}
                 </div>
                 <div className="form-group">
-                    <span className="adon-icon"><span className="fa fa-unlock-alt"></span></span>
-                    <input type="password" name="confirm_password" placeholder="Enter Confirm Password" value={registerForms.confirm_password}
+                    <span className="adon-icon" onClick={() => setShowConfirmPassword(!showConfirmPassword)}><span className={showConfirmPassword ? "fa fa-eye": "fa fa-eye-slash" }></span></span>
+                    <input type={showConfirmPassword ? "password" : "text"}  name="confirm_password" placeholder="Enter Confirm Password" value={registerForms.confirm_password}
                         onBlur={(e) => changeREgisterHandler(e)}
                         onChange={(e) => changeREgisterHandler(e)} />
                     {registerValidator.message('confirm_password', registerForms.confirm_password, 'required')}
                 </div>
                 <div className="form-group">
-                    <span className="adon-icon"><span className="fa fa-unlock-alt"></span></span>
+                    <span className="adon-icon"><span className="fa fa-home"></span></span>
                     <textarea
                         type="text"
                         name="address"
@@ -144,36 +197,47 @@ const RegisterPage = () => {
                     {registerValidator.message('address', registerForms.address, 'required')}
                 </div>
                 <div className="form-group">
-                    <span className="adon-icon"><span className="fa fa-envelope-o"></span></span>
-                    <input type="text" name="city" placeholder="City*" value={registerForms.city}
+                    <select name="state" id="state" onChange={(e) => changeREgisterHandler(e)} >
+                        {states?.map((item) => (
+                            <option value={item?.name}>{item?.name}</option>
+                        ))}
+                        {/* // <option value="out_gujarat">Out Gujarat</option> */}
+                    </select>
+                </div>
+                <div className="form-group">
+                    {/* <span className="adon-icon"><span className="fa fa-envelope-o"></span></span> */}
+                    <select  name="city" placeholder="City*" value={registerForms.city}
                         onBlur={(e) => changeREgisterHandler(e)}
-                        onChange={(e) => changeREgisterHandler(e)} />
+                        onChange={(e) => changeREgisterHandler(e)} >
+                          {cities?.map((item) => (
+                            <option value={item}>{item}</option>
+                        ))}   
+                    </select> 
                     {registerValidator.message('city', registerForms.city, 'required')}
                 </div>
                 <div className="form-group">
-                    <span className="adon-icon"><span className="fa fa-envelope-o"></span></span>
+                    {/* <span className="adon-icon"><span className="fa fa-envelope-o"></span></span> */}
                     <input type="text" name="pincode" placeholder="Pincode*" value={registerForms.pincode}
                         onBlur={(e) => changeREgisterHandler(e)}
                         onChange={(e) => changeREgisterHandler(e)} />
                     {registerValidator.message('pincode', registerForms.pincode, 'required')}
                 </div>
                 <div className="form-group">
-                    <span className="adon-icon"><span className="fa fa-envelope-o"></span></span>
+                    <span className="adon-icon"><span className="fa fa-phone"></span></span>
                     <input type="text" name="contact_number" placeholder="Contact Number*" value={registerForms.contact_number}
                         onBlur={(e) => changeREgisterHandler(e)}
                         onChange={(e) => changeREgisterHandler(e)} />
                     {registerValidator.message('contact_number', registerForms.contact_number, 'required')}
                 </div>
                 <div className="form-group">
-                    <span className="adon-icon"><span className="fa fa-envelope-o"></span></span>
+                    {/* <span className="adon-icon"><span className="fa fa-envelope-o"></span></span> */}
                     <input type="text" name="tin_number" placeholder="Tin number(if you have)" onChange={(e) => changeREgisterHandler(e)} />
                 </div>
                 <div className="form-group">
-                    <span className="adon-icon"><span className="fa fa-envelope-o"></span></span>
+                    {/* <span className="adon-icon"><span className="fa fa-envelope-o"></span></span> */}
                     <input type="text" name="gst_number" placeholder="Gst number(if you have)" onChange={(e) => changeREgisterHandler(e)} />
                 </div>
                 <div className="form-group">
-                    <span className="adon-icon"><span className="fa fa-envelope-o"></span></span>
                     <select name="state" id="state" onChange={(e) => changeREgisterHandler(e)} >
                         <option value="in_gujarat">In Gujarat</option>
                         <option value="out_gujarat">Out Gujarat</option>
