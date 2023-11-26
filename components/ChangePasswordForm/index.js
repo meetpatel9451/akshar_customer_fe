@@ -16,6 +16,8 @@ const ChangePasswordForm = () => {
     const [notMatch, setNotMatch] = useState(false);
     const [loading, setLoading] = useState(false);
     const [notificationMsg, setNotificationMsg] = useState({})
+    const [showPassword, setShowPassword] = useState(true);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(true);
     const changeHandler = (e) => {
         setForms({ ...forms, [e.target.name]: e.target.value })
         if (validator.allValid()) {

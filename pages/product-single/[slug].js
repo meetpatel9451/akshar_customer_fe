@@ -9,7 +9,7 @@ import Product from './product'
 import api from "../../api";
 import Footer from '../../components/footer/Footer';
 import ProductTabs from './alltab';
-import { Alert, Box, IconButton, Snackbar, TextField, Typography } from '@mui/material';
+import { Alert, Box, FormHelperText, IconButton, Snackbar, TextField, Typography } from '@mui/material';
 import API from '../../store/api';
 
 const visitingCardArray = {
@@ -354,6 +354,12 @@ const ProductSinglePage = (props) => {
   const [notificationMsg, setNotificationMsg] = useState({})
   const [clientData, setClientData] = useState(null);
 
+  const [error, setError] = useState({quantity: [], height: [], width: []});
+  const [errorQuantity, setErrorQuantity] = useState([]);
+  const [errorHeight, setErrorHeight] = useState([]);
+  const [errorWidth, setErrorWidth] = useState([]);
+ console.log("error ", error);
+
   // const productsArray = api();
   // const Allproduct = productsArray;
 
@@ -444,12 +450,32 @@ const ProductSinglePage = (props) => {
   }
 
   const handleProceedToCheckout = async () => {
+
     const user_id = localStorage.getItem("user_id");
     const url = `api/v1/order/client/${user_id}`;
 
     const formData = new FormData();
-
+    const tempError = error;
     selectedArray.forEach((product, index) => {
+ console.log("product==> ", product);
+      if(!errorQuantity?.includes(index) && !product.quantity){
+        setErrorQuantity([...errorQuantity, index])
+      }
+      if(!errorHeight?.includes(index) && !product.height && product?.height_width == "yes"){
+        setErrorWidth([...errorHeight, index])
+      }
+      if(!errorWidth?.includes(index) && !product.width && product?.height_width == "yes"){
+        setErrorHeight([...errorHeight, index])
+      }
+      // tempError["quantity"] = [...tempError["quantity"], index];
+      // if(!product.width){
+      // tempError["width"] = [...tempError["width"], index];
+      // }
+      // if(!product.height){
+      // tempError["height"] = [...tempError["height"], index];
+      // }
+      
+      
       formData.append(`products[${index}][product_id]`, product.product_id);
       formData.append(`products[${index}][name]`, product.name);
       formData.append(`products[${index}][price]`, product.price);
@@ -459,22 +485,25 @@ const ProductSinglePage = (props) => {
       formData.append(`products[${index}][width]`, product?.width || "");
       formData.append(`products[${index}][height]`, product?.height || "");
     });
-
-    try {
-      const response = await API.post(url, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      }).then((val) => {
-        setNotificationMsg({ status: 200, msg: "Order Submitted Sucessfully!" })
-      }).catch((err) => {
-        setNotificationMsg({ status: err?.response?.data?.statusCode || 500, msg: err?.response?.data?.message || err?.message })
-      });
-      // setProductList(response?.data?.data?.items)
-      // Handle the response data here
-    } catch (error) {
-      console.error("Error fetching data:", error);
-      // Handle the error here
+    setError(tempError);
+    console.log("errorQuantity ", errorQuantity, errorHeight, errorWidth);
+    if(!errorQuantity?.length && !errorHeight?.length && !errorWidth?.length){
+      try {
+        const response = await API.post(url, formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        }).then((val) => {
+          setNotificationMsg({ status: 200, msg: "Order Submitted Sucessfully!" })
+        }).catch((err) => {
+          setNotificationMsg({ status: err?.response?.data?.statusCode || 500, msg: err?.response?.data?.message || err?.message })
+        });
+        // setProductList(response?.data?.data?.items)
+        // Handle the response data here
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        // Handle the error here
+      }
     }
   }
 
@@ -529,6 +558,7 @@ const ProductSinglePage = (props) => {
   }
 
   const handleChangeheightWidth = (arrayIndex) => (e) => {
+ console.log("handleChangeheightWidth ", );
     var tempArray = [...selectedArray];
     const heightWidth = e.target.value;
 
@@ -545,6 +575,83 @@ const ProductSinglePage = (props) => {
 
     setSelectedArray(tempArray);
   }
+
+  const handleOnBlurQuantity = (e, index) => {
+    if(errorQuantity?.includes(index) ){
+      if(e.target.value){
+        const filter = errorQuantity?.filter((item) => item != index)
+        setErrorQuantity(filter)
+      }
+    }else {
+      if(!(e.target.value)){
+        setErrorQuantity([...errorQuantity, index])
+      }
+    }
+  }
+
+  const handleOnBlurHeight = (e, index) => {
+    if(errorHeight?.includes(index) ){
+      if(((e.target.value) % 0.25) == 0){
+        const filter = errorHeight?.filter((item) => item != index)
+        setErrorHeight(filter)
+      }
+    }else {
+      if(((e.target.value) % 0.25) != 0 || (e.target.value == 0)){
+        setErrorHeight([...errorHeight, index])
+      }
+    }
+  }
+
+
+  const handleOnBlurWidth = (e, index) => {
+ console.log("handleOnBlurWidth ");
+    if(errorWidth?.includes(index) ){
+      if(((e.target.value) % 0.25) == 0){
+        const filter = errorWidth?.filter((item) => item != index)
+        setErrorWidth(filter)
+      }
+    }else {
+      if(((e.target.value) % 0.25) != 0  || (e.target.value == 0)){
+        setErrorWidth([...errorWidth, index])
+      }
+    }
+  }
+
+
+  const handleOnBlur = (e, index) => {
+    let tempError = error;
+//  console.log("tempError ", tempError);
+    // console.log("tempError[e.target.name]?.includes(index) ", tempError[e.target.name]);
+    if(!tempError[e.target.name]?.includes(index)){
+      if(!(e.target.value)){
+        console.log("if");
+        const name = tempError[e.target.name]
+        tempError[e.target.name] = [...name, index]
+      }
+      // else{
+      //   console.log("else", tempError[e.target.name]);
+      //   const name = tempError[e.target.name]
+      //   tempError[e.target.name] = tempError[e.target.name]?.filter((item) => item != index);
+      // }
+    }
+    else{
+      console.log("else", tempError[e.target.name]);
+      if(e.target.value){
+        const name = tempError[e.target.name]
+        tempError[e.target.name] = name?.filter((item) => item != index);
+      }
+    }
+    console.log("tempError ", tempError);
+    setError(tempError);
+    // else{
+      // }
+    }
+    useEffect(() => {
+      console.log("error==> ", error);
+
+    },[error])
+
+ console.log("error.height.includes(arrayIndex) ", error.height.includes(0));
 
   return (
     <Fragment>
@@ -618,7 +725,7 @@ const ProductSinglePage = (props) => {
                                 <td>  {item?.name}</td>
                                 <td><b>{item?.price}</b></td>
                                 <td><div>
-                                  <input type="number" name="code" value={item?.quantity} onChange={(e) => handleOnQuantity(e, arrayIndex)} placeholder="Enter Quantity" />
+                                  <input type="number" name="code" value={item?.quantity} onBlur={() => console.log("bjhjbjbjh")} onChange={(e) => handleOnQuantity(e, arrayIndex)} placeholder="Enter Quantity" />
                                 </div></td>
                                 <td ><input type="number" name="code" value={item?.height} onChange={(e) => {
                                   var tempArray = [...selectedArray];
@@ -673,6 +780,7 @@ const ProductSinglePage = (props) => {
                                   <td >
                                     <div style={{ textAlign: "center" }}>
                                       <TextField size='small' type="number" name="quantity" value={item?.quantity}
+                                      onBlur={(e) => handleOnBlurQuantity(e, arrayIndex)} 
                                         // onBlur={(e) => {
                                         //   if ((e.target.value % 1000) === 0) {
                                         //     console.log("Valid")
@@ -682,7 +790,10 @@ const ProductSinglePage = (props) => {
                                         //   }
                                         // }}
                                         style={{ maxWidth: "90px" }}
-                                        onChange={handleChangeQuantity(arrayIndex)} placeholder="Enter Quantity" />
+                                        onChange={handleChangeQuantity(arrayIndex)} placeholder="Enter Quantity"
+                                        error={errorQuantity?.length > 0 && errorQuantity.includes(arrayIndex)}
+                                         />
+                                        { errorQuantity?.length > 0 && errorQuantity.includes(arrayIndex) && (<FormHelperText error>{"Please Enter Quantity"}</FormHelperText>)}
                                     </div>
                                   </td>
                                   {
@@ -693,11 +804,15 @@ const ProductSinglePage = (props) => {
                                           <TextField
                                             size='small'
                                             type="number"
+                                            InputProps={{ inputProps: { min: 0, step: "0.25" } }}
                                             name="height"
                                             value={item?.height}
                                             style={{ maxWidth: "100px" }}
+                                            onBlur={(e) => handleOnBlurHeight(e, arrayIndex)}
                                             onChange={handleChangeheightWidth(arrayIndex)}
+                                            error={errorHeight?.length > 0 && errorHeight.includes(arrayIndex)}
                                             placeholder="Height" />
+                                            {errorHeight?.length > 0 && errorHeight.includes(arrayIndex) && (<FormHelperText error>{item?.height ? "Width multiply by 0.25" : "Please Enter Height"}</FormHelperText>)}
                                         </div>
                                       </td>
                                       <td >
@@ -706,10 +821,14 @@ const ProductSinglePage = (props) => {
                                             size='small'
                                             type="number"
                                             name="width"
+                                            InputProps={{ inputProps: { min: 0, step: "0.25" } }}
                                             value={item?.width}
+                                            onBlur={(e) => handleOnBlurWidth(e, arrayIndex)}
                                             style={{ maxWidth: "100px" }}
                                             onChange={handleChangeheightWidth(arrayIndex)}
+                                            error={(errorWidth?.length > 0) && errorWidth.includes(arrayIndex)}
                                             placeholder="Width" />
+                                            {(errorWidth?.length > 0) && errorWidth.includes(arrayIndex) && (<FormHelperText error>{item?.width ? "Width multiply by 0.25" : "Please Enter Width"}</FormHelperText>)}
                                         </div>
                                       </td>
                                       </>
@@ -751,7 +870,9 @@ const ProductSinglePage = (props) => {
                     </div>
                     {/* </div> */}
                   </div>
-                  <div className="p-5 text-right" style={{ display: 'flex', justifyContent: 'flex-end' }}><button type="submit" className="theme-btn btn-style-two" onClick={handleProceedToCheckout}><span className="txt">Proceed to Checkout</span></button></div>
+                  <div className="p-5 text-right" style={{ display: 'flex', justifyContent: 'flex-end' }}><button type="submit" className="theme-btn btn-style-two" 
+                  onClick={handleProceedToCheckout}
+                  ><span className="txt">Proceed to Checkout</span></button></div>
                 </div>
 
                 {/* <ProductTabs /> */}

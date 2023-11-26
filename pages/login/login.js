@@ -21,6 +21,7 @@ const LoginPage = () => {
     }));
     const [loading, setLoading] = useState(false);
     const [notificationMsg, setNotificationMsg] = useState({})
+    const [showPassword, setShowPassword] = useState(true);
 
     const changeHandler = e => {
         console.log("changeHandler ", changeHandler);
@@ -86,8 +87,8 @@ const LoginPage = () => {
 
                 </div>
                 <div className="form-group">
-                    <span className="adon-icon"><span className="fa fa-unlock-alt"></span></span>
-                    <input type="password" name="password" placeholder="Enter Password"
+                    <span className="adon-icon" onClick={() => setShowPassword(!showPassword)}><span className={showPassword ? "fa fa-eye": "fa fa-eye-slash" }></span></span>
+                    <input type={showPassword ? "password" : "text"} name="password" placeholder="Enter Password"
                         // onBlur={(e) => changeHandler(e)}
                         onChange={(e) => changeHandler(e)} />
                     {validator.message('password', forms.password, 'required')}
