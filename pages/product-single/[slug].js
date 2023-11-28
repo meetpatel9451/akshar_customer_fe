@@ -358,6 +358,7 @@ const ProductSinglePage = (props) => {
   const [errorQuantity, setErrorQuantity] = useState([]);
   const [errorHeight, setErrorHeight] = useState([]);
   const [errorWidth, setErrorWidth] = useState([]);
+  const [errorImage, setErrorImage] = useState([]);
  console.log("error ", error);
 
   // const productsArray = api();
@@ -456,17 +457,31 @@ const ProductSinglePage = (props) => {
 
     const formData = new FormData();
     const tempError = error;
+    let quamtityErr = [];
+    let heightErr = [];
+    let widthErr = [];
+    let imageErr = [];
+   
     selectedArray.forEach((product, index) => {
- console.log("product==> ", product);
-      if(!errorQuantity?.includes(index) && !product.quantity){
-        setErrorQuantity([...errorQuantity, index])
+ console.log("product==> ", !errorHeight?.includes(index), !product.height, index);
+      if(!product.quantity){
+        quamtityErr = [...quamtityErr, index]
+        // setErrorQuantity([...errorQuantity, index])
       }
-      if(!errorHeight?.includes(index) && !product.height && product?.height_width == "yes"){
-        setErrorWidth([...errorHeight, index])
+      if(!product.height && product?.height_width == "yes"){
+        heightErr = [...heightErr, index]
+        // setErrorWidth([...errorHeight, index])
       }
-      if(!errorWidth?.includes(index) && !product.width && product?.height_width == "yes"){
-        setErrorHeight([...errorHeight, index])
+      if(!product.width && product?.height_width == "yes"){
+        widthErr = [...widthErr, index]
+        // setErrorHeight([...errorWidth, index])
       }
+
+      if(!product.image){
+        imageErr = [...imageErr, index]
+        // setErrorImage([...errorImage, index])
+      }
+
       // tempError["quantity"] = [...tempError["quantity"], index];
       // if(!product.width){
       // tempError["width"] = [...tempError["width"], index];
@@ -485,9 +500,14 @@ const ProductSinglePage = (props) => {
       formData.append(`products[${index}][width]`, product?.width || "");
       formData.append(`products[${index}][height]`, product?.height || "");
     });
+    setErrorQuantity(quamtityErr)
+    setErrorHeight(heightErr);
+    setErrorWidth(widthErr)
+    setErrorImage(imageErr)
+    console.log("quamtityErr ", quamtityErr, heightErr, widthErr, imageErr);
     setError(tempError);
     console.log("errorQuantity ", errorQuantity, errorHeight, errorWidth);
-    if(!errorQuantity?.length && !errorHeight?.length && !errorWidth?.length){
+    if(!errorQuantity?.length && !errorHeight?.length && !errorWidth?.length && !errorImage?.length ){
       try {
         const response = await API.post(url, formData, {
           headers: {
@@ -590,13 +610,15 @@ const ProductSinglePage = (props) => {
   }
 
   const handleOnBlurHeight = (e, index) => {
+ console.log("e, index ", !e.target.value,((e.target.value) % 0.25) == 0,  index);
+ console.log("errorHeight ", errorHeight);
     if(errorHeight?.includes(index) ){
-      if(((e.target.value) % 0.25) == 0){
+      if(((e.target.value) % 0.25) == 0 && e.target.value > 0){
         const filter = errorHeight?.filter((item) => item != index)
         setErrorHeight(filter)
       }
     }else {
-      if(((e.target.value) % 0.25) != 0 || (e.target.value == 0)){
+      if(((e.target.value) % 0.25) != 0 || (!e.target.value)){
         setErrorHeight([...errorHeight, index])
       }
     }
@@ -606,12 +628,12 @@ const ProductSinglePage = (props) => {
   const handleOnBlurWidth = (e, index) => {
  console.log("handleOnBlurWidth ");
     if(errorWidth?.includes(index) ){
-      if(((e.target.value) % 0.25) == 0){
+      if(((e.target.value) % 0.25) == 0 && e.target.value > 0){
         const filter = errorWidth?.filter((item) => item != index)
         setErrorWidth(filter)
       }
     }else {
-      if(((e.target.value) % 0.25) != 0  || (e.target.value == 0)){
+      if(((e.target.value) % 0.25) != 0  || (!e.target.value)){
         setErrorWidth([...errorWidth, index])
       }
     }
@@ -844,7 +866,10 @@ const ProductSinglePage = (props) => {
                                     let tempArray = [...selectedArray];
                                     tempArray[arrayIndex].image = e.target.files[0];
                                     setSelectedArray(tempArray);
-                                  }} /></td>
+                                  }} />
+                                   {errorImage?.length > 0 && errorImage.includes(arrayIndex) && (<FormHelperText error>{"Please Enter Images"}</FormHelperText>)}
+
+                                  </td>
                                   <td>
                                     <div style={{ textAlign: "center" }}>
                                       <IconButton onClick={() => {
