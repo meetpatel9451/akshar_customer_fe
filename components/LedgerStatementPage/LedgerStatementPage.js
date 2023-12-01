@@ -21,7 +21,6 @@ const LedgerStatementPage = () => {
     },[]);
 
     const getChip = (status) => {
- console.log("status ", status);
         if (status.toLowerCase() == "approved") {
             return(
                 <Chip label={status} color='success'/>
@@ -34,6 +33,20 @@ const LedgerStatementPage = () => {
             return(
                 <Chip label={"Pending"} color='primary'/>
             )
+        }
+    }
+
+    const getReceiptUrl = (ledger) => {
+        if (ledger?.receipt_url) {
+            return (
+                <Button onClick={() => window.location.href = ledger?.receipt_url}>View</Button>
+            )
+        } else if (ledger?.acEntry?.receipt_img) {
+            return (
+                <Button onClick={() => window.location.href = ledger?.acEntry?.receipt_img}>View</Button>
+            )
+        } else {
+            return "-";
         }
     }
 
@@ -74,7 +87,7 @@ const LedgerStatementPage = () => {
                                                 <td style={{textAlign: "center", paddingLeft: 0}}>{ledger?.debit || ""}</td>
                                                 <td style={{textAlign: "center", paddingLeft: 0}}>{ledger?.credit || ""}</td>
                                                 <td style={{textAlign: "center", paddingLeft: 0}}>{+ledger?.balance || ""}</td>
-                                                <td style={{textAlign: "center", paddingLeft: 0}}>{ledger?.acEntry?.receipt_img ? <Button onClick={() => window.location.href = ledger?.acEntry?.receipt_img}>View</Button> : "-"}</td>
+                                                <td style={{textAlign: "center", paddingLeft: 0}}>{getReceiptUrl(ledger)}</td>
                                                 <td style={{textAlign: "center", paddingLeft: 0}}>{ledger?.acEntry?.status ? getChip(ledger?.acEntry?.status || "") : "-"}</td>
                                                 {/* <td className="sub-total">${history.}</td> */}
                                             </tr>

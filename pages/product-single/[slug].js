@@ -508,7 +508,6 @@ const ProductSinglePage = (props) => {
   }
 
   const getPrice = (product) => {
-    console.log("product", product, clientData?.client_category);
     if (product && product?.ClientProduct?.length) {
       return product?.ClientProduct[0]?.price
     } else {
