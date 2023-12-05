@@ -1,14 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Link from 'next/link'
 import Slider from "react-slick";
-import hero5 from '/public/images/main-slider/banner_gif.gif'
-import icon1 from '/public/images/main-slider/icon-1.svg'
-import icon2 from '/public/images/main-slider/icon-2.svg'
-import icon3 from '/public/images/main-slider/icon-3.svg'
-import icon4 from '/public/images/main-slider/icon-4.png'
-import icon5 from '/public/images/main-slider/icon-5.png'
-import icon6 from '/public/images/main-slider/icon-6.png'
-import Image from "next/image";
+import { useRouter } from "next/router";
+import API from "../../store/api";
 
 const Hero4 = () => {
 
@@ -21,6 +15,37 @@ const Hero4 = () => {
         fade: true,
         autoplay: true,
     };
+
+    let router =  useRouter();
+    
+    
+    useEffect(() => {
+ console.log("useEffect ");
+ const fetchData = async () => {
+
+     console.log("router?.query?.token ", router?.query?.token);
+        if(router?.query?.token){
+ 
+                const url =   `auth/verify/email?token=${router?.query?.token}`;
+                const response = await API.post(url, ).then((response) => {
+                    console.log("response", response);
+                    // setNotificationMsg({ status: 200, msg: "User registered successfully!" })
+                    
+                    if(window.location.pathname == "/login"){
+                        router.push({ pathname: '/' });
+                    }else{
+                        router.push({ pathname: window.location.pathname });
+                    }
+                   
+                }).catch((err) => {
+                    // setLoading(false);
+                    // setNotificationMsg({ status: err?.response?.data?.statusCode || 500, msg: err?.response?.data?.message || err?.message })
+                });
+
+        }
+    }
+    fetchData();
+    },[router])
 
 
     return (
