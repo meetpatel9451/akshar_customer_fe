@@ -42,32 +42,23 @@ const LoginPage = () => {
     const SubmitHandler = async (e) => {
         e.preventDefault();
         if (validator.allValid()) {
-            if(forms?.confirm_password == forms?.password){
-                setIsEqual(false);
+            console.log("forms?.password ", forms?.email);
+            // if(forms?.confirm_password == forms?.password){
+                setIsEqual(true);
                 validator.hideMessages();
-                const url = 'auth/client_login';
-                setLoading(true);
-                const response = await API.post(url, forms).then((response) => {
-                    console.log("response", response);
+                const url = `auth/forgot-password?email=${forms?.email}`;
+                const response = await API.post(url).then((response) => {
+                    setNotificationMsg({ status: 200, msg: response?.data?.data?.message })
                     setLoading(false);
-                    setNotificationMsg({ status: 200, msg: "User registered successfully!" })
-                    setForms({
-                        password: '',
-                    })
-                    if(window.location.pathname == "/login"){
-                        router.push({ pathname: '/' });
-                    }else{
-                        router.push({ pathname: window.location.pathname });
-                    }
-                    localStorage.setItem("token", response?.data?.result?.token);
-                    localStorage.setItem("user_id", JSON.stringify(response?.data?.result?.id));
+                    console.log("response", response);
+            
                 }).catch((err) => {
                     setLoading(false);
                     setNotificationMsg({ status: err?.response?.data?.statusCode || 500, msg: err?.response?.data?.message || err?.message })
                 });
-            }else{
-                setIsEqual(true);
-            }
+            // }else{
+            //     setIsEqual(true);
+            // }
         } else {
             validator.showMessages();
         }

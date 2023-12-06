@@ -27,15 +27,15 @@ const Hero4 = () => {
         if(router?.query?.token){
  
                 const url =   `auth/verify/email?token=${router?.query?.token}`;
-                const response = await API.post(url, ).then((response) => {
+                const response = await API.post(url).then((response) => {
                     console.log("response", response);
                     // setNotificationMsg({ status: 200, msg: "User registered successfully!" })
                     
-                    if(window.location.pathname == "/login"){
-                        router.push({ pathname: '/' });
-                    }else{
-                        router.push({ pathname: window.location.pathname });
-                    }
+                    // if(window.location.pathname == "/login"){
+                        router.push({ pathname: '/login' });
+                    // }else{
+                    //     router.push({ pathname: window.location.pathname });
+                    // }
                    
                 }).catch((err) => {
                     // setLoading(false);

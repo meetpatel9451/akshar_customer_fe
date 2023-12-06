@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import Navbar from '../../components/Navbar/Navbar'
 import PageTitle from '../../components/pagetitle/PageTitle'
 import Scrollbar from '../../components/scrollbar/scrollbar'
@@ -15,7 +15,7 @@ const LoginPage = () => {
     const [forms, setForms] = useState({
         
         password: '',
-        confirm_password: '',
+        newPassword: '',
     });
     const [validator] = useState(new SimpleReactValidator({
         className: 'errorMessage'
@@ -36,6 +36,35 @@ const LoginPage = () => {
         }
     };
 
+    
+    // useEffect(() => {
+    //     console.log("useEffect ");
+    //     const fetchData = async () => {
+       
+    //         console.log("router?.query?.token ", router?.query?.token);
+    //            if(router?.query?.token){
+        
+    //                    const url =   `auth/verify/email?token=${router?.query?.token}`;
+    //                    const response = await API.post(url).then((response) => {
+    //                        console.log("response", response);
+    //                        // setNotificationMsg({ status: 200, msg: "User registered successfully!" })
+                           
+    //                        // if(window.location.pathname == "/login"){
+    //                            router.push({ pathname: '/login' });
+    //                        // }else{
+    //                        //     router.push({ pathname: window.location.pathname });
+    //                        // }
+                          
+    //                    }).catch((err) => {
+    //                        // setLoading(false);
+    //                        // setNotificationMsg({ status: err?.response?.data?.statusCode || 500, msg: err?.response?.data?.message || err?.message })
+    //                    });
+       
+    //            }
+    //        }
+    //        fetchData();
+    //        },[router])
+
     const onClose = () => {
         setNotificationMsg({})
     }
@@ -43,26 +72,25 @@ const LoginPage = () => {
     const SubmitHandler = async (e) => {
         e.preventDefault();
         if (validator.allValid()) {
-            if(forms?.confirm_password == forms?.password){
+            if(forms?.newPassword == forms?.password){
                 setIsEqual(false);
                 validator.hideMessages();
-                const url = 'auth/client_login';
+                const url = `auth/update-password?token=${router?.query?.token}`;
                 setLoading(true);
-                const response = await API.post(url, forms).then((response) => {
+                const _request = {
+                    newPassword: forms?.newPassword
+                }
+                const response = await API.post(url, _request).then((response) => {
                     console.log("response", response);
                     setLoading(false);
-                    setNotificationMsg({ status: 200, msg: "User registered successfully!" })
+                    setNotificationMsg({ status: 200, msg: response?.data?.data?.message })
                     setForms({
-                        confirm_password: '',
+                        newPassword: '',
                         password: '',
                     })
-                    if(window.location.pathname == "/login"){
-                        router.push({ pathname: '/' });
-                    }else{
-                        router.push({ pathname: window.location.pathname });
-                    }
-                    localStorage.setItem("token", response?.data?.result?.token);
-                    localStorage.setItem("user_id", JSON.stringify(response?.data?.result?.id));
+                    // if(window.location.pathname == "/login"){
+                        router.push({ pathname: '/login' });
+                    
                 }).catch((err) => {
                     setLoading(false);
                     setNotificationMsg({ status: err?.response?.data?.statusCode || 500, msg: err?.response?.data?.message || err?.message })
@@ -97,11 +125,11 @@ const LoginPage = () => {
 
                 <div className="form-group">
                     <span className="adon-icon" onClick={() => setShowConfirmPassword(!showConfirmPassword)}><span className={showConfirmPassword ? "fa fa-eye": "fa fa-eye-slash" }></span></span>
-                    <input type={showConfirmPassword ? "password" : "text"} name="confirm_password" placeholder="Enter Confirm Password"
+                    <input type={showConfirmPassword ? "password" : "text"} name="newPassword" placeholder="Enter Confirm Password"
                         // onBlur={(e) => changeHandler(e)}
                         onChange={(e) => changeHandler(e)} />
                         
-                    {validator.message('confirm_password', forms.password, 'required')}
+                    {validator.message('newPassword', forms.password, 'required')}
                 <Box>
                     {isEqual && (<FormHelperText error>Please enter same password and confirm password same.</FormHelperText>)}
                 </Box>
