@@ -8,6 +8,7 @@ import SimpleReactValidator from 'simple-react-validator';
 import axios from 'axios';
 import API from '../../store/api';
 import { Alert, Box, Snackbar } from '@mui/material';
+import Link from 'next/link';
 
 const LoginPage = () => {
     const router = useRouter();
@@ -67,6 +68,15 @@ const LoginPage = () => {
         }
     }
 
+    const spanStyle = {
+        color: '#000', // Default text color
+        transition: 'color 0.3s', // Smooth transition for color property
+      };
+    
+      const hoverStyle = {
+        color: 'blue', // Change text color on hover
+      };
+
     return (
         <div>
             <div className="form-title">
@@ -93,6 +103,14 @@ const LoginPage = () => {
                         onChange={(e) => changeHandler(e)} />
                     {validator.message('password', forms.password, 'required')}
                 </div>
+                <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}><Link href="/forget-password"><span style={{ color: '#000' }} onMouseOver={(e) => {
+                    e.currentTarget.style.color = hoverStyle.color;
+                }}
+                    onMouseOut={(e) => {
+                        e.currentTarget.style.color = spanStyle.color;
+                    }}
+                >Forget Password?</span></Link></Box>
+
 
                 <div className="clearfix">
                     <div className="pull-left">
