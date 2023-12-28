@@ -8,7 +8,7 @@ import SimpleReactValidator from 'simple-react-validator';
 import axios from 'axios';
 import API from '../../store/api';
 import LoginPage from './login';
-import { Alert, Box, Snackbar } from '@mui/material';
+import { Alert, Backdrop, Box, CircularProgress, Snackbar } from '@mui/material';
 import { useEffect } from 'react';
 
 const RegisterPage = () => {
@@ -146,7 +146,12 @@ const RegisterPage = () => {
             <div className="form-title">
                 <h2>Register Now</h2>
             </div>
-
+            <Backdrop
+                sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+                open={loading}
+            >
+                <CircularProgress color="inherit" />
+            </Backdrop>
             <div className="styled-form register-form">
                 <div className="form-group">
                     <span className="adon-icon"><span className="fa fa-user"></span></span>

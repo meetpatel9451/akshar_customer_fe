@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useEffect } from 'react';
 import SimpleReactValidator from 'simple-react-validator';
 import API from '../../store/api';
-import { Alert, Box, Snackbar } from '@mui/material';
+import { Alert, Backdrop, Box, CircularProgress, Snackbar } from '@mui/material';
 
 const laminationOptions = [
     { value: 'bopp_single_side', label: 'Bopp Single Side' },
@@ -209,6 +209,12 @@ const ProfileForm = () => {
                 </div>
             </form>
             <Box>
+            <Backdrop
+                sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+                open={loading}
+            >
+                <CircularProgress color="inherit" />
+            </Backdrop>
                 <Snackbar open={Object.keys(notificationMsg).length > 0 ? true : false} autoHideDuration={6000} sx={{ marginTop: 10 }} onClose={onClose} anchorOrigin={{
                     vertical: 'top',
                     horizontal: 'right',

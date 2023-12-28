@@ -1,4 +1,4 @@
-import { Alert, Box, MenuItem, Select, Snackbar } from '@mui/material';
+import { Alert, Backdrop, Box, CircularProgress, MenuItem, Select, Snackbar } from '@mui/material';
 import React, { useState } from 'react'
 import SimpleReactValidator from 'simple-react-validator';
 import API from '../../store/api';
@@ -102,6 +102,12 @@ const NewPaymentForm = () => {
         <>
 
             <form onSubmit={(e) => submitHandler(e)}>
+            <Backdrop
+                sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+                open={loading}
+            >
+                <CircularProgress color="inherit" />
+            </Backdrop>
                 <div className="row clearfix">
                     <div className="col-lg-6 col-md-6 col-sm-12 form-group">
                         {/* <span className="icon flaticon-user-2"></span> */}

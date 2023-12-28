@@ -1,4 +1,4 @@
-import { Alert, Box, FormHelperText, Snackbar } from '@mui/material';
+import { Alert, Backdrop, Box, CircularProgress, FormHelperText, Snackbar } from '@mui/material';
 import React, { useState } from 'react'
 import SimpleReactValidator from 'simple-react-validator';
 import API from '../../store/api';
@@ -81,6 +81,12 @@ const ChangePasswordForm = () => {
         <>
 
             <form onSubmit={(e) => submitHandler(e)}>
+            <Backdrop
+                sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+                open={loading}
+            >
+                <CircularProgress color="inherit" />
+            </Backdrop>
                 <div className="row clearfix">
                     <div className="col-lg-12 col-md-12 col-sm-12 form-group">
                         <span className="icon flaticon-user-2"></span>

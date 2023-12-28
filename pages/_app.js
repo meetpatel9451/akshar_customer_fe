@@ -48,7 +48,7 @@ function MyApp({ Component, pageProps }) {
   return ( <>
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-        {isAuthenticate ? <AuthPage /> : <Component {...pageProps} /> }
+        {!isAuthenticate ? <AuthPage /> : <Component {...pageProps} /> }
         <ToastContainer />
       </PersistGate>
     </Provider>
