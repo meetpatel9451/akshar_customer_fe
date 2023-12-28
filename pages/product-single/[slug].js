@@ -9,7 +9,7 @@ import Product from './product'
 import api from "../../api";
 import Footer from '../../components/footer/Footer';
 import ProductTabs from './alltab';
-import { Alert, Box, FormHelperText, IconButton, Snackbar, TextField, Typography } from '@mui/material';
+import { Alert, Backdrop, Box, CircularProgress, FormHelperText, IconButton, Snackbar, TextField, Typography } from '@mui/material';
 import API from '../../store/api';
 
 const visitingCardArray = {
@@ -359,6 +359,7 @@ const ProductSinglePage = (props) => {
   const [errorHeight, setErrorHeight] = useState([]);
   const [errorWidth, setErrorWidth] = useState([]);
   const [errorImage, setErrorImage] = useState([]);
+  const [loading, setLoading] = useState(false);
  console.log("error ", error);
 
   // const productsArray = api();
@@ -451,7 +452,7 @@ const ProductSinglePage = (props) => {
   }
 
   const handleProceedToCheckout = async () => {
-
+    setLoading(true)
     const user_id = localStorage.getItem("user_id");
     const url = `api/v1/order/client/${user_id}`;
 
@@ -514,8 +515,10 @@ const ProductSinglePage = (props) => {
             'Content-Type': 'multipart/form-data',
           },
         }).then((val) => {
+          setLoading(false)
           setNotificationMsg({ status: 200, msg: "Order Submitted Sucessfully!" })
         }).catch((err) => {
+          setLoading(false)
           setNotificationMsg({ status: err?.response?.data?.statusCode || 500, msg: err?.response?.data?.message || err?.message })
         });
         // setProductList(response?.data?.data?.items)
@@ -678,6 +681,12 @@ const ProductSinglePage = (props) => {
     <Fragment>
       <Navbar hclass={'wpo-header-style-5'} topbarClass={'tb-block'} />
       <PageTitle pageTitle={productList[0]?.category?.name || "Product"} />
+      <Backdrop
+                sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+                open={loading}
+            >
+                <CircularProgress color="inherit" />
+            </Backdrop>
       <div className="sidebar-page-container">
         {/* <div className="auto-container"> */}
         <div className="row clearfix">

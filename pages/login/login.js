@@ -7,7 +7,7 @@ import { useRouter } from 'next/router';
 import SimpleReactValidator from 'simple-react-validator';
 import axios from 'axios';
 import API from '../../store/api';
-import { Alert, Box, Snackbar } from '@mui/material';
+import { Alert, Backdrop, Box, CircularProgress, Snackbar } from '@mui/material';
 import Link from 'next/link';
 
 const LoginPage = () => {
@@ -82,7 +82,12 @@ const LoginPage = () => {
             <div className="form-title">
                 <h2>Login Here</h2>
             </div>
-
+            <Backdrop
+                sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+                open={loading}
+            >
+                <CircularProgress color="inherit" />
+            </Backdrop>
             <div className="styled-form login-form">
                 {/* <div className="form-group">
                                         <span className="adon-icon"><span className="fa fa-user"></span></span>
