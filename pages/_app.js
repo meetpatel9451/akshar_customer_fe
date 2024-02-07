@@ -26,6 +26,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton } from "@mui/material";
 import BankDetails from "../components/BankDetailPage/BankDetailPage";
+import Script from "next/script";
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
@@ -34,22 +35,32 @@ function MyApp({ Component, pageProps }) {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    if((router.pathname == "/shop" || router.pathname == "/quotation") && !token){
+    if ((router.pathname == "/shop" || router.pathname == "/quotation") && !token) {
       setIsAuthenticate(true)
-    }else{
+    } else {
       setIsAuthenticate(false)
     }
-  },[router])
+  }, [router])
 
   const handleClose = () => {
     setOpen(!open)
   }
 
-  return ( <>
+  return (<>
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-        {!isAuthenticate ? <AuthPage /> : <Component {...pageProps} /> }
+        {!isAuthenticate ? <AuthPage /> : <Component {...pageProps} />}
         <ToastContainer />
+        <Script strategy="afterInteractive" src="https://www.googletagmanager.com/gtag/js?id=G-9QJ7LZGCBC"></Script>
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'G-9QJ7LZGCBC');
+          `}
+        </Script>
       </PersistGate>
     </Provider>
     {/* <Dialog
@@ -134,7 +145,7 @@ function MyApp({ Component, pageProps }) {
       <Button onClick={handleClose}>Disagree</Button>
       <Button onClick={handleClose}>Agree</Button>
     </DialogActions> */}
-  {/* </Dialog> */}
+    {/* </Dialog> */}
   </>
 
   )
