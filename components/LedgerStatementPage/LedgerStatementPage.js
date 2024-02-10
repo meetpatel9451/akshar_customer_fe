@@ -7,14 +7,11 @@ const LedgerStatementPage = () => {
 
     const [statementList, setStatementList] = useState([]);
 
-    console.log("   ", statementList);
-
     useEffect(() => {
         async function fetch() {
             const user_id = localStorage.getItem("user_id");
             const url = `api/v1/ledger/client/${Number(user_id)}`;
             const response = await API.get(url);
-            console.log("reponse", response.data.data);
             setStatementList(response?.data?.data || []);
         }
         fetch()

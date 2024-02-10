@@ -26,7 +26,6 @@ const LoginPage = () => {
     const [showConfirmPassword, setShowConfirmPassword] = useState(true);
 
     const changeHandler = e => {
-        console.log("changeHandler ", changeHandler);
         setForms({ ...forms, [e.target.name]: e.target.value })
         if (validator.allValid()) {
             validator.hideMessages();
@@ -42,7 +41,6 @@ const LoginPage = () => {
     const SubmitHandler = async (e) => {
         e.preventDefault();
         if (validator.allValid()) {
-            console.log("forms?.password ", forms?.email);
             // if(forms?.confirm_password == forms?.password){
                 setIsEqual(true);
                 validator.hideMessages();
@@ -50,7 +48,6 @@ const LoginPage = () => {
                 const response = await API.post(url).then((response) => {
                     setNotificationMsg({ status: 200, msg: response?.data?.data?.message })
                     setLoading(false);
-                    console.log("response", response);
             
                 }).catch((err) => {
                     setLoading(false);

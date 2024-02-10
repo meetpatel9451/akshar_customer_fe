@@ -101,7 +101,6 @@ const PaymentReceipt = (props) => {
     }
 
     const getComponent = () => {
-        console.log("calllCoponent");
         if (sidebarDetails?.slug === "profile") {
             return(<ProfilePage />)
         } else if (sidebarDetails?.slug === "history") {

@@ -2,7 +2,6 @@ import axios from "axios";
 import config from "../configs/config";
 // import config from "../config/config";
 export const API = axios.create({ baseURL: config.BASE_URL });
- console.log("config.BASE_URL ", config);
 
 API.interceptors.request.use((req: any) => {
   if (localStorage.getItem("token")) {

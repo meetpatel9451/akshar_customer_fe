@@ -354,13 +354,12 @@ const ProductSinglePage = (props) => {
   const [notificationMsg, setNotificationMsg] = useState({})
   const [clientData, setClientData] = useState(null);
 
-  const [error, setError] = useState({quantity: [], height: [], width: []});
+  const [error, setError] = useState({ quantity: [], height: [], width: [] });
   const [errorQuantity, setErrorQuantity] = useState([]);
   const [errorHeight, setErrorHeight] = useState([]);
   const [errorWidth, setErrorWidth] = useState([]);
   const [errorImage, setErrorImage] = useState([]);
   const [loading, setLoading] = useState(false);
- console.log("error ", error);
 
   // const productsArray = api();
   // const Allproduct = productsArray;
@@ -431,8 +430,6 @@ const ProductSinglePage = (props) => {
     setNotificationMsg({})
   }
 
-
-  console.log("selected", selectedArray);
   const handleAddToCart = (item) => {
     const selectedItem = selectedArray.filter((val) => val?.product_id == item?.id);
 
@@ -462,23 +459,22 @@ const ProductSinglePage = (props) => {
     let heightErr = [];
     let widthErr = [];
     let imageErr = [];
-   
+
     selectedArray.forEach((product, index) => {
- console.log("product==> ", !errorHeight?.includes(index), !product.height, index);
-      if(!product.quantity){
+      if (!product.quantity) {
         quamtityErr = [...quamtityErr, index]
         // setErrorQuantity([...errorQuantity, index])
       }
-      if(!product.height && product?.height_width == "yes"){
+      if (!product.height && product?.height_width == "yes") {
         heightErr = [...heightErr, index]
         // setErrorWidth([...errorHeight, index])
       }
-      if(!product.width && product?.height_width == "yes"){
+      if (!product.width && product?.height_width == "yes") {
         widthErr = [...widthErr, index]
         // setErrorHeight([...errorWidth, index])
       }
 
-      if(!product.image){
+      if (!product.image) {
         imageErr = [...imageErr, index]
         // setErrorImage([...errorImage, index])
       }
@@ -490,8 +486,8 @@ const ProductSinglePage = (props) => {
       // if(!product.height){
       // tempError["height"] = [...tempError["height"], index];
       // }
-      
-      
+
+
       formData.append(`products[${index}][product_id]`, product.product_id);
       formData.append(`products[${index}][name]`, product.name);
       formData.append(`products[${index}][price]`, product.price);
@@ -505,10 +501,8 @@ const ProductSinglePage = (props) => {
     setErrorHeight(heightErr);
     setErrorWidth(widthErr)
     setErrorImage(imageErr)
-    console.log("quamtityErr ", quamtityErr, heightErr, widthErr, imageErr);
     setError(tempError);
-    console.log("errorQuantity ", errorQuantity, errorHeight, errorWidth);
-    if(!errorQuantity?.length && !errorHeight?.length && !errorWidth?.length && !errorImage?.length ){
+    if (!errorQuantity?.length && !errorHeight?.length && !errorWidth?.length && !errorImage?.length) {
       try {
         const response = await API.post(url, formData, {
           headers: {
@@ -571,16 +565,15 @@ const ProductSinglePage = (props) => {
 
     // Update total_price accordingly
     // tempArray[arrayIndex].total_price = Number(tempArray[arrayIndex].price) * tempArray[arrayIndex].quantity * Number(tempArray[arrayIndex].height) * Number(tempArray[arrayIndex].width);
-    if(tempArray[arrayIndex].height && tempArray[arrayIndex].width){
+    if (tempArray[arrayIndex].height && tempArray[arrayIndex].width) {
       tempArray[arrayIndex].total_price = Number(tempArray[arrayIndex].price) * tempArray[arrayIndex].quantity * Number(tempArray[arrayIndex].height) * Number(tempArray[arrayIndex].width);
-      }else {
-        tempArray[arrayIndex].total_price = Number(tempArray[arrayIndex].price) * tempArray[arrayIndex].quantity
-      }
+    } else {
+      tempArray[arrayIndex].total_price = Number(tempArray[arrayIndex].price) * tempArray[arrayIndex].quantity
+    }
     setSelectedArray(tempArray);
   }
 
   const handleChangeheightWidth = (arrayIndex) => (e) => {
- console.log("handleChangeheightWidth ", );
     var tempArray = [...selectedArray];
     const heightWidth = e.target.value;
 
@@ -599,28 +592,26 @@ const ProductSinglePage = (props) => {
   }
 
   const handleOnBlurQuantity = (e, index) => {
-    if(errorQuantity?.includes(index) ){
-      if(e.target.value){
+    if (errorQuantity?.includes(index)) {
+      if (e.target.value) {
         const filter = errorQuantity?.filter((item) => item != index)
         setErrorQuantity(filter)
       }
-    }else {
-      if(!(e.target.value)){
+    } else {
+      if (!(e.target.value)) {
         setErrorQuantity([...errorQuantity, index])
       }
     }
   }
 
   const handleOnBlurHeight = (e, index) => {
- console.log("e, index ", !e.target.value,((e.target.value) % 0.25) == 0,  index);
- console.log("errorHeight ", errorHeight);
-    if(errorHeight?.includes(index) ){
-      if(((e.target.value) % 0.25) == 0 && e.target.value > 0){
+    if (errorHeight?.includes(index)) {
+      if (((e.target.value) % 0.25) == 0 && e.target.value > 0) {
         const filter = errorHeight?.filter((item) => item != index)
         setErrorHeight(filter)
       }
-    }else {
-      if(((e.target.value) % 0.25) != 0 || (!e.target.value)){
+    } else {
+      if (((e.target.value) % 0.25) != 0 || (!e.target.value)) {
         setErrorHeight([...errorHeight, index])
       }
     }
@@ -628,14 +619,13 @@ const ProductSinglePage = (props) => {
 
 
   const handleOnBlurWidth = (e, index) => {
- console.log("handleOnBlurWidth ");
-    if(errorWidth?.includes(index) ){
-      if(((e.target.value) % 0.25) == 0 && e.target.value > 0){
+    if (errorWidth?.includes(index)) {
+      if (((e.target.value) % 0.25) == 0 && e.target.value > 0) {
         const filter = errorWidth?.filter((item) => item != index)
         setErrorWidth(filter)
       }
-    }else {
-      if(((e.target.value) % 0.25) != 0  || (!e.target.value)){
+    } else {
+      if (((e.target.value) % 0.25) != 0 || (!e.target.value)) {
         setErrorWidth([...errorWidth, index])
       }
     }
@@ -644,49 +634,37 @@ const ProductSinglePage = (props) => {
 
   const handleOnBlur = (e, index) => {
     let tempError = error;
-//  console.log("tempError ", tempError);
-    // console.log("tempError[e.target.name]?.includes(index) ", tempError[e.target.name]);
-    if(!tempError[e.target.name]?.includes(index)){
-      if(!(e.target.value)){
-        console.log("if");
+    if (!tempError[e.target.name]?.includes(index)) {
+      if (!(e.target.value)) {
         const name = tempError[e.target.name]
         tempError[e.target.name] = [...name, index]
       }
       // else{
-      //   console.log("else", tempError[e.target.name]);
       //   const name = tempError[e.target.name]
       //   tempError[e.target.name] = tempError[e.target.name]?.filter((item) => item != index);
       // }
     }
-    else{
-      console.log("else", tempError[e.target.name]);
-      if(e.target.value){
+    else {
+      if (e.target.value) {
         const name = tempError[e.target.name]
         tempError[e.target.name] = name?.filter((item) => item != index);
       }
     }
-    console.log("tempError ", tempError);
     setError(tempError);
     // else{
-      // }
-    }
-    useEffect(() => {
-      console.log("error==> ", error);
-
-    },[error])
-
- console.log("error.height.includes(arrayIndex) ", error.height.includes(0));
+    // }
+  }
 
   return (
     <Fragment>
       <Navbar hclass={'wpo-header-style-5'} topbarClass={'tb-block'} />
       <PageTitle pageTitle={productList[0]?.category?.name || "Product"} />
       <Backdrop
-                sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
-                open={loading}
-            >
-                <CircularProgress color="inherit" />
-            </Backdrop>
+        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={loading}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
       <div className="sidebar-page-container">
         {/* <div className="auto-container"> */}
         <div className="row clearfix">
@@ -810,7 +788,7 @@ const ProductSinglePage = (props) => {
                                   <td >
                                     <div style={{ textAlign: "center" }}>
                                       <TextField size='small' type="number" name="quantity" value={item?.quantity}
-                                      onBlur={(e) => handleOnBlurQuantity(e, arrayIndex)} 
+                                        onBlur={(e) => handleOnBlurQuantity(e, arrayIndex)}
                                         // onBlur={(e) => {
                                         //   if ((e.target.value % 1000) === 0) {
                                         //     console.log("Valid")
@@ -822,50 +800,50 @@ const ProductSinglePage = (props) => {
                                         style={{ maxWidth: "90px" }}
                                         onChange={handleChangeQuantity(arrayIndex)} placeholder="Enter Quantity"
                                         error={errorQuantity?.length > 0 && errorQuantity.includes(arrayIndex)}
-                                         />
-                                        { errorQuantity?.length > 0 && errorQuantity.includes(arrayIndex) && (<FormHelperText error>{"Please Enter Quantity"}</FormHelperText>)}
+                                      />
+                                      {errorQuantity?.length > 0 && errorQuantity.includes(arrayIndex) && (<FormHelperText error>{"Please Enter Quantity"}</FormHelperText>)}
                                     </div>
                                   </td>
                                   {
                                     item?.height_width == "yes" ? (
                                       <>
-                                      <td >
-                                        <div style={{ textAlign: "center" }}>
-                                          <TextField
-                                            size='small'
-                                            type="number"
-                                            InputProps={{ inputProps: { min: 0, step: "0.25" } }}
-                                            name="height"
-                                            value={item?.height}
-                                            style={{ maxWidth: "100px" }}
-                                            onBlur={(e) => handleOnBlurHeight(e, arrayIndex)}
-                                            onChange={handleChangeheightWidth(arrayIndex)}
-                                            error={errorHeight?.length > 0 && errorHeight.includes(arrayIndex)}
-                                            placeholder="Height" />
+                                        <td >
+                                          <div style={{ textAlign: "center" }}>
+                                            <TextField
+                                              size='small'
+                                              type="number"
+                                              InputProps={{ inputProps: { min: 0, step: "0.25" } }}
+                                              name="height"
+                                              value={item?.height}
+                                              style={{ maxWidth: "100px" }}
+                                              onBlur={(e) => handleOnBlurHeight(e, arrayIndex)}
+                                              onChange={handleChangeheightWidth(arrayIndex)}
+                                              error={errorHeight?.length > 0 && errorHeight.includes(arrayIndex)}
+                                              placeholder="Height" />
                                             {errorHeight?.length > 0 && errorHeight.includes(arrayIndex) && (<FormHelperText error>{item?.height ? "Width multiply by 0.25" : "Please Enter Height"}</FormHelperText>)}
-                                        </div>
-                                      </td>
-                                      <td >
-                                        <div style={{ textAlign: "center" }}>
-                                          <TextField
-                                            size='small'
-                                            type="number"
-                                            name="width"
-                                            InputProps={{ inputProps: { min: 0, step: "0.25" } }}
-                                            value={item?.width}
-                                            onBlur={(e) => handleOnBlurWidth(e, arrayIndex)}
-                                            style={{ maxWidth: "100px" }}
-                                            onChange={handleChangeheightWidth(arrayIndex)}
-                                            error={(errorWidth?.length > 0) && errorWidth.includes(arrayIndex)}
-                                            placeholder="Width" />
+                                          </div>
+                                        </td>
+                                        <td >
+                                          <div style={{ textAlign: "center" }}>
+                                            <TextField
+                                              size='small'
+                                              type="number"
+                                              name="width"
+                                              InputProps={{ inputProps: { min: 0, step: "0.25" } }}
+                                              value={item?.width}
+                                              onBlur={(e) => handleOnBlurWidth(e, arrayIndex)}
+                                              style={{ maxWidth: "100px" }}
+                                              onChange={handleChangeheightWidth(arrayIndex)}
+                                              error={(errorWidth?.length > 0) && errorWidth.includes(arrayIndex)}
+                                              placeholder="Width" />
                                             {(errorWidth?.length > 0) && errorWidth.includes(arrayIndex) && (<FormHelperText error>{item?.width ? "Width multiply by 0.25" : "Please Enter Width"}</FormHelperText>)}
-                                        </div>
-                                      </td>
+                                          </div>
+                                        </td>
                                       </>
                                     ) : (
                                       <>
-                                        <td><Box style={{ display: 'flex', justifyContent: 'center' }}>-</Box></td> 
-                                        <td><Box style={{ display: 'flex', justifyContent: 'center' }}>-</Box></td> 
+                                        <td><Box style={{ display: 'flex', justifyContent: 'center' }}>-</Box></td>
+                                        <td><Box style={{ display: 'flex', justifyContent: 'center' }}>-</Box></td>
                                       </>
                                     )
                                   }
@@ -875,7 +853,7 @@ const ProductSinglePage = (props) => {
                                     tempArray[arrayIndex].image = e.target.files[0];
                                     setSelectedArray(tempArray);
                                   }} />
-                                   {errorImage?.length > 0 && errorImage.includes(arrayIndex) && (<FormHelperText error>{"Please Enter Images"}</FormHelperText>)}
+                                    {errorImage?.length > 0 && errorImage.includes(arrayIndex) && (<FormHelperText error>{"Please Enter Images"}</FormHelperText>)}
 
                                   </td>
                                   <td>
@@ -903,8 +881,8 @@ const ProductSinglePage = (props) => {
                     </div>
                     {/* </div> */}
                   </div>
-                  <div className="p-5 text-right" style={{ display: 'flex', justifyContent: 'flex-end' }}><button type="submit" className="theme-btn btn-style-two" 
-                  onClick={handleProceedToCheckout}
+                  <div className="p-5 text-right" style={{ display: 'flex', justifyContent: 'flex-end' }}><button type="submit" className="theme-btn btn-style-two"
+                    onClick={handleProceedToCheckout}
                   ><span className="txt">Proceed to Checkout</span></button></div>
                 </div>
 

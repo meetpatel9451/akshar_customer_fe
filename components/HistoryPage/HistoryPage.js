@@ -4,7 +4,6 @@ import { Button, Chip } from '@mui/material';
 import moment from 'moment';
 
 const HistoryPage = () => {
-    console.log("calll");
     const [historyList, setHistoryList] = useState([]);
 
     useEffect(() => {
@@ -12,7 +11,6 @@ const HistoryPage = () => {
             const user_id = localStorage.getItem("user_id");
             const url = `api/v1/order_history/client/${Number(user_id)}`;
             const response = await API.get(url);
-            console.log("reponse", response.data.data);
             setHistoryList(response?.data?.data || []);
         }
         fetch()

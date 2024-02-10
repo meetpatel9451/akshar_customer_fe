@@ -39,7 +39,6 @@ const ChangePasswordForm = () => {
             if (forms?.new_password === forms?.confirm_password) {
                 setNotMatch(false)
                 setLoading(true);
-                console.log("forms", forms);
                 // localhost:3000/auth/client/reset_password
                 const url = `/auth/client/reset_password`;
                 const _request = {

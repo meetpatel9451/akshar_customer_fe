@@ -35,7 +35,7 @@ function MyApp({ Component, pageProps }) {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    if ((router.pathname == "/shop" || router.pathname == "/quotation") && !token) {
+    if ((router.pathname == "/shop" || router.pathname == "/quotation" || router.pathname.includes("/product-single") || router.pathname.includes("/payment-receipt")) && !token) {
       setIsAuthenticate(true)
     } else {
       setIsAuthenticate(false)
@@ -49,7 +49,7 @@ function MyApp({ Component, pageProps }) {
   return (<>
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-        {!isAuthenticate ? <AuthPage /> : <Component {...pageProps} />}
+        {isAuthenticate ? <AuthPage /> : <Component {...pageProps} />}
         <ToastContainer />
         <Script strategy="afterInteractive" src="https://www.googletagmanager.com/gtag/js?id=G-9QJ7LZGCBC"></Script>
         <Script id="google-analytics" strategy="afterInteractive">

@@ -23,44 +23,42 @@ const Header = (props) => {
         window.scrollTo(10, 0);
     }
 
-    const [balance, setBalance] = useState(null);
- console.log("balance ", balance);
+    const [balance, setBalance] = useState("0");
 
- const user_id = localStorage.getItem("user_id");
- const token = localStorage.getItem("token");
- 
+    const user_id = localStorage.getItem("user_id");
+    const token = localStorage.getItem("token");
+
+
     useEffect(() => {
         async function fetchData() {
             const url = `api/v1/client/${user_id}`;
-            
+
             try {
-                console.log("url===> ", url);
                 const response = await API.get(url);
-                console.log("response", response);
-                setBalance(response?.data?.data?.Ledger[0].balance)
-              // Handle the response data here
+                setBalance(response?.data?.data?.Ledger[0]?.balance || "0")
+                // Handle the response data here
             } catch (error) {
-              console.error("Error fetching data:", error);
-              // Handle the error here
+                console.error("Error fetching data:", error);
+                // Handle the error here
             }
-          }
-      
-          fetchData();
-      
-    },[])
+        }
+
+        fetchData();
+
+    }, [])
 
     return (
         <header className="main-header header-style-one">
             <div className="header-upper">
-                <div className="auto-container clearfix" style={{maxWidth: '90%'}}>
+                <div className="auto-container clearfix" style={{ maxWidth: '90%' }}>
                     <div className="pull-left logo-box">
                         <div ><Link onClick={ClickHandler} href="/home4">
                             <Image src={Logo} style={{ height: '80px', width: '200px' }} alt="" title="" />
                             {/* <Box component="img" width={130} src={'../../public/images/logo.png'} /> */}
-                            </Link></div>
+                        </Link></div>
                     </div>
                     <div className="nav-outer clearfix">
-                        <MobileMenu/>
+                        <MobileMenu />
                         <nav className="main-menu navbar-expand-md">
                             <div className="navbar-header">
                                 <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -219,13 +217,15 @@ const Header = (props) => {
                             {/* <div className="btn-box">
                                 <Link onClick={ClickHandler} href="/quotation" className="theme-btn btn-style-one"><span className="txt">hjk</span></Link>
                             </div> */}
-                            {(balance && user_id) && <div className="btn-box" style={{paddingLeft: '5px', padding: '10px', borderRadius: '5px', background: balance.includes("-") ? 'red' : 'green', boxShadow:'0px 0px 25px rgba(0, 0, 0, 0.15)' }}><h5 style={{ color: '#fff'}}><b>{balance} ₹</b></h5></div>}
+                            {(balance && user_id) && <div className="btn-box" style={{ paddingLeft: '5px', padding: '10px', borderRadius: '5px', background: balance.includes("-") ? 'red' : 'green', boxShadow: '0px 0px 25px rgba(0, 0, 0, 0.15)' }}><h5 style={{ color: '#fff' }}><b>{balance} ₹</b></h5></div>}
                             {(user_id && token) ? <div onClick={() => {
                                 router.push(`/`);
                                 localStorage.removeItem("user_id");
-                                localStorage.removeItem("token")}} style={{marginLeft: '10px'}} className="search-box-btn"><span className="icon fa fa-sign-in"></span></div> :
+                                localStorage.removeItem("token")
+                            }} style={{ marginLeft: '10px' }} className="search-box-btn"><span className="icon fa fa-sign-in"></span></div> :
                                 <div onClick={() => {
-                                    router.push(`/login`)}} style={{marginLeft: '10px'}} className="search-box-btn"><span className="icon fa fa-sign-out"></span></div>}
+                                    router.push(`/login`)
+                                }} style={{ marginLeft: '10px' }} className="search-box-btn"><span className="icon fa fa-sign-out"></span></div>}
                         </div>
                     </div>
                 </div>

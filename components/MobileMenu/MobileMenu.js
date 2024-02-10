@@ -111,8 +111,6 @@ const MobileMenu = () => {
 
     }, [menuActive])
 
-    console.log("balance", balance, user_id);
-
     return (
         <div className={`mobile-menu-wrap ${menuActive ? "mobile-menu-visible" : ""}`}>
             <div className="mobile-nav-toggler" onClick={() => setMenuState(!menuActive)}><span className="icon flaticon-menu"></span></div>

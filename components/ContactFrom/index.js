@@ -41,7 +41,6 @@ const ContactForm = () => {
                 setLoading(false);
                 setNotificationMsg({status: 200, msg: "Contact Information Submitted Sucessfully!"})
             }).catch((err) => {
-                console.log("err", err);
                 setLoading(false);
                 setNotificationMsg({status: err?.response?.data?.statusCode || 500, msg: err?.response?.data?.message || err?.message})
             });

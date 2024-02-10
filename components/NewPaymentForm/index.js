@@ -22,7 +22,6 @@ const NewPaymentForm = () => {
     const [error, serError] = useState(false);
 
     const changeHandler = e => {
-        console.log("e", e);
         setForms({ ...forms, [e.target.name]: e.target.value })
         if (validator.allValid()) {
             validator.hideMessages();
@@ -31,7 +30,6 @@ const NewPaymentForm = () => {
         }
     };
     const fileChangeHandler = e => {
-        console.log("e", e);
         setForms({ ...forms, [e.target.name]: e.target.files[0] })
         if (validator.allValid()) {
             validator.hideMessages();
@@ -44,14 +42,10 @@ const NewPaymentForm = () => {
         setNotificationMsg({})
     }
 
-    console.log("render", forms);
-
     const submitHandler = async (e) => {
         e.preventDefault();
-        console.log("validator.allValid()", validator.allValid());
         if (validator.allValid()) {
             setLoading(true);
-            console.log("forms", forms);
             validator.hideMessages();
             try {
                 const user_id = localStorage.getItem("user_id");
@@ -76,7 +70,6 @@ const NewPaymentForm = () => {
                     setLoading(false);
                     setNotificationMsg({status: 200, msg: "Payment Submitted Sucessfully!"})
                 }).catch((err) => {
-                    console.log("err");
                     setLoading(false);
                     setNotificationMsg({status: err?.response?.data?.statusCode || 500, msg: err?.response?.data?.message || err?.message})
                 });

@@ -27,7 +27,6 @@ const LoginPage = () => {
     const [showConfirmPassword, setShowConfirmPassword] = useState(true);
 
     const changeHandler = e => {
-        console.log("changeHandler ", changeHandler);
         setForms({ ...forms, [e.target.name]: e.target.value })
         if (validator.allValid()) {
             validator.hideMessages();
@@ -38,15 +37,12 @@ const LoginPage = () => {
 
     
     // useEffect(() => {
-    //     console.log("useEffect ");
     //     const fetchData = async () => {
        
-    //         console.log("router?.query?.token ", router?.query?.token);
     //            if(router?.query?.token){
         
     //                    const url =   `auth/verify/email?token=${router?.query?.token}`;
     //                    const response = await API.post(url).then((response) => {
-    //                        console.log("response", response);
     //                        // setNotificationMsg({ status: 200, msg: "User registered successfully!" })
                            
     //                        // if(window.location.pathname == "/login"){
@@ -81,7 +77,6 @@ const LoginPage = () => {
                     newPassword: forms?.newPassword
                 }
                 const response = await API.post(url, _request).then((response) => {
-                    console.log("response", response);
                     setLoading(false);
                     setNotificationMsg({ status: 200, msg: response?.data?.data?.message })
                     setForms({

@@ -25,7 +25,6 @@ const LoginPage = () => {
     const [showPassword, setShowPassword] = useState(true);
 
     const changeHandler = e => {
-        console.log("changeHandler ", changeHandler);
         setForms({ ...forms, [e.target.name]: e.target.value })
         if (validator.allValid()) {
             validator.hideMessages();
@@ -45,9 +44,8 @@ const LoginPage = () => {
             const url = 'auth/client_login';
             setLoading(true);
             const response = await API.post(url, forms).then((response) => {
-                console.log("response", response);
                 setLoading(false);
-                setNotificationMsg({ status: 200, msg: "User registered successfully!" })
+                setNotificationMsg({ status: 200, msg: response.data.message })
                 setForms({
                     email: '',
                     password: '',

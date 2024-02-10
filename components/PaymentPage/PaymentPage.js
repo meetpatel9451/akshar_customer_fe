@@ -10,14 +10,11 @@ const PaymentPage = () => {
 
     const [paymentList, setPaymentList] = useState([]);
 
-    console.log("paymentList", paymentList);
-
     useEffect(() => {
         async function fetch() {
             const user_id = localStorage.getItem("user_id");
             const url = `api/v1/ac_entry/client/${Number(user_id)}`;
             const response = await API.get(url);
-            console.log("reponse", response.data.data);
             setPaymentList(response?.data?.data || []);
         }
         fetch()

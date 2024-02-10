@@ -26,7 +26,7 @@ const RegisterPage = () => {
     const [showPassword, setShowPassword] = useState(true);
     const [showConfirmPassword, setShowConfirmPassword] = useState(true);
     const [states, setStates] = useState([])
-  const [cities, setCities] = useState([])
+    const [cities, setCities] = useState([])
 
     const [registerValidator] = useState(new SimpleReactValidator({
         className: 'errorMessage'
@@ -34,8 +34,7 @@ const RegisterPage = () => {
 
     const changeREgisterHandler = e => {
         setRegisterForms({ ...registerForms, [e.target.name]: e.target.value })
-        if(e.target.name == "state"){
- console.log("e.target.name ", e.target.name);
+        if (e.target.name == "state") {
             handledCitiesData(e.target.value)
         }
         if (registerValidator.allValid()) {
@@ -49,54 +48,47 @@ const RegisterPage = () => {
         setNotificationMsg({})
     }
 
-    useEffect(() =>{
+    useEffect(() => {
 
         var config = {
-          method: 'post',
-          url: 'https://countriesnow.space/api/v0.1/countries/states',
-          data: {
-            country: "India"
-          },
+            method: 'post',
+            url: 'https://countriesnow.space/api/v0.1/countries/states',
+            data: {
+                country: "India"
+            },
         };
-        
+
         axios(config).then(function (response) {
-        console.log("response ", response);
-          setStates(response.data.data.states)
-          console.log(JSON.stringify(response.data));
+            setStates(response.data.data.states)
+        }).catch(function (error) {
+                console.log(error);
+            });
+    }, [])
+
+
+    const handledCitiesData = (state) => {
+        var config = {
+            method: 'post',
+            url: 'https://countriesnow.space/api/v0.1/countries/state/cities',
+            data: {
+                country: "India",
+                state: state
+            },
+
+        };
+
+        axios(config).then(function (response) {
+            setCities(response.data.data)
         })
-        .catch(function (error) {
-          console.log(error);
-        });
-      },[])
-    
-    
-      const handledCitiesData = (state) => {
-     console.log("state ", state);
-     var config = {
-      method: 'post',
-      url: 'https://countriesnow.space/api/v0.1/countries/state/cities',
-      data: {
-        country: "India",
-        state: state
-      },
-    
-    };
-    
-    axios(config).then(function (response) {
-    console.log("response ", response.data.data);
-    setCities(response.data.data)
-      console.log(JSON.stringify(response.data));
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
-      }
+            .catch(function (error) {
+                console.log(error);
+            });
+    }
 
     const SubmitRegisterHandler = async (e) => {
         e.preventDefault();
         if (registerValidator.allValid()) {
             if (registerForms?.password != registerForms?.confirm_password) {
-                console.log(" Password not match")
                 setNotificationMsg({ status: 500, msg: "Password and Confirm password should be same" })
             } else {
                 setLoading(true);
@@ -169,7 +161,7 @@ const RegisterPage = () => {
                     {registerValidator.message('email', registerForms.email, 'required')}
                 </div>
                 <div className="form-group">
-                    
+
                     <span className="adon-icon"><span className="fa fa-envelope-o"></span></span>
                     <input type="text" name="username" placeholder="Username*" value={registerForms.username}
                         onBlur={(e) => changeREgisterHandler(e)}
@@ -177,15 +169,15 @@ const RegisterPage = () => {
                     {registerValidator.message('username', registerForms.username, 'required')}
                 </div>
                 <div className="form-group">
-                    <span className="adon-icon" onClick={() => setShowPassword(!showPassword)}><span className={showPassword ? "fa fa-eye": "fa fa-eye-slash" }></span></span>
-                    <input type={showPassword ? "password" : "text"}  name="password" placeholder="Enter Password" value={registerForms.password}
+                    <span className="adon-icon" onClick={() => setShowPassword(!showPassword)}><span className={showPassword ? "fa fa-eye" : "fa fa-eye-slash"}></span></span>
+                    <input type={showPassword ? "password" : "text"} name="password" placeholder="Enter Password" value={registerForms.password}
                         onBlur={(e) => changeREgisterHandler(e)}
                         onChange={(e) => changeREgisterHandler(e)} />
                     {registerValidator.message('password', registerForms.password, 'required')}
                 </div>
                 <div className="form-group">
-                    <span className="adon-icon" onClick={() => setShowConfirmPassword(!showConfirmPassword)}><span className={showConfirmPassword ? "fa fa-eye": "fa fa-eye-slash" }></span></span>
-                    <input type={showConfirmPassword ? "password" : "text"}  name="confirm_password" placeholder="Enter Confirm Password" value={registerForms.confirm_password}
+                    <span className="adon-icon" onClick={() => setShowConfirmPassword(!showConfirmPassword)}><span className={showConfirmPassword ? "fa fa-eye" : "fa fa-eye-slash"}></span></span>
+                    <input type={showConfirmPassword ? "password" : "text"} name="confirm_password" placeholder="Enter Confirm Password" value={registerForms.confirm_password}
                         onBlur={(e) => changeREgisterHandler(e)}
                         onChange={(e) => changeREgisterHandler(e)} />
                     {registerValidator.message('confirm_password', registerForms.confirm_password, 'required')}
@@ -211,13 +203,13 @@ const RegisterPage = () => {
                 </div>
                 <div className="form-group">
                     {/* <span className="adon-icon"><span className="fa fa-envelope-o"></span></span> */}
-                    <select  name="city" placeholder="City*" value={registerForms.city}
+                    <select name="city" placeholder="City*" value={registerForms.city}
                         onBlur={(e) => changeREgisterHandler(e)}
                         onChange={(e) => changeREgisterHandler(e)} >
-                          {cities?.map((item) => (
+                        {cities?.map((item) => (
                             <option value={item}>{item}</option>
-                        ))}   
-                    </select> 
+                        ))}
+                    </select>
                     {registerValidator.message('city', registerForms.city, 'required')}
                 </div>
                 <div className="form-group">

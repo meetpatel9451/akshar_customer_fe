@@ -20,26 +20,25 @@ const ShopProduct = ({ products, addToCartProduct, addToWishListProduct }) => {
         async function fetchData() {
             const user_id = localStorage.getItem("user_id");
             const url = `api/v1/category`;
-            
+
             try {
                 const response = await API.get(url);
-                              console.log("response", response?.data?.data?.items);
-              setProductList(response?.data?.data?.items)
-              // Handle the response data here
+                setProductList(response?.data?.data?.items)
+                // Handle the response data here
             } catch (error) {
-              console.error("Error fetching data:", error);
-              // Handle the error here
+                console.error("Error fetching data:", error);
+                // Handle the error here
             }
-          }
-      
-          fetchData();
-      
-    },[])
+        }
+
+        fetchData();
+
+    }, [])
 
 
 
     return (
-        <div className="sidebar-page-container" style={{padding: 10}}>
+        <div className="sidebar-page-container" style={{ padding: 10 }}>
             <div className="auto-container">
                 <div className="row clearfix">
 
@@ -89,10 +88,10 @@ const ShopProduct = ({ products, addToCartProduct, addToWishListProduct }) => {
                                                                     data-bs-toggle="tooltip"
                                                                     data-bs-html="true"
                                                                     title="View More"
-                                                                    // onClick={() => router.push('/product-single/Book-Item-1')}
+                                                                // onClick={() => router.push('/product-single/Book-Item-1')}
                                                                 >
                                                                     {/* <Link href="/product-single/Book-Item-1"> */}
-                                                                <i className="fa fa-plus"></i>
+                                                                    <i className="fa fa-plus"></i>
                                                                     {/* </Link> */}
                                                                 </button>
                                                             </li>

@@ -16,36 +16,33 @@ const Hero4 = () => {
         autoplay: true,
     };
 
-    let router =  useRouter();
-    
-    
-    useEffect(() => {
- console.log("useEffect ");
- const fetchData = async () => {
+    let router = useRouter();
 
-     console.log("router?.query?.token ", router?.query?.token);
-        if(router?.query?.token){
- 
-                const url =   `auth/verify/email?token=${router?.query?.token}`;
+
+    useEffect(() => {
+        const fetchData = async () => {
+
+            if (router?.query?.token) {
+
+                const url = `auth/verify/email?token=${router?.query?.token}`;
                 const response = await API.post(url).then((response) => {
-                    console.log("response", response);
                     // setNotificationMsg({ status: 200, msg: "User registered successfully!" })
-                    
+
                     // if(window.location.pathname == "/login"){
-                        router.push({ pathname: '/login' });
+                    router.push({ pathname: '/login' });
                     // }else{
                     //     router.push({ pathname: window.location.pathname });
                     // }
-                   
+
                 }).catch((err) => {
                     // setLoading(false);
                     // setNotificationMsg({ status: err?.response?.data?.statusCode || 500, msg: err?.response?.data?.message || err?.message })
                 });
 
+            }
         }
-    }
-    fetchData();
-    },[router])
+        fetchData();
+    }, [router])
 
 
     return (
@@ -60,7 +57,7 @@ const Hero4 = () => {
                             <div className="auto-container">
                                 <div className="row clearfix">
 
-                                    <div className="content-column col-lg-6 col-md-12 col-sm-12" style={{display: "flex", alignItems: "center"}}>
+                                    <div className="content-column col-lg-6 col-md-12 col-sm-12" style={{ display: "flex", alignItems: "center" }}>
                                         <div className="inner-column">
                                             <div className="title">Unlock your imgination with Akshar Graphics</div>
                                             <h1>Stunning graphics and <br /> Priting solution await!</h1>
@@ -71,17 +68,17 @@ const Hero4 = () => {
                                         </div>
                                     </div>
 
-                                        <div className="image-column col-lg-6 col-md-12 col-sm-12">
-                                            <div className="inner-column">
-                                                <div className="image">
-                                                    <img src="images/main-slider/banner_gif.gif"/>
-                                                    {/* <Image src={hero5} alt="" /> */}
-                                                </div>
-                                                {/* <div className="images-icons parallax-scene-1"> */}
-                                                    {/* <div className="slider_backgrousvg" data-depth="0.30">
+                                    <div className="image-column col-lg-6 col-md-12 col-sm-12">
+                                        <div className="inner-column">
+                                            <div className="image">
+                                                <img src="images/main-slider/banner_gif.gif" />
+                                                {/* <Image src={hero5} alt="" /> */}
+                                            </div>
+                                            {/* <div className="images-icons parallax-scene-1"> */}
+                                            {/* <div className="slider_backgrousvg" data-depth="0.30">
                                                         <Image src={icon1} alt="" />
                                                     </div> */}
-                                                    {/* <div className="image-2" data-depth="0.30">
+                                            {/* <div className="image-2" data-depth="0.30">
                                                         <Image src={icon2} alt="" />
                                                     </div>
                                                     <div className="image-3" data-depth="0.30">
@@ -96,9 +93,9 @@ const Hero4 = () => {
                                                     <div className="image-6" data-depth="0.50">
                                                         <Image src={icon6} alt="" />
                                                     </div> */}
-                                                {/* </div> */}
-                                            </div>
+                                            {/* </div> */}
                                         </div>
+                                    </div>
 
                                 </div>
 
@@ -113,7 +110,7 @@ const Hero4 = () => {
                             <div className="auto-container">
                                 <div className="row clearfix">
 
-                                    <div className="content-column col-lg-6 col-md-12 col-sm-12" style={{display: "flex", alignItems: "center"}}>
+                                    <div className="content-column col-lg-6 col-md-12 col-sm-12" style={{ display: "flex", alignItems: "center" }}>
                                         <div className="inner-column">
                                             <div className="title">Unlock your imgination with Akshar Graphics</div>
                                             <h1>Stunning graphics and <br /> Priting solution await!</h1>
@@ -127,7 +124,7 @@ const Hero4 = () => {
                                     <div className="image-column col-lg-6 col-md-12 col-sm-12">
                                         <div className="inner-column">
                                             <div className="image">
-                                                <img src="images/main-slider/banner_gif.gif"/>
+                                                <img src="images/main-slider/banner_gif.gif" />
                                                 {/* <Image src={hero5} alt="" /> */}
                                             </div>
                                             {/* <div className="images-icons parallax-scene-1">
@@ -166,7 +163,7 @@ const Hero4 = () => {
                             <div className="auto-container">
                                 <div className="row clearfix">
 
-                                    <div className="content-column col-lg-6 col-md-12 col-sm-12" style={{display: "flex", alignItems: "center"}}>
+                                    <div className="content-column col-lg-6 col-md-12 col-sm-12" style={{ display: "flex", alignItems: "center" }}>
                                         <div className="inner-column">
                                             <div className="title">Unlock your imgination with Akshar Graphics</div>
                                             <h1>Stunning graphics and <br /> Priting solution await!</h1>
@@ -180,7 +177,7 @@ const Hero4 = () => {
                                     <div className="image-column col-lg-6 col-md-12 col-sm-12">
                                         <div className="inner-column">
                                             <div className="image">
-                                                <img src="images/main-slider/banner_gif.gif"/>
+                                                <img src="images/main-slider/banner_gif.gif" />
                                                 {/* <Image src={hero5} alt="" /> */}
                                             </div>
                                             {/* <div className="images-icons parallax-scene-1">
