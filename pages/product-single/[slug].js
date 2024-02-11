@@ -500,7 +500,7 @@ const ProductSinglePage = (props) => {
     setErrorQuantity(quamtityErr)
     setErrorHeight(heightErr);
     setErrorWidth(widthErr)
-    setErrorImage(imageErr)
+    // setErrorImage(imageErr)
     setError(tempError);
     if (!errorQuantity?.length && !errorHeight?.length && !errorWidth?.length && !errorImage?.length) {
       try {
@@ -711,179 +711,194 @@ const ProductSinglePage = (props) => {
                         </div>
                       </div>
 
-                      {(router.query.slug == "sticker" || router.query.slug == "sq-inch-job") ? <div className="col-lg-7 col-md-7 col-sm-12">
-                        <table className="cart-table" style={{ width: "100%" }}>
-                          <thead className="cart-header" style={{ borderBottom: "1px solid rgb(215, 215, 215)" }}>
-                            <tr>
-                              <th >PRODUCT</th>
-                              <th >Price</th>
-                              <th >Quantity</th>
-                              <th >Height</th>
-                              <th >Width</th>
-                              <th >Image Upload</th>
-                              <th >Remove</th>
-                            </tr>
-                          </thead>
-
-                          <tbody>
-
-                            {selectedArray.map((item, arrayIndex) => (
-
-                              <tr>
-                                <td>  {item?.name}</td>
-                                <td><b>{item?.price}</b></td>
-                                <td><div>
-                                  <input type="number" name="code" value={item?.quantity} onBlur={() => console.log("bjhjbjbjh")} onChange={(e) => handleOnQuantity(e, arrayIndex)} placeholder="Enter Quantity" />
-                                </div></td>
-                                <td ><input type="number" name="code" value={item?.height} onChange={(e) => {
-                                  var tempArray = [...selectedArray];
-                                  tempArray[arrayIndex].height = (e.target.value);
-                                  tempArray[arrayIndex].price_A = (getPrice(tempArray[arrayIndex]).price_A) * (e.target.value) * (tempArray[arrayIndex].width) * (tempArray[arrayIndex].quantity) / 1000;
-                                  setSelectedArray(tempArray)
-                                }} placeholder="Enter Quantity" /></td>
-                                <td >
-                                  <input type="number" name="code" value={item?.width} onChange={(e) => {
-                                    var tempArray = [...selectedArray];
-                                    tempArray[arrayIndex].width = (e.target.value);
-                                    tempArray[arrayIndex].price_A = (tempArray[arrayIndex].price_A) * (e.target.value) * (tempArray[arrayIndex].height) * (tempArray[arrayIndex].quantity) / 1000;
-                                    setSelectedArray(tempArray)
-                                  }} placeholder="Enter Quantity" /></td>
-                                <td ><input type="file" id="imageUpload" name="imageUpload" accept="application/cdr" onChange={(e) => {
-                                  let tempArray = [...selectedArray];
-                                  tempArray[arrayIndex].image = e.target.files[0];
-                                  setSelectedArray(tempArray);
-                                }} /></td>
-                                <td >
-                                  <IconButton onClick={() => {
-                                    const filter = selectedArray?.filter((item, index) => index != arrayIndex)
-                                    setSelectedArray(filter)
-                                  }}><i className="fa fa-close" ></i></IconButton>
-                                </td>
-                              </tr>
-                            ))}
-                          </tbody>
-                        </table>
-                      </div> : <div className="col-lg-7 col-md-7 col-sm-12">
-                        <div className="table-outer" style={{ border: "1px solid #d7d7d7", borderRadius: "6px", boxShadow: "0px 5px 15px rgba(0, 0, 0, 0.10)", transition: "box-shadow 0.3s ease-in-out" }}>
-                          <table className="cart-table" style={{ width: "100%" }}>
-                            <thead className="cart-header" style={{ borderBottom: "1px solid rgb(215, 215, 215)" }}>
-                              <tr>
-                                <th >PRODUCT</th>
-                                <th >Price</th>
-                                <th >Quantity</th>
-                                <th >Height</th>
-                                <th >Width</th>
-                                <th >Total Price</th>
-                                <th >Image Upload</th>
-                                <th >Remove</th>
-                              </tr>
-                            </thead>
-
-                            <tbody>
-                              {selectedArray.map((item, arrayIndex) => (
-
+                      {(router.query.slug == "sticker" || router.query.slug == "sq-inch-job") ?
+                        <div className="col-lg-7 col-md-7 col-sm-12">
+                          <div className="table-outer" style={{ border: "1px solid #d7d7d7", borderRadius: "6px", boxShadow: "0px 5px 15px rgba(0, 0, 0, 0.10)", transition: "box-shadow 0.3s ease-in-out" }}>
+                            <table className="cart-table" style={{ width: "100%" }}>
+                              <thead className="cart-header" style={{ borderBottom: "1px solid rgb(215, 215, 215)" }}>
                                 <tr>
-                                  <td> <Box style={{ display: 'flex', justifyContent: 'center', paddingLeft: "12px" }}>{item?.name}</Box></td>
-                                  <td ><Box style={{ display: 'flex', justifyContent: 'center' }}> {item?.price}</Box></td>
-                                  <td >
-                                    <div style={{ textAlign: "center" }}>
-                                      <TextField size='small' type="number" name="quantity" value={item?.quantity}
-                                        onBlur={(e) => handleOnBlurQuantity(e, arrayIndex)}
-                                        // onBlur={(e) => {
-                                        //   if ((e.target.value % 1000) === 0) {
-                                        //     console.log("Valid")
-                                        //   } else {
-                                        //     console.log("invalid ");
-                                        //     setOpen(true);
-                                        //   }
-                                        // }}
-                                        style={{ maxWidth: "90px" }}
-                                        onChange={handleChangeQuantity(arrayIndex)} placeholder="Enter Quantity"
-                                        error={errorQuantity?.length > 0 && errorQuantity.includes(arrayIndex)}
-                                      />
-                                      {errorQuantity?.length > 0 && errorQuantity.includes(arrayIndex) && (<FormHelperText error>{"Please Enter Quantity"}</FormHelperText>)}
-                                    </div>
-                                  </td>
-                                  {
-                                    item?.height_width == "yes" ? (
-                                      <>
-                                        <td >
-                                          <div style={{ textAlign: "center" }}>
-                                            <TextField
-                                              size='small'
-                                              type="number"
-                                              InputProps={{ inputProps: { min: 0, step: "0.25" } }}
-                                              name="height"
-                                              value={item?.height}
-                                              style={{ maxWidth: "100px" }}
-                                              onBlur={(e) => handleOnBlurHeight(e, arrayIndex)}
-                                              onChange={handleChangeheightWidth(arrayIndex)}
-                                              error={errorHeight?.length > 0 && errorHeight.includes(arrayIndex)}
-                                              placeholder="Height" />
-                                            {errorHeight?.length > 0 && errorHeight.includes(arrayIndex) && (<FormHelperText error>{item?.height ? "Width multiply by 0.25" : "Please Enter Height"}</FormHelperText>)}
-                                          </div>
-                                        </td>
-                                        <td >
-                                          <div style={{ textAlign: "center" }}>
-                                            <TextField
-                                              size='small'
-                                              type="number"
-                                              name="width"
-                                              InputProps={{ inputProps: { min: 0, step: "0.25" } }}
-                                              value={item?.width}
-                                              onBlur={(e) => handleOnBlurWidth(e, arrayIndex)}
-                                              style={{ maxWidth: "100px" }}
-                                              onChange={handleChangeheightWidth(arrayIndex)}
-                                              error={(errorWidth?.length > 0) && errorWidth.includes(arrayIndex)}
-                                              placeholder="Width" />
-                                            {(errorWidth?.length > 0) && errorWidth.includes(arrayIndex) && (<FormHelperText error>{item?.width ? "Width multiply by 0.25" : "Please Enter Width"}</FormHelperText>)}
-                                          </div>
-                                        </td>
-                                      </>
-                                    ) : (
-                                      <>
-                                        <td><Box style={{ display: 'flex', justifyContent: 'center' }}>-</Box></td>
-                                        <td><Box style={{ display: 'flex', justifyContent: 'center' }}>-</Box></td>
-                                      </>
-                                    )
-                                  }
-                                  <td> <Box style={{ display: 'flex', justifyContent: 'center' }}>{item?.total_price}</Box></td>
-                                  <td ><input type="file" style={{ maxWidth: "180px" }} id="imageUpload" name="imageUpload" accept="application/cdr" onChange={(e) => {
-                                    let tempArray = [...selectedArray];
-                                    tempArray[arrayIndex].image = e.target.files[0];
-                                    setSelectedArray(tempArray);
-                                  }} />
-                                    {errorImage?.length > 0 && errorImage.includes(arrayIndex) && (<FormHelperText error>{"Please Enter Images"}</FormHelperText>)}
+                                  <th >PRODUCT</th>
+                                  <th >Price</th>
+                                  <th >Quantity</th>
+                                  <th >Height</th>
+                                  <th >Width</th>
+                                  <th >Image Upload</th>
+                                  <th >Remove</th>
+                                </tr>
+                              </thead>
 
-                                  </td>
-                                  <td>
-                                    <div style={{ textAlign: "center" }}>
+                              <tbody>
+
+                                {selectedArray.map((item, arrayIndex) => (
+
+                                  <tr>
+                                    <td>  {item?.name}</td>
+                                    <td><b>{item?.price}</b></td>
+                                    <td><div>
+                                      <input type="number" name="code" value={item?.quantity} onBlur={() => console.log("bjhjbjbjh")} onChange={(e) => handleOnQuantity(e, arrayIndex)} placeholder="Enter Quantity" />
+                                    </div></td>
+                                    <td ><input type="number" name="code" value={item?.height} onChange={(e) => {
+                                      var tempArray = [...selectedArray];
+                                      tempArray[arrayIndex].height = (e.target.value);
+                                      tempArray[arrayIndex].price_A = (getPrice(tempArray[arrayIndex]).price_A) * (e.target.value) * (tempArray[arrayIndex].width) * (tempArray[arrayIndex].quantity) / 1000;
+                                      setSelectedArray(tempArray)
+                                    }} placeholder="Enter Quantity" /></td>
+                                    <td >
+                                      <input type="number" name="code" value={item?.width} onChange={(e) => {
+                                        var tempArray = [...selectedArray];
+                                        tempArray[arrayIndex].width = (e.target.value);
+                                        tempArray[arrayIndex].price_A = (tempArray[arrayIndex].price_A) * (e.target.value) * (tempArray[arrayIndex].height) * (tempArray[arrayIndex].quantity) / 1000;
+                                        setSelectedArray(tempArray)
+                                      }} placeholder="Enter Quantity" /></td>
+                                    <td ><input type="file" id="imageUpload" name="imageUpload" accept="application/cdr" onChange={(e) => {
+                                      let tempArray = [...selectedArray];
+                                      tempArray[arrayIndex].image = e.target.files[0];
+                                      setSelectedArray(tempArray);
+                                    }} /></td>
+                                    <td >
                                       <IconButton onClick={() => {
-                                        const filter = selectedArray?.filter((obj, index) => obj?.id != item?.id)
+                                        const filter = selectedArray?.filter((item, index) => index != arrayIndex)
                                         setSelectedArray(filter)
                                       }}><i className="fa fa-close" ></i></IconButton>
-                                    </div>
-                                  </td>
+                                    </td>
+                                  </tr>
+                                ))}
+                              </tbody>
+                            </table>
+                            {
+                              selectedArray?.length <= 0 && (
+                                <div style={{ width: "100%", textAlign: "center", padding: "12px" }}>
+                                  <p style={{ margin: 0, fontWeight: 500 }}>Product not selected yet.</p>
+                                </div>
+                              )
+                            }
+                          </div>
+                          {selectedArray?.length > 0 && (<p>Please increase the quantity in increments of 1000 pieces for optimal order processing.</p>)}
+                          <div className="pt-5 text-right" style={{ display: 'flex', justifyContent: 'flex-end' }}><button type="submit" className="theme-btn btn-style-two"
+                            onClick={handleProceedToCheckout}
+                          ><span className="txt">Proceed to Checkout</span></button></div>
+                        </div> : <div className="col-lg-7 col-md-7 col-sm-12">
+                          <div className="table-outer" style={{ border: "1px solid #d7d7d7", borderRadius: "6px", boxShadow: "0px 5px 15px rgba(0, 0, 0, 0.10)", transition: "box-shadow 0.3s ease-in-out" }}>
+                            <table className="cart-table" style={{ width: "100%" }}>
+                              <thead className="cart-header" style={{ borderBottom: "1px solid rgb(215, 215, 215)" }}>
+                                <tr>
+                                  <th >PRODUCT</th>
+                                  <th >Price</th>
+                                  <th >Quantity</th>
+                                  <th >Height</th>
+                                  <th >Width</th>
+                                  <th >Total Price</th>
+                                  <th >Image Upload</th>
+                                  <th >Remove</th>
                                 </tr>
-                              ))}
-                            </tbody>
-                          </table>
-                          {
-                            selectedArray?.length <= 0 && (
-                              <div style={{ width: "100%", textAlign: "center", padding: "12px" }}>
-                                <p style={{ margin: 0, fontWeight: 500 }}>Product not selected yet.</p>
-                              </div>
-                            )
-                          }
-                        </div>
-                        {selectedArray?.length > 0 && (<p>Please increase the quantity in increments of 1000 pieces for optimal order processing.</p>)}
-                      </div>}
+                              </thead>
+
+                              <tbody>
+                                {selectedArray.map((item, arrayIndex) => (
+
+                                  <tr>
+                                    <td> <Box style={{ display: 'flex', justifyContent: 'center', paddingLeft: "12px" }}>{item?.name}</Box></td>
+                                    <td ><Box style={{ display: 'flex', justifyContent: 'center' }}> {item?.price}</Box></td>
+                                    <td >
+                                      <div style={{ textAlign: "center" }}>
+                                        <TextField size='small' type="number" name="quantity" value={item?.quantity}
+                                          onBlur={(e) => handleOnBlurQuantity(e, arrayIndex)}
+                                          // onBlur={(e) => {
+                                          //   if ((e.target.value % 1000) === 0) {
+                                          //     console.log("Valid")
+                                          //   } else {
+                                          //     console.log("invalid ");
+                                          //     setOpen(true);
+                                          //   }
+                                          // }}
+                                          style={{ maxWidth: "90px" }}
+                                          onChange={handleChangeQuantity(arrayIndex)} placeholder="Enter Quantity"
+                                          error={errorQuantity?.length > 0 && errorQuantity.includes(arrayIndex)}
+                                        />
+                                        {errorQuantity?.length > 0 && errorQuantity.includes(arrayIndex) && (<FormHelperText error>{"Please Enter Quantity"}</FormHelperText>)}
+                                      </div>
+                                    </td>
+                                    {
+                                      item?.height_width == "yes" ? (
+                                        <>
+                                          <td >
+                                            <div style={{ textAlign: "center" }}>
+                                              <TextField
+                                                size='small'
+                                                type="number"
+                                                InputProps={{ inputProps: { min: 0, step: "0.25" } }}
+                                                name="height"
+                                                value={item?.height}
+                                                style={{ maxWidth: "100px" }}
+                                                onBlur={(e) => handleOnBlurHeight(e, arrayIndex)}
+                                                onChange={handleChangeheightWidth(arrayIndex)}
+                                                error={errorHeight?.length > 0 && errorHeight.includes(arrayIndex)}
+                                                placeholder="Height" />
+                                              {errorHeight?.length > 0 && errorHeight.includes(arrayIndex) && (<FormHelperText error>{item?.height ? "Width multiply by 0.25" : "Please Enter Height"}</FormHelperText>)}
+                                            </div>
+                                          </td>
+                                          <td >
+                                            <div style={{ textAlign: "center" }}>
+                                              <TextField
+                                                size='small'
+                                                type="number"
+                                                name="width"
+                                                InputProps={{ inputProps: { min: 0, step: "0.25" } }}
+                                                value={item?.width}
+                                                onBlur={(e) => handleOnBlurWidth(e, arrayIndex)}
+                                                style={{ maxWidth: "100px" }}
+                                                onChange={handleChangeheightWidth(arrayIndex)}
+                                                error={(errorWidth?.length > 0) && errorWidth.includes(arrayIndex)}
+                                                placeholder="Width" />
+                                              {(errorWidth?.length > 0) && errorWidth.includes(arrayIndex) && (<FormHelperText error>{item?.width ? "Width multiply by 0.25" : "Please Enter Width"}</FormHelperText>)}
+                                            </div>
+                                          </td>
+                                        </>
+                                      ) : (
+                                        <>
+                                          <td><Box style={{ display: 'flex', justifyContent: 'center' }}>-</Box></td>
+                                          <td><Box style={{ display: 'flex', justifyContent: 'center' }}>-</Box></td>
+                                        </>
+                                      )
+                                    }
+                                    <td> <Box style={{ display: 'flex', justifyContent: 'center' }}>{item?.total_price}</Box></td>
+                                    <td ><input type="file" style={{ maxWidth: "180px" }} id="imageUpload" name="imageUpload" accept="application/cdr" onChange={(e) => {
+                                      let tempArray = [...selectedArray];
+                                      tempArray[arrayIndex].image = e.target.files[0];
+                                      setSelectedArray(tempArray);
+                                    }} />
+                                      {errorImage?.length > 0 && errorImage.includes(arrayIndex) && (<FormHelperText error>{"Please Enter Images"}</FormHelperText>)}
+
+                                    </td>
+                                    <td>
+                                      <div style={{ textAlign: "center" }}>
+                                        <IconButton onClick={() => {
+                                          const filter = selectedArray?.filter((obj, index) => obj?.id != item?.id)
+                                          setSelectedArray(filter)
+                                        }}><i className="fa fa-close" ></i></IconButton>
+                                      </div>
+                                    </td>
+                                  </tr>
+                                ))}
+                              </tbody>
+                            </table>
+                            {
+                              selectedArray?.length <= 0 && (
+                                <div style={{ width: "100%", textAlign: "center", padding: "12px" }}>
+                                  <p style={{ margin: 0, fontWeight: 500 }}>Product not selected yet.</p>
+                                </div>
+                              )
+                            }
+                          </div>
+                          {selectedArray?.length > 0 && (<p>Please increase the quantity in increments of 1000 pieces for optimal order processing.</p>)}
+                          <div className="pt-5 text-right" style={{ display: 'flex', justifyContent: 'flex-end' }}><button type="submit" className="theme-btn btn-style-two"
+                            onClick={handleProceedToCheckout}
+                          ><span className="txt">Proceed to Checkout</span></button></div>
+                        </div>}
                     </div>
                     {/* </div> */}
                   </div>
-                  <div className="p-5 text-right" style={{ display: 'flex', justifyContent: 'flex-end' }}><button type="submit" className="theme-btn btn-style-two"
-                    onClick={handleProceedToCheckout}
-                  ><span className="txt">Proceed to Checkout</span></button></div>
+
                 </div>
 
                 {/* <ProductTabs /> */}
