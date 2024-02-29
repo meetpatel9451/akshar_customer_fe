@@ -69,6 +69,7 @@ const NewPaymentForm = () => {
                 }).then((val) => {
                     setLoading(false);
                     setNotificationMsg({status: 200, msg: "Payment Submitted Sucessfully!"})
+                    window.location.reload();
                 }).catch((err) => {
                     setLoading(false);
                     setNotificationMsg({status: err?.response?.data?.statusCode || 500, msg: err?.response?.data?.message || err?.message})

@@ -31,15 +31,19 @@ const Header = (props) => {
 
     useEffect(() => {
         async function fetchData() {
-            const url = `api/v1/client/${user_id}`;
-
-            try {
-                const response = await API.get(url);
-                setBalance(response?.data?.data?.Ledger[0]?.balance || "0")
-                // Handle the response data here
-            } catch (error) {
-                console.error("Error fetching data:", error);
-                // Handle the error here
+            if (user_id && token) {
+                const url = `api/v1/client/${user_id}`;
+    
+                try {
+                    const response = await API.get(url);
+                    setBalance(response?.data?.data?.Ledger[0]?.balance || "0")
+                    // Handle the response data here
+                } catch (error) {
+                    console.error("Error fetching data:", error);
+                    // Handle the error here
+                }
+            } else {
+                setBalance("0")
             }
         }
 

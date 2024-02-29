@@ -309,6 +309,7 @@ const othersArray = {
 
   ]
 }
+
 const newproductArray = {
   name: "New Product",
   data: [
@@ -354,7 +355,7 @@ const ProductSinglePage = (props) => {
   const [notificationMsg, setNotificationMsg] = useState({})
   const [clientData, setClientData] = useState(null);
 
-  const [error, setError] = useState({ quantity: [], height: [], width: [] });
+  // const [error, setError] = useState({ quantity: [], height: [], width: [] });
   const [errorQuantity, setErrorQuantity] = useState([]);
   const [errorHeight, setErrorHeight] = useState([]);
   const [errorWidth, setErrorWidth] = useState([]);
@@ -449,12 +450,11 @@ const ProductSinglePage = (props) => {
   }
 
   const handleProceedToCheckout = async () => {
-    setLoading(true)
     const user_id = localStorage.getItem("user_id");
     const url = `api/v1/order/client/${user_id}`;
 
     const formData = new FormData();
-    const tempError = error;
+    // const tempError = error;
     let quamtityErr = [];
     let heightErr = [];
     let widthErr = [];
@@ -476,7 +476,7 @@ const ProductSinglePage = (props) => {
 
       if (!product.image) {
         imageErr = [...imageErr, index]
-        // setErrorImage([...errorImage, index])
+        // setErrorImage([...imageErr, index])
       }
 
       // tempError["quantity"] = [...tempError["quantity"], index];
@@ -500,7 +500,7 @@ const ProductSinglePage = (props) => {
     setErrorQuantity(quamtityErr)
     setErrorHeight(heightErr);
     setErrorWidth(widthErr)
-    // setErrorImage(imageErr)
+    setErrorImage(imageErr)
     setError(tempError);
     if (!errorQuantity?.length && !errorHeight?.length && !errorWidth?.length && !errorImage?.length) {
       try {
@@ -617,7 +617,6 @@ const ProductSinglePage = (props) => {
     }
   }
 
-
   const handleOnBlurWidth = (e, index) => {
     if (errorWidth?.includes(index)) {
       if (((e.target.value) % 0.25) == 0 && e.target.value > 0) {
@@ -630,7 +629,6 @@ const ProductSinglePage = (props) => {
       }
     }
   }
-
 
   const handleOnBlur = (e, index) => {
     let tempError = error;
@@ -685,7 +683,7 @@ const ProductSinglePage = (props) => {
                           <table className="cart-table" style={{ width: "100%" }}>
                             <thead className="cart-header" style={{ borderBottom: "1px solid rgb(215, 215, 215)" }}>
                               <tr>
-                                <th className="prod-column">PRODUCT</th>
+                                <th className="prod-column" style={{ paddingLeft: "12px" }}>PRODUCT</th>
                                 <th className='justify-center'>Price <sub>(1000</sub>&nbsp;<sub>pc.)</sub></th>
                                 <th className="price">Action</th>
                               </tr>
@@ -694,8 +692,8 @@ const ProductSinglePage = (props) => {
                             <tbody>
                               {productList?.map((item, index) => (
                                 <tr>
-                                  <td > <Box style={{ display: 'flex', justifyContent: 'center', paddingLeft: "12px" }}>{item?.name}</Box></td>
-                                  <td> <Box style={{ display: 'flex', justifyContent: 'center' }}>{getPrice(item)}</Box></td>
+                                  <td> <Box style={{ display: 'flex', justifyContent: 'left', paddingLeft: "12px" }}>{item?.name}</Box></td>
+                                  <td> <Box style={{ display: 'flex', justifyContent: 'right', paddingRight: "30px" }}>{getPrice(item)}</Box></td>
                                   <td> <Box style={{ display: 'flex', justifyContent: 'center' }}><IconButton style={{ display: 'flex', justifySelf: 'center' }} onClick={() => handleAddToCart(item)}><i className="fa fa-cart-plus" ></i></IconButton></Box></td>
                                 </tr>
                               ))}
@@ -717,21 +715,19 @@ const ProductSinglePage = (props) => {
                             <table className="cart-table" style={{ width: "100%" }}>
                               <thead className="cart-header" style={{ borderBottom: "1px solid rgb(215, 215, 215)" }}>
                                 <tr>
-                                  <th >PRODUCT</th>
-                                  <th >Price</th>
-                                  <th >Quantity</th>
-                                  <th >Height</th>
-                                  <th >Width</th>
-                                  <th >Image Upload</th>
-                                  <th >Remove</th>
+                                  <th>PRODUCT</th>
+                                  <th>Price</th>
+                                  <th>Quantity</th>
+                                  <th>Height</th>
+                                  <th>Width</th>
+                                  <th>Image Upload</th>
+                                  <th>Remove</th>
                                 </tr>
                               </thead>
 
                               <tbody>
-
                                 {selectedArray.map((item, arrayIndex) => (
-
-                                  <tr>
+                                  <tr key={arrayIndex}>
                                     <td>  {item?.name}</td>
                                     <td><b>{item?.price}</b></td>
                                     <td><div>
@@ -750,7 +746,7 @@ const ProductSinglePage = (props) => {
                                         tempArray[arrayIndex].price_A = (tempArray[arrayIndex].price_A) * (e.target.value) * (tempArray[arrayIndex].height) * (tempArray[arrayIndex].quantity) / 1000;
                                         setSelectedArray(tempArray)
                                       }} placeholder="Enter Quantity" /></td>
-                                    <td ><input type="file" id="imageUpload" name="imageUpload" accept="application/cdr" onChange={(e) => {
+                                    <td ><input type="file" id={`imageUpload_${item?.product_id || arrayIndex}`} name={`imageUpload_${item?.product_id || arrayIndex}`} accept="application/cdr" onChange={(e) => {
                                       let tempArray = [...selectedArray];
                                       tempArray[arrayIndex].image = e.target.files[0];
                                       setSelectedArray(tempArray);
@@ -777,26 +773,26 @@ const ProductSinglePage = (props) => {
                           <div className="pt-5 text-right" style={{ display: 'flex', justifyContent: 'flex-end' }}><button type="submit" className="theme-btn btn-style-two"
                             onClick={handleProceedToCheckout}
                           ><span className="txt">Proceed to Checkout</span></button></div>
-                        </div> : <div className="col-lg-7 col-md-7 col-sm-12">
+                        </div> :
+                        <div className="col-lg-7 col-md-7 col-sm-12">
                           <div className="table-outer" style={{ border: "1px solid #d7d7d7", borderRadius: "6px", boxShadow: "0px 5px 15px rgba(0, 0, 0, 0.10)", transition: "box-shadow 0.3s ease-in-out" }}>
                             <table className="cart-table" style={{ width: "100%" }}>
                               <thead className="cart-header" style={{ borderBottom: "1px solid rgb(215, 215, 215)" }}>
                                 <tr>
-                                  <th >PRODUCT</th>
-                                  <th >Price</th>
-                                  <th >Quantity</th>
-                                  <th >Height</th>
-                                  <th >Width</th>
-                                  <th >Total Price</th>
-                                  <th >Image Upload</th>
-                                  <th >Remove</th>
+                                  <th>PRODUCT</th>
+                                  <th>Price</th>
+                                  <th>Quantity</th>
+                                  <th>Height</th>
+                                  <th>Width</th>
+                                  <th>Total Price</th>
+                                  <th>Image Upload</th>
+                                  <th>Remove</th>
                                 </tr>
                               </thead>
 
                               <tbody>
                                 {selectedArray.map((item, arrayIndex) => (
-
-                                  <tr>
+                                  <tr key={arrayIndex}>
                                     <td> <Box style={{ display: 'flex', justifyContent: 'center', paddingLeft: "12px" }}>{item?.name}</Box></td>
                                     <td ><Box style={{ display: 'flex', justifyContent: 'center' }}> {item?.price}</Box></td>
                                     <td >
@@ -862,19 +858,23 @@ const ProductSinglePage = (props) => {
                                       )
                                     }
                                     <td> <Box style={{ display: 'flex', justifyContent: 'center' }}>{item?.total_price}</Box></td>
-                                    <td ><input type="file" style={{ maxWidth: "180px" }} id="imageUpload" name="imageUpload" accept="application/cdr" onChange={(e) => {
-                                      let tempArray = [...selectedArray];
-                                      tempArray[arrayIndex].image = e.target.files[0];
-                                      setSelectedArray(tempArray);
-                                    }} />
+                                    <td >
+                                      <input type="file" style={{ maxWidth: "180px" }} id={`imageUpload_${item?.product_id}`} name={`imageUpload_${item?.product_id}`} accept="application/cdr"
+                                        onChange={(e) => {
+                                          let tempArray = [...selectedArray];
+                                          tempArray[arrayIndex].image = e.target.files[0];
+                                          setSelectedArray(tempArray);
+                                        }} />
                                       {errorImage?.length > 0 && errorImage.includes(arrayIndex) && (<FormHelperText error>{"Please Enter Images"}</FormHelperText>)}
-
                                     </td>
                                     <td>
                                       <div style={{ textAlign: "center" }}>
                                         <IconButton onClick={() => {
-                                          const filter = selectedArray?.filter((obj, index) => obj?.id != item?.id)
-                                          setSelectedArray(filter)
+                                          const id = `imageUpload_${item?.product_id}`;
+                                          console.log("id", id);
+                                          document.getElementById(id).value = "";
+                                          const filter = selectedArray?.filter((obj, index) => index != arrayIndex);
+                                          setSelectedArray(filter);
                                         }}><i className="fa fa-close" ></i></IconButton>
                                       </div>
                                     </td>

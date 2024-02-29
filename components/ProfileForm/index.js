@@ -49,10 +49,12 @@ const ProfileForm = () => {
 
     async function fetch() {
         const user_id = localStorage.getItem("user_id");
-        const url = `api/v1/client/${Number(user_id)}`;
-        const response = await API.get(url);
-        if (response?.data?.data) {
-            setForms(response?.data?.data)
+        if (user_id) {
+            const url = `api/v1/client/${Number(user_id)}`;
+            const response = await API.get(url);
+            if (response?.data?.data) {
+                setForms(response?.data?.data)
+            }
         }
     }
 

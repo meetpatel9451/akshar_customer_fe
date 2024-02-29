@@ -26,4 +26,25 @@ API.interceptors.request.use((req: any) => {
   return req;
 });
 
+// Add a response interceptor
+API.interceptors.response.use(
+  (response) => {
+    // If the request was successful, return the response
+    return response;
+  },
+  (error) => {
+    // If the request resulted in a 401 Unauthorized response
+    if (error.response && error.response.status === 401 && localStorage.getItem("user_id") && localStorage.getItem("token")) {
+      localStorage.removeItem("user_id");
+      localStorage.removeItem("token")
+      window.location.reload();
+      // Handle unauthorized access, e.g., redirect to login page
+      console.log('Unauthorized access. Redirecting to login page.');
+    }
+
+    // Return any errors for further handling
+    return Promise.reject(error);
+  }
+);
+
 export default API;
