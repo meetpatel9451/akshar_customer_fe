@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import API from '../../store/api';
 import moment from 'moment';
-import { Button, Chip } from '@mui/material';
+import { Backdrop, Button, Chip, CircularProgress } from '@mui/material';
 import config from '../../configs/config';
 
 const LedgerStatementPage = () => {
@@ -9,10 +9,11 @@ const LedgerStatementPage = () => {
     const [statementList, setStatementList] = useState([]);
     const user_id = localStorage.getItem("user_id");
     const token = localStorage.getItem("token");
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         async function fetch() {
-            const url = `api/v1/ledger/client/${Number(user_id)}`;
+            const url = `api/v1/ledger/client/${Number(user_id)}?page=${1}&limit=${100}`;
             const response = await API.get(url);
             setStatementList(response?.data?.data || []);
         }
@@ -49,36 +50,58 @@ const LedgerStatementPage = () => {
         }
     }
 
-    const getRowBgColor = (credit, debit) => {
-        if (credit) {
-            return "rgb(237, 247, 237)"
-        } else if (debit) {
-            return "rgb(253, 237, 237)"
-        } else {
-            return "transparent"
+    const getRowBgColor = (data) => {
+        if (data?.acEntry_id) {
+            return `#b2ffb2`;
+        } else if (data?.order_id) {
+            if (data?.order?.status == "decline" || data?.order?.status == "deleted") {
+                return `#E78B8B`;
+            }
         }
+
+        return "";
     }
 
     const downloadPdf = async () => {
-        const apiUrl = `api/v1/ledger/client/${Number(user_id)}/pdf`;
-        // const response = await API.get(apiUrl);
-        const response = await fetch(`${config.BASE_URL}${apiUrl}`, {
-            headers: {
-                'Authorization': `Bearer ${token}`,
+        try {
+            setLoading(true);
+
+            const apiUrl = `api/v1/ledger/client/${Number(user_id)}/pdf`;
+            const response = await fetch(`${config.BASE_URL}${apiUrl}`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                }
+            });
+
+            if (!response.ok) {
+                // Handle error, e.g., show an error message
+                console.error(`Failed to fetch PDF. Status: ${response.status}`);
+                return;
             }
-        });
-        const blob = await response.blob();
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'table.pdf';
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
+
+            const blob = await response.blob();
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'table.pdf';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        } catch (error) {
+            console.error('Error fetching PDF:', error);
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
         <div>
+            <Backdrop
+                sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+                open={loading}
+            >
+                <CircularProgress color="inherit" />
+            </Backdrop>
             <section className="history-section">
                 <div className="auto-container">
                     <div className="sec-title centered" style={{ marginBottom: "2rem" }}>
@@ -86,22 +109,24 @@ const LedgerStatementPage = () => {
                         <div className="text">An insightful overview detailing the transactions and balances recorded in the account ledger, offering a comprehensive understanding of account activity.</div>
                     </div>
                     <div style={{ display: "flex", flexDirection: "row-reverse", marginBottom: "2rem" }}>
-                        <button className="theme-btn btn-style-two" onClick={() => downloadPdf()}><span className="txt">Download PDF</span></button>
+                        <button className="theme-btn btn-style-two" onClick={downloadPdf} disabled={loading}>
+                            <span className="txt">{loading ? 'Downloading...' : 'Download PDF'}</span>
+                        </button>
                     </div>
                     <div className="cart-outer">
                         <div className="table-outer" style={{ border: "1px solid #d7d7d7", borderRadius: "6px", boxShadow: "0px 5px 15px rgba(0, 0, 0, 0.10)", transition: "box-shadow 0.3s ease-in-out" }}>
-                            <table className="cart-table">
+                            <table className="cart-table ledger">
                                 <thead className="cart-header">
-                                    <tr>
+                                    <tr >
                                         <th className="prod-column">Sr.No.</th>
-                                        <th>Date</th>
-                                        <th>Transaction Type</th>
-                                        <th>Journal Name</th>
+                                        <th className="prod-column">Date</th>
+                                        <th className="prod-column">Transaction Type</th>
+                                        <th className="prod-column">Journal Name</th>
                                         <th className="price">Debit</th>
                                         <th className="price">Credit</th>
                                         <th className="price">Balance</th>
-                                        <th>View Receipt</th>
-                                        <th>Status</th>
+                                        <th className="prod-column">View Receipt</th>
+                                        <th className="prod-column">Status</th>
                                     </tr>
                                 </thead>
 
@@ -109,7 +134,7 @@ const LedgerStatementPage = () => {
                                     {statementList &&
                                         statementList?.items?.length > 0 &&
                                         statementList?.items?.map((ledger, index) => (
-                                            <tr key={index} style={{ backgroundColor: getRowBgColor(ledger?.credit || "", ledger?.debit || "") }}>
+                                            <tr key={index} style={{ backgroundColor: getRowBgColor(ledger)}}>
                                                 <td style={{ textAlign: "center", paddingLeft: 0 }}>{ledger?.id || ""}</td>
                                                 <td style={{ textAlign: "center", paddingLeft: 0 }}>{ledger?.createdAt ? moment(ledger?.createdAt).format('YYYY-MM-DD') : ""}</td>
                                                 <td style={{ textAlign: "center", paddingLeft: 0 }}>{ledger?.acEntry?.payment_type || "-"}</td>

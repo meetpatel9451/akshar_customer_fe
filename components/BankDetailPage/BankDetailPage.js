@@ -85,7 +85,7 @@ const BankDetails = (props) => {
                             <h4 style={{ fontWeight: 700, textAlign: "center" }}>AKSHAR GRAPHICS AND PRINTER</h4> <br />
                             <h5 style={{ fontWeight: 500 }}>Scan Qr Code</h5>
                             <div className='qr-border'></div>
-                            <img src='/images/icons/sample.png' alt='qrcode'></img>
+                            <img src='/images/icons/qrcode_akshar.jpeg' alt='qrcode'></img>
                             <div className="copy-text">
                                 <input type="text" className="text" value="9825699952-1@idfcfirst" />
                                 <button onClick={handleCopyText}>COPY</button>

@@ -42,7 +42,7 @@ const PaymentPage = () => {
                 <div className="auto-container">
                     <div className="sec-title centered" style={{marginBottom: "1rem"}}>
                         <h2>Payment</h2>
-                        <div className="text">Our approach to SEO is uniquely built around what we know works…and what we know <br /> doesn’t work. With over 200 verified factors in play.</div>
+                        <div className="text">Effortless payments for a smoother, hassle-free experience in your everyday transactions.</div>
                     </div>
                     <Link href="/payment-receipt/add-payment" ><div className="p-5 text-right" style={{display: 'flex', justifyContent: 'flex-end'}}><button className="theme-btn btn-style-two"><span className="txt">Add Payment</span></button></div></Link>
                     <div className="cart-outer">
@@ -70,7 +70,7 @@ const PaymentPage = () => {
                                                 <td style={{textAlign: "center", paddingLeft: 0}}>{payment?.date ? moment(payment?.date).format('YYYY-MM-DD') : ""}</td>
                                                 <td style={{textAlign: "center", paddingLeft: 0}}>{payment?.amount > 0 ? payment?.amount : ""}</td>
                                                 <td style={{textAlign: "center", paddingLeft: 0}}>{payment?.remarks ? payment?.remarks : ""}</td>
-                                                <td style={{textAlign: "center", paddingLeft: 0}}>{payment?.receipt_img ? <Button onClick={() => window.location.href = payment?.receipt_img}>View</Button> : "-"}</td>
+                                                <td style={{textAlign: "center", paddingLeft: 0}}>{payment?.receipt_img ? <Button onClick={() => window.open(payment?.receipt_img, '_blank')}>View</Button> : "-"}</td>
                                                 <td style={{textAlign: "center", paddingLeft: 0}}>{payment?.status ? getChip(payment?.status || "") : "-"}</td>
                                                 {/* <td className="sub-total">${history.}</td> */}
                                             </tr>

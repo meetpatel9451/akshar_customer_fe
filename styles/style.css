@@ -12866,6 +12866,10 @@ img {
 	text-align: center;
 }
 
+.cart-table tbody tr:nth-child(even) {
+	background-color: #f7f7f7;
+}
+
 .cart-table thead tr th.prod-column {
 	text-align: left;
 	padding-left: 40px;
@@ -13411,7 +13415,7 @@ img {
 	width: 100%;
 	text-transform: capitalize;
 	font-size: 18px;
-	background: #f7f7f7;
+	background: #eaeef3;
 	color: #222222;
 }
 
@@ -13430,7 +13434,7 @@ img {
 }
 
 .cart-table tbody tr {
-	border-bottom: 1px solid #eeeeee;
+	border-bottom: 1px solid #f8f8f8;
 }
 
 .cart-table tbody tr td {

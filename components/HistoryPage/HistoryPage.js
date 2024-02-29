@@ -38,7 +38,7 @@ const HistoryPage = () => {
                 <div className="auto-container">
                     <div className="sec-title centered" style={{marginBottom: "4rem"}}>
                         <h2>Order And History</h2>
-                        <div className="text">Our approach to SEO is uniquely built around what we know works…and what we know <br /> doesn’t work. With over 200 verified factors in play.</div>
+                        <div className="text">Track, reorder, and stay organized with ease - Your past, present, and future orders at your fingertips.</div>
                     </div>
                     <div className="cart-outer">
                         <div className="table-outer" style={{border: "1px solid #d7d7d7",  borderRadius: "6px", boxShadow: "0px 5px 15px rgba(0, 0, 0, 0.10)", transition: "box-shadow 0.3s ease-in-out"}}>
@@ -67,7 +67,7 @@ const HistoryPage = () => {
                                                 <td style={{textAlign: "center", paddingLeft: 0}}>{history?.id || ""}</td>
                                                 <td style={{textAlign: "center", paddingLeft: 0}}>{history?.createdAt ? moment(history?.createdAt).format('YYYY-MM-DD') : ""}</td>
                                                 <td style={{textAlign: "center", paddingLeft: 0}}>{history?.OrderProduct[0]?.product?.name || ""}</td>
-                                                <td style={{textAlign: "center", paddingLeft: 0}}>{history?.OrderProduct[0]?.order_image ? <Button onClick={() => window.location.href = history?.OrderProduct[0]?.order_image}>View</Button> : "-"}</td>
+                                                <td style={{textAlign: "center", paddingLeft: 0}}>{history?.OrderProduct[0]?.order_image ? <Button onClick={() => window.open(history?.OrderProduct[0]?.order_image, '_blank')}>View</Button> : "-"}</td>
                                                 <td style={{textAlign: "center", paddingLeft: 0}}>{history?.remarks || ""}</td>
                                                 <td style={{textAlign: "center", paddingLeft: 0}}>{history?.OrderProduct[0]?.quantity || ""}</td>
                                                 <td style={{textAlign: "center", paddingLeft: 0}}>{history?.OrderProduct[0]?.rate || ""}</td>
