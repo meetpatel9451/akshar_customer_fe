@@ -501,7 +501,7 @@ const ProductSinglePage = (props) => {
     setErrorHeight(heightErr);
     setErrorWidth(widthErr)
     setErrorImage(imageErr)
-    setError(tempError);
+    // setError(tempError);
     if (!errorQuantity?.length && !errorHeight?.length && !errorWidth?.length && !errorImage?.length) {
       try {
         const response = await API.post(url, formData, {
