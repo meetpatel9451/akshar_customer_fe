@@ -504,6 +504,7 @@ const ProductSinglePage = (props) => {
     // setError(tempError);
     if (!errorQuantity?.length && !errorHeight?.length && !errorWidth?.length && !errorImage?.length) {
       try {
+        setLoading(true);
         const response = await API.post(url, formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
@@ -893,6 +894,7 @@ const ProductSinglePage = (props) => {
                           {selectedArray?.length > 0 && (<p>Please increase the quantity in increments of 1000 pieces for optimal order processing.</p>)}
                           <div className="pt-5 text-right" style={{ display: 'flex', justifyContent: 'flex-end' }}><button type="submit" className="theme-btn btn-style-two"
                             onClick={handleProceedToCheckout}
+                              disabled={loading}
                           ><span className="txt">Proceed to Checkout</span></button></div>
                         </div>}
                     </div>
