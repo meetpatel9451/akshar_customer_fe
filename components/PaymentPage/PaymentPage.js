@@ -13,7 +13,7 @@ const PaymentPage = () => {
     useEffect(() => {
         async function fetch() {
             const user_id = localStorage.getItem("user_id");
-            const url = `api/v1/ac_entry/client/${Number(user_id)}`;
+            const url = `api/v1/ac_entry/client/${Number(user_id)}?&orderBy=asc`;
             const response = await API.get(url);
             setPaymentList(response?.data?.data || []);
         }

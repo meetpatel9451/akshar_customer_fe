@@ -13,7 +13,7 @@ const LedgerStatementPage = () => {
 
     useEffect(() => {
         async function fetch() {
-            const url = `api/v1/ledger/client/${Number(user_id)}?page=${1}&limit=${100}`;
+            const url = `api/v1/ledger/client/${Number(user_id)}?page=${1}&limit=${100}&orderby=asc`;
             const response = await API.get(url);
             setStatementList(response?.data?.data || []);
         }

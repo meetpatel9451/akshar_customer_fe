@@ -7,7 +7,7 @@ const NewPaymentForm = () => {
 
     const [forms, setForms] = useState({
         date: '',
-        type: '',
+        type: 'select_type',
         remarks: '',
         utr_no: '',
         bank_name: '',
@@ -68,11 +68,11 @@ const NewPaymentForm = () => {
                     },
                 }).then((val) => {
                     setLoading(false);
-                    setNotificationMsg({status: 200, msg: "Payment Submitted Sucessfully!"})
+                    setNotificationMsg({ status: 200, msg: "Payment Submitted Sucessfully!" })
                     window.location.reload();
                 }).catch((err) => {
                     setLoading(false);
-                    setNotificationMsg({status: err?.response?.data?.statusCode || 500, msg: err?.response?.data?.message || err?.message})
+                    setNotificationMsg({ status: err?.response?.data?.statusCode || 500, msg: err?.response?.data?.message || err?.message })
                 });
                 setForms({
                     date: '',
@@ -96,12 +96,12 @@ const NewPaymentForm = () => {
         <>
 
             <form onSubmit={(e) => submitHandler(e)}>
-            <Backdrop
-                sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
-                open={loading}
-            >
-                <CircularProgress color="inherit" />
-            </Backdrop>
+                <Backdrop
+                    sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+                    open={loading}
+                >
+                    <CircularProgress color="inherit" />
+                </Backdrop>
                 <div className="row clearfix">
                     <div className="col-lg-6 col-md-6 col-sm-12 form-group">
                         {/* <span className="icon flaticon-user-2"></span> */}
@@ -120,14 +120,24 @@ const NewPaymentForm = () => {
                     <div className="col-lg-6 col-md-6 col-sm-12 form-group">
                         {/* <span className="icon flaticon-big-envelope"></span> */}
                         <div className="form-field">
-                            <Select sx={{
+                            <Select 
+                            sx={{
                                 boxShadow: "0px 5px 15px rgba(0, 0, 0, 0.10)", ".MuiOutlinedInput-notchedOutline": {
                                     border: "none"
                                 }
-                            }} placeholder='Select Type' fullWidth name="type" id="type" onChange={(e) => changeHandler(e)} value={forms.type}>
-                                <MenuItem value={"neft"}>NEFT</MenuItem>
-                                <MenuItem value={"credit_limit"}>Credit Limit</MenuItem>
-                                <MenuItem value={"cheque"}>Cheque</MenuItem>
+                            }} 
+                            placeholder='Select Type' 
+                            fullWidth 
+                            name="type" 
+                            id="type" 
+                            label="Select Type"
+                            onChange={(e) => changeHandler(e)} value={forms.type}>
+                                <MenuItem value="select_type" disabled>Select Type</MenuItem>
+                                <MenuItem value='neft'>NEFT</MenuItem>
+                                <MenuItem value='wallet_balance'>Wallet Balance</MenuItem>
+                                <MenuItem value='cheque'>Cheque</MenuItem>
+                                <MenuItem value='credit_limit'>Credit Limit</MenuItem>
+                                <MenuItem value='payment_gateway'>Payment Gateway</MenuItem>
                             </Select>
                             {/* <input
                             value={forms.type}
@@ -136,7 +146,7 @@ const NewPaymentForm = () => {
                             onBlur={(e) => changeHandler(e)}
                             onChange={(e) => changeHandler(e)}
                             placeholder="Type" /> */}
-                            {validator.message('type', forms.type, 'required')}
+                            {validator.message('type', forms?.type == "select_type" ? "" : forms?.type, 'required')}
                         </div>
                     </div>
 
@@ -149,7 +159,7 @@ const NewPaymentForm = () => {
                                 name="remarks"
                                 onBlur={(e) => changeHandler(e)}
                                 onChange={(e) => changeHandler(e)}
-                                placeholder="remarks" />
+                                placeholder="Remarks" />
                             {validator.message('remarks', forms.remarks, 'required')}
                         </div>
                     </div>
@@ -227,7 +237,7 @@ const NewPaymentForm = () => {
                     vertical: 'top',
                     horizontal: 'right',
                 }} >
-                    <Alert severity={notificationMsg?.status == 200 ? "success": "error"} sx={{ width: '100%' }}>
+                    <Alert severity={notificationMsg?.status == 200 ? "success" : "error"} sx={{ width: '100%' }}>
                         {notificationMsg?.msg || ""}
                     </Alert>
                 </Snackbar>
