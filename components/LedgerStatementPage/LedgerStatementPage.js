@@ -51,11 +51,13 @@ const LedgerStatementPage = () => {
     }
 
     const getRowBgColor = (data) => {
-        if (data?.acEntry_id) {
-            return `#b2ffb2`;
-        } else if (data?.order_id) {
-            if (data?.order?.status == "decline" || data?.order?.status == "deleted") {
-                return `#E78B8B`;
+        if (data?.acEntry?.status !== "deleted") {
+            if (data?.acEntry_id) {
+                return `#b2ffb2`;
+            } else if (data?.order_id) {
+                if (data?.order?.status == "decline" || data?.order?.status == "deleted") {
+                    return `#E78B8B`;
+                }
             }
         }
 
